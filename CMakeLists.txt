@@ -10,6 +10,8 @@ project(
 	LANGUAGES CXX
 )
 
+# tell cmake to look into the local /cmake subdirectory to look for modules (.cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 #--------------------------------------------------------------------------------------------------
 # Set up dependencies
