@@ -13,6 +13,9 @@ project(
 # tell cmake to look into the local /cmake subdirectory to look for modules (.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
+# update submodules, get the latest git commit
+include(git_commands)
+
 #--------------------------------------------------------------------------------------------------
 # Set up dependencies
 #--------------------------------------------------------------------------------------------------
