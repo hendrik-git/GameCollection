@@ -20,7 +20,7 @@ project(
 # Building the executable
 #--------------------------------------------------------------------------------------------------
 add_executable(GameCollectionApp app/main.cpp)
-target_compile_features(GameCollectionApp PUBLIC cxx_std_11)
+target_compile_features(GameCollectionApp PUBLIC cxx_std_17)
 set_target_properties(GameCollectionApp PROPERTIES 
 	CXX_EXTENSIONS OFF
 )
