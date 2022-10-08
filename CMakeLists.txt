@@ -29,7 +29,7 @@ set(FETCHCONTENT_UPDATES_DISCONNECTED) # only download missing dependencies
 # see also https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
 FetchContent_Declare(SFML
 	GIT_REPOSITORY	https://github.com/SFML/SFML.git
-	#GIT_TAG			2.5.1
+	#GIT_TAG		2.5.1 # use the latest experimental sfml
 )
 
 # Catch2 is a unit test library
@@ -61,6 +61,8 @@ target_compile_features(GameCollectionApp PUBLIC cxx_std_17)
 set_target_properties(GameCollectionApp PROPERTIES 
 	CXX_EXTENSIONS OFF
 )
+target_link_libraries(GameCollectionApp PRIVATE SFML::Graphics)
+
 
 
 #--------------------------------------------------------------------------------------------------
