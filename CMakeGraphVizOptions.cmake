@@ -27,16 +27,16 @@ set(GRAPHVIZ_GRAPH_HEADER "node [ fontname=\"DejaVu Sans Mono\"; fontsize = \"18
 # set(GRAPHVIZ_OBJECT_LIBS TRUE)
 
 # Set to FALSE to exclude unknown libraries from the generated graphs.
-# set(GRAPHVIZ_UNKNOWN_LIBS TRUE)
+set(GRAPHVIZ_UNKNOWN_LIBS FALSE)
 
 # Set to FALSE to exclude external libraries from the generated graphs.
 # set(GRAPHVIZ_EXTERNAL_LIBS TRUE)
 
 # Set to TRUE to include custom targets in the generated graphs.
-set(GRAPHVIZ_CUSTOM_TARGETS TRUE)
+#set(GRAPHVIZ_CUSTOM_TARGETS TRUE)
 
 # A list of regular expressions for names of targets to exclude from the generated graphs.
-#set(GRAPHVIZ_IGNORE_TARGETS "")
+set(GRAPHVIZ_IGNORE_TARGETS "${CMAKE_BINARY_DIR}/_deps/*")
 
 # Set to FALSE to not generate per-target graphs foo.dot.<target>.
 set(GRAPHVIZ_GENERATE_PER_TARGET FALSE)
