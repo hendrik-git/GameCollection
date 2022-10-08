@@ -63,6 +63,16 @@ set_target_properties(GameCollectionApp PROPERTIES
 )
 target_link_libraries(GameCollectionApp PRIVATE SFML::Graphics)
 
+# copy all necessary files (i.e. dlls) to the directory of the executable
+# this is necessary on Windows, since it doesn't support relative paths to libraries
+if(WIN32)
+	add_custom_command(TARGET GameCollectionApp POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy 
+			$<TARGET_RUNTIME_DLLS:GameCollectionApp> 
+			$<TARGET_FILE_DIR:GameCollectionApp>
+		COMMAND_EXPAND_LISTS
+	)
+endif()
 
 
 #--------------------------------------------------------------------------------------------------
