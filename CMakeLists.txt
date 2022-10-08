@@ -3,18 +3,21 @@
 #--------------------------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.21)
 
-project(
-	GameCollection
-	VERSION 0.1.0
-    DESCRIPTION "A collection of games"
-	LANGUAGES CXX
+project(GameCollection
+	VERSION		0.1.0
+	DESCRIPTION	"A collection of games"
+	LANGUAGES 	CXX
 )
 
 # tell cmake to look into the local /cmake subdirectory to look for modules (.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
+# use folders to group targets in IDE
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 # update submodules, get the latest git commit
 include(git_commands)
+
 
 #--------------------------------------------------------------------------------------------------
 # Set up dependencies

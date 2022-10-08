@@ -10,4 +10,5 @@ else()
     	COMMAND dot -Tpng GameCollectionApp.dot -o ../docs/GameCollectionApp.png
     	WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
 	)
+	set_target_properties(graphviz PROPERTIES FOLDER Tools)
 endif()
