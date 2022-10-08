@@ -1,12 +1,16 @@
 ﻿---
 AccessModifierOffset: '2'
+AlignAfterOpenBracket: Align
 AlignConsecutiveMacros: 'true'
 AlignConsecutiveAssignments: 'true'
 AlignConsecutiveDeclarations: 'true'
+AlignEscapedNewlines: Left
+AlignOperands: 'true'
 AlignTrailingComments: 'true'
 AllowAllArgumentsOnNextLine: 'true'
 AllowAllConstructorInitializersOnNextLine: 'true'
 AllowAllParametersOfDeclarationOnNextLine: 'true'
+AllowShortBlocksOnASingleLine: 'true'
 AllowShortCaseLabelsOnASingleLine: 'false'
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: Never
@@ -17,7 +21,7 @@ AlwaysBreakBeforeMultilineStrings: 'false'
 AlwaysBreakTemplateDeclarations: 'Yes'
 BinPackArguments: 'false'
 BinPackParameters: 'false'
-BreakBeforeBraces: Mozilla
+BreakBeforeBraces: Allman
 BreakBeforeTernaryOperators: 'true'
 BreakConstructorInitializers: BeforeComma
 BreakInheritanceList: BeforeComma
@@ -35,7 +39,7 @@ IndentWrappedFunctionNames: 'false'
 KeepEmptyLinesAtTheStartOfBlocks: 'false'
 Language: Cpp
 MaxEmptyLinesToKeep: '2'
-NamespaceIndentation: Inner
+NamespaceIndentation: All
 PointerAlignment: Left
 SortIncludes: 'true'
 SortUsingDeclarations: 'true'
@@ -54,6 +58,6 @@ SpacesInAngles: 'false'
 SpacesInCStyleCastParentheses: 'false'
 Standard: Cpp11
 TabWidth: '4'
-UseTab: ForIndentation
+UseTab: Always
 
 ...
