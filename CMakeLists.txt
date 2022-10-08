@@ -25,10 +25,32 @@ include(git_commands)
 include(FetchContent)
 set(FETCHCONTENT_UPDATES_DISCONNECTED) # only download missing dependencies
 
+# The Simple and Fast Multimedia Library is used for graphics, audio, windows and input
+# see also https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
+FetchContent_Declare(SFML
+	GIT_REPOSITORY	https://github.com/SFML/SFML.git
+	#GIT_TAG			2.5.1
+)
+
+# Catch2 is a unit test library
+FetchContent_Declare(Catch2
+	GIT_REPOSITORY	https://github.com/catchorg/Catch2.git
+	GIT_TAG			v3.1.0
+)
+
 
 #--------------------------------------------------------------------------------------------------
 # Make all dependencies available
 #--------------------------------------------------------------------------------------------------
+FetchContent_MakeAvailable(SFML Catch2)
+set_target_properties(sfml-audio		PROPERTIES FOLDER Dependencies)
+set_target_properties(sfml-graphics		PROPERTIES FOLDER Dependencies)
+set_target_properties(sfml-main			PROPERTIES FOLDER Dependencies)
+set_target_properties(sfml-network		PROPERTIES FOLDER Dependencies)
+set_target_properties(sfml-system		PROPERTIES FOLDER Dependencies)
+set_target_properties(sfml-window		PROPERTIES FOLDER Dependencies)
+set_target_properties(Catch2			PROPERTIES FOLDER Dependencies)
+set_target_properties(Catch2WithMain	PROPERTIES FOLDER Dependencies)
 
 
 #--------------------------------------------------------------------------------------------------
