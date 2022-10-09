@@ -3,8 +3,8 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
     #----------------------------------------------------------------------------------------------
     # Update submodules as needed
     #----------------------------------------------------------------------------------------------
-    option(GIT_SUBMODULE "Update submodules during build" ON)
-    if(GIT_SUBMODULE)
+    option(GIT_UPDATE_SUBMODULE "Update submodules during build" ON)
+    if(GIT_UPDATE_SUBMODULE)
         message(CHECK_START "Submodule update")
         execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
                         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
@@ -18,6 +18,7 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
         endif()
         message(CHECK_PASS "successfull")
     endif()
+    
 
     #----------------------------------------------------------------------------------------------
     # Save the current commit ID as a variable
