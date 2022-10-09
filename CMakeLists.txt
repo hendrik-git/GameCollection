@@ -9,6 +9,9 @@ project(GameCollection
 	LANGUAGES 	CXX
 )
 
+# select whether to build and link dynamic or static
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+
 # tell cmake to look into the local /cmake subdirectory to look for modules (.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
