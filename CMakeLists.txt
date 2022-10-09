@@ -70,12 +70,15 @@ target_link_libraries(GameCollectionApp PRIVATE SFML::Graphics)
 
 # copy all necessary files (i.e. dlls) to the directory of the executable
 # this is necessary on Windows, since it doesn't support relative paths to libraries
+# there is currently a bug, where a statically build target causes an error
+# this happens when the list of dll passed to the copy command is empty
 if(WIN32)
 	add_custom_command(TARGET GameCollectionApp POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy 
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
 			$<TARGET_RUNTIME_DLLS:GameCollectionApp> 
 			$<TARGET_FILE_DIR:GameCollectionApp>
-		COMMAND_EXPAND_LISTS
+		COMMAND_EXPAND_LISTS # expands list to multiple arguments instead of ; sepereated
+		COMMENT "Copying necessary dll files"
 	)
 endif()
 
