@@ -1,6 +1,7 @@
 # Directories
 bin
 build
+lib
 
 # Compiled Object files
 *.slo
