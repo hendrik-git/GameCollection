@@ -97,3 +97,4 @@ endif()
 # -------------------------------------------------------------------------------------------------
 include(graphviz)
 include(cmake-format)
+include(cmake-lint)
