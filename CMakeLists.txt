@@ -13,8 +13,7 @@ project(
 # select whether to build and link dynamic or static
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
-# tell cmake to look into the local /cmake subdirectory to look for modules
-# (.cmake)
+# tell cmake to look into the local /cmake subdirectory to look for modules (.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 # set the output directories
@@ -34,12 +33,11 @@ include(git_commands)
 include(FetchContent)
 set(FETCHCONTENT_UPDATES_DISCONNECTED) # only download missing dependencies
 
-# The Simple and Fast Multimedia Library is used for graphics, audio, windows
-# and input see also
+# The Simple and Fast Multimedia Library is used for graphics, audio, windows and input see also
 # https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
 fetchcontent_declare(
-    SFML GIT_REPOSITORY https://github.com/SFML/SFML.git
-    # GIT_TAG         2.5.1 # use the latest experimental sfml
+    SFML GIT_REPOSITORY https://github.com/SFML/SFML.git # GIT_TAG 2.5.1 # use the latest
+                                                         # experimental sfml
 )
 
 # Catch2 is a unit test library
@@ -70,20 +68,17 @@ target_compile_features(GameCollectionApp PUBLIC cxx_std_17)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
 target_link_libraries(GameCollectionApp PRIVATE SFML::Graphics)
 
-# copy all necessary files (i.e. dlls) to the directory of the executable this
-# is necessary on Windows, since it doesn't support relative paths to libraries
-# there is currently a bug, where a statically build target causes an error this
-# happens when the list of dll passed to the copy command is empty
+# copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
+# Windows, since it doesn't support relative paths to libraries there is currently a bug, where a
+# statically build target causes an error this happens when the list of dll passed to the copy
+# command is empty
 if(WIN32)
     add_custom_command(
         TARGET GameCollectionApp
         POST_BUILD
-        COMMAND
-            ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_RUNTIME_DLLS:GameCollectionApp>
-            $<TARGET_FILE_DIR:GameCollectionApp>
-        COMMAND_EXPAND_LISTS # expands list to multiple arguments instead of ;
-                             # sepereated
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:GameCollectionApp>
+                $<TARGET_FILE_DIR:GameCollectionApp>
+        COMMAND_EXPAND_LISTS # expands list to multiple arguments instead of ; seperated
         COMMENT "Copying necessary dll files"
     )
 endif()
