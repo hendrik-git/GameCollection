@@ -1,8 +1,8 @@
 # The graph name. Default: value of CMAKE_PROJECT_NAME set(GRAPHVIZ_GRAPH_NAME
 # ${CMAKE_PROJECT_NAME})
 
-# The header written at the top of the Graphviz files. Default: "node [ fontsize
-# = "12" ];"
+# The header written at the top of the Graphviz files. 
+# Default: "node [ fontsize = "12" ];"
 set(GRAPHVIZ_GRAPH_HEADER
     "node [ fontname=\"DejaVu Sans Mono\"; fontsize = \"18\" ];"
 )
@@ -35,7 +35,7 @@ set(GRAPHVIZ_UNKNOWN_LIBS FALSE)
 # set(GRAPHVIZ_EXTERNAL_LIBS TRUE)
 
 # Set to TRUE to include custom targets in the generated graphs.
-# set(GRAPHVIZ_CUSTOM_TARGETS TRUE)
+set(GRAPHVIZ_CUSTOM_TARGETS TRUE)
 
 # A list of regular expressions for names of targets to exclude from the
 # generated graphs.
