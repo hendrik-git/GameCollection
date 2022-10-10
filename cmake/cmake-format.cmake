@@ -16,6 +16,7 @@ else()
         COMMAND cmake-format -c ${CMAKE_SOURCE_DIR}/tools/cmake-format.py -i
                 ${CMAKE_FILE_LIST}
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        COMMENT "Formating CMake files in place, check git for differences"
     )
     set_target_properties(cmake-format PROPERTIES FOLDER Tools)
 endif()

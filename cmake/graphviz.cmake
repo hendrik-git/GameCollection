@@ -13,6 +13,7 @@ else()
         COMMAND ${CMAKE_COMMAND} "--graphviz=GameCollectionApp.dot" .
         COMMAND dot -Tpng GameCollectionApp.dot -o ../docs/GameCollectionApp.png
         WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+        COMMENT "Generating dependency graph in docs/"
     )
     set_target_properties(graphviz PROPERTIES FOLDER Tools)
 endif()
