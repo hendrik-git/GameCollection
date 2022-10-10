@@ -8,13 +8,13 @@ if(NOT EXE_CMAKEFORMAT)
 else()
     message(STATUS "cmake-format executable found! Adding target.")
 
-    # find all cmake files to be formated
-    file(GLOB_RECURSE CMAKE_FILE_LIST CMakeLists.txt *.cmake)
+    # find all cmake files to be linted
+    file(GLOB_RECURSE CMAKE_FILE_LIST cmake/*.cmake)
+    list(APPEND CMAKE_FILE_LIST ${CMAKE_SOURCE_DIR}/CMakeLists.txt)
 
     add_custom_target(
         cmake-format ALL
-        COMMAND cmake-format -c ${CMAKE_SOURCE_DIR}/tools/cmake-format.py -i
-                ${CMAKE_FILE_LIST}
+        COMMAND cmake-format -c ${CMAKE_SOURCE_DIR}/tools/cmakelang.py -i ${CMAKE_FILE_LIST}
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         COMMENT "Formating CMake files in place, check git for differences"
     )
