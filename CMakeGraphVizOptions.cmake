@@ -1,9 +1,11 @@
-# The graph name. Default: value of CMAKE_PROJECT_NAME
-#set(GRAPHVIZ_GRAPH_NAME ${CMAKE_PROJECT_NAME})
+# The graph name. Default: value of CMAKE_PROJECT_NAME set(GRAPHVIZ_GRAPH_NAME
+# ${CMAKE_PROJECT_NAME})
 
-# The header written at the top of the Graphviz files.
-# Default: "node [ fontsize = "12" ];"
-set(GRAPHVIZ_GRAPH_HEADER "node [ fontname=\"DejaVu Sans Mono\"; fontsize = \"18\" ];")
+# The header written at the top of the Graphviz files. Default: "node [ fontsize
+# = "12" ];"
+set(GRAPHVIZ_GRAPH_HEADER
+    "node [ fontname=\"DejaVu Sans Mono\"; fontsize = \"18\" ];"
+)
 
 # The prefix for each node in the Graphviz files. Default: "node"
 # set(GRAPHVIZ_NODE_PREFIX node)
@@ -33,13 +35,14 @@ set(GRAPHVIZ_UNKNOWN_LIBS FALSE)
 # set(GRAPHVIZ_EXTERNAL_LIBS TRUE)
 
 # Set to TRUE to include custom targets in the generated graphs.
-#set(GRAPHVIZ_CUSTOM_TARGETS TRUE)
+# set(GRAPHVIZ_CUSTOM_TARGETS TRUE)
 
-# A list of regular expressions for names of targets to exclude from the generated graphs.
+# A list of regular expressions for names of targets to exclude from the
+# generated graphs.
 set(GRAPHVIZ_IGNORE_TARGETS "${CMAKE_BINARY_DIR}/_deps/*")
 
 # Set to FALSE to not generate per-target graphs foo.dot.<target>.
 set(GRAPHVIZ_GENERATE_PER_TARGET FALSE)
 
 # Set to FALSE to not generate depender graphs foo.dot.<target>.dependers.
-set(GRAPHVIZ_GENERATE_DEPENDERS FALSe)
+set(GRAPHVIZ_GENERATE_DEPENDERS FALSE)
