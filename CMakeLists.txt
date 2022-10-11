@@ -33,6 +33,13 @@ include(git_commands)
 include(FetchContent)
 set(FETCHCONTENT_UPDATES_DISCONNECTED) # only download missing dependencies
 
+# cli11 is a command line parser library
+fetchcontent_declare(
+    cli11
+    GIT_REPOSITORY https://github.com/CLIUtils/CLI11
+    GIT_TAG v2.3.0
+)
+
 # The Simple and Fast Multimedia Library is used for graphics, audio, windows and input see also
 # https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
 fetchcontent_declare(
@@ -50,7 +57,8 @@ fetchcontent_declare(
 # -------------------------------------------------------------------------------------------------
 # Make all dependencies available
 # -------------------------------------------------------------------------------------------------
-fetchcontent_makeavailable(SFML Catch2)
+fetchcontent_makeavailable(cli11 SFML Catch2)
+set_target_properties(CLI11 PROPERTIES FOLDER Dependencies)
 set_target_properties(sfml-audio PROPERTIES FOLDER Dependencies)
 set_target_properties(sfml-graphics PROPERTIES FOLDER Dependencies)
 set_target_properties(sfml-main PROPERTIES FOLDER Dependencies)
@@ -66,7 +74,7 @@ set_target_properties(Catch2WithMain PROPERTIES FOLDER Dependencies)
 add_executable(GameCollectionApp app/main.cpp)
 target_compile_features(GameCollectionApp PUBLIC cxx_std_17)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
-target_link_libraries(GameCollectionApp PRIVATE SFML::Graphics)
+target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 SFML::Graphics)
 
 # copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
 # Windows, since it doesn't support relative paths to libraries there is currently a bug, where a
