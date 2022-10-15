@@ -105,3 +105,6 @@ endif()
 include(graphviz)
 include(cmake-format)
 include(cmake-lint)
+
+# set the active project to the executable in Visual Studio
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT GameCollectionApp)
