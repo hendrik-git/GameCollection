@@ -1,0 +1,3 @@
+/// @file Component
+
+#pragma once

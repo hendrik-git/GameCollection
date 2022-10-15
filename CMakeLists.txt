@@ -73,12 +73,32 @@ set_target_properties(Catch2 PROPERTIES FOLDER Dependencies)
 set_target_properties(Catch2WithMain PROPERTIES FOLDER Dependencies)
 
 # -------------------------------------------------------------------------------------------------
+# Building the GameEngine
+# -------------------------------------------------------------------------------------------------
+add_library(GameEngine OBJECT
+    # (optional) add header files, so that they may show up in the IDE
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Component.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Entity.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/EntityManager.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/GameEngine.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/System.hpp
+    # necessary source files
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/Component.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/Entity.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/EntityManager.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/GameEngine.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/System.cpp
+)
+target_include_directories(GameEngine PUBLIC src/GameEngine/include)
+target_compile_features(GameEngine PUBLIC cxx_std_17)
+
+# -------------------------------------------------------------------------------------------------
 # Building the executable
 # -------------------------------------------------------------------------------------------------
 add_executable(GameCollectionApp app/main.cpp)
 target_compile_features(GameCollectionApp PUBLIC cxx_std_17)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
-target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 SFML::Graphics)
+target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 SFML::Graphics GameEngine)
 
 # copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
 # Windows, since it doesn't support relative paths to libraries there is currently a bug, where a
