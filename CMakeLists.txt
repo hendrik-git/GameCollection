@@ -84,7 +84,7 @@ target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 SFML::Graphics)
 # Windows, since it doesn't support relative paths to libraries there is currently a bug, where a
 # statically build target causes an error this happens when the list of dll passed to the copy
 # command is empty
-if(WIN32)
+if(WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(
         TARGET GameCollectionApp
         POST_BUILD
