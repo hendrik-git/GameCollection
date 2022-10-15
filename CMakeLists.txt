@@ -33,25 +33,29 @@ include(git_commands)
 include(FetchContent)
 set(FETCHCONTENT_UPDATES_DISCONNECTED) # only download missing dependencies
 
+# it is recommended to use commit SHA as argument to the GIT_TAG instead of the branch name or tag
+# because it leads to a cleaner commit history and is faster to check
+
 # cli11 is a command line parser library
 fetchcontent_declare(
     cli11
     GIT_REPOSITORY https://github.com/CLIUtils/CLI11
-    GIT_TAG v2.3.0
+    GIT_TAG a66ae4145779c56dc0f9f98a631656417dd77de8 # v2.3.0 [2022.10.15]
 )
 
 # The Simple and Fast Multimedia Library is used for graphics, audio, windows and input see also
 # https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
 fetchcontent_declare(
-    SFML GIT_REPOSITORY https://github.com/SFML/SFML.git # GIT_TAG 2.5.1 # use the latest
-                                                         # experimental sfml
+    SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 8f54a3e97c35476012613a8a41b7d2234d7ce38e # latest [2022.10.15]
 )
 
 # Catch2 is a unit test library
 fetchcontent_declare(
     Catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-    GIT_TAG v3.1.0
+    GIT_TAG 97c48e0c343d26d50764fafdc90b1e630fbd10ce # v3.1.0 [2022.10.15]
 )
 
 # -------------------------------------------------------------------------------------------------
