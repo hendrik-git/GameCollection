@@ -73,6 +73,18 @@ set_target_properties(Catch2 PROPERTIES FOLDER Dependencies)
 set_target_properties(Catch2WithMain PROPERTIES FOLDER Dependencies)
 
 # -------------------------------------------------------------------------------------------------
+# Building the GameMath library
+# -------------------------------------------------------------------------------------------------
+add_library(GameMath OBJECT
+    # (optional) add header files, so that they may show up in the IDE
+    ${CMAKE_SOURCE_DIR}/src/GameMath/include/GameMath/Vec2.hpp
+    # necessary source files
+    ${CMAKE_SOURCE_DIR}/src/GameMath/Vec2.cpp
+)
+target_include_directories(GameMath PUBLIC src/GameMath/include)
+target_compile_features(GameMath PUBLIC cxx_std_17)
+
+# -------------------------------------------------------------------------------------------------
 # Building the GameEngine
 # -------------------------------------------------------------------------------------------------
 add_library(GameEngine OBJECT
@@ -90,6 +102,7 @@ add_library(GameEngine OBJECT
     ${CMAKE_SOURCE_DIR}/src/GameEngine/System.cpp
 )
 target_include_directories(GameEngine PUBLIC src/GameEngine/include)
+target_link_libraries(GameEngine PUBLIC GameMath)
 target_compile_features(GameEngine PUBLIC cxx_std_17)
 
 # -------------------------------------------------------------------------------------------------
