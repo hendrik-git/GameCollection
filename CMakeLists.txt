@@ -27,6 +27,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # update submodules, get the latest git commit
 include(git_commands)
 
+# load custom functions and macros
+include(macros)
+
 # -------------------------------------------------------------------------------------------------
 # Declare all dependencies
 # -------------------------------------------------------------------------------------------------
@@ -62,15 +65,16 @@ fetchcontent_declare(
 # Make all dependencies available
 # -------------------------------------------------------------------------------------------------
 fetchcontent_makeavailable(cli11 SFML Catch2)
-set_target_properties(CLI11 PROPERTIES FOLDER Dependencies)
-set_target_properties(sfml-audio PROPERTIES FOLDER Dependencies)
-set_target_properties(sfml-graphics PROPERTIES FOLDER Dependencies)
-set_target_properties(sfml-main PROPERTIES FOLDER Dependencies)
-set_target_properties(sfml-network PROPERTIES FOLDER Dependencies)
-set_target_properties(sfml-system PROPERTIES FOLDER Dependencies)
-set_target_properties(sfml-window PROPERTIES FOLDER Dependencies)
-set_target_properties(Catch2 PROPERTIES FOLDER Dependencies)
-set_target_properties(Catch2WithMain PROPERTIES FOLDER Dependencies)
+set_vs_folder(CLI11 Dependencies)
+set_vs_folder(sfml-audio Dependencies)
+set_vs_folder(sfml-graphics Dependencies)
+set_vs_folder(sfml-main Dependencies)
+set_vs_folder(sfml-network Dependencies)
+set_vs_folder(sfml-network Dependencies)
+set_vs_folder(sfml-system Dependencies)
+set_vs_folder(sfml-window Dependencies)
+set_vs_folder(Catch2 Dependencies)
+set_vs_folder(Catch2WithMain Dependencies)
 
 # -------------------------------------------------------------------------------------------------
 # Building the GameMath library
