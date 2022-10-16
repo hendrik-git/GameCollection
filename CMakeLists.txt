@@ -79,7 +79,8 @@ set_vs_folder(Catch2WithMain Dependencies)
 # -------------------------------------------------------------------------------------------------
 # Building the GameMath library
 # -------------------------------------------------------------------------------------------------
-add_library(GameMath OBJECT
+add_library(
+    GameMath OBJECT
     # (optional) add header files, so that they may show up in the IDE
     ${CMAKE_SOURCE_DIR}/src/GameMath/include/GameMath/Vec2.hpp
     # necessary source files
@@ -91,7 +92,8 @@ target_compile_features(GameMath PUBLIC cxx_std_17)
 # -------------------------------------------------------------------------------------------------
 # Building the GameEngine
 # -------------------------------------------------------------------------------------------------
-add_library(GameEngine OBJECT
+add_library(
+    GameEngine OBJECT
     # (optional) add header files, so that they may show up in the IDE
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Component.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Entity.hpp
@@ -135,6 +137,13 @@ endif()
 # -------------------------------------------------------------------------------------------------
 # Testing
 # -------------------------------------------------------------------------------------------------
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    include(CTest)
+endif()
+
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+    add_subdirectory(test)
+endif()
 
 # -------------------------------------------------------------------------------------------------
 # Tools
