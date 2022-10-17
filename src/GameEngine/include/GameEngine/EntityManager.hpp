@@ -12,30 +12,15 @@ using entity_map = std::map<std::string_view, entity_vec>;
 class EntityManager
 {
   public:
-	auto add_entity(std::string_view tag) -> std::shared_ptr<Entity>
-	{
-		static size_t nr{0};
-		auto		  e = std::shared_ptr<Entity>(new Entity(tag, ++nr));
-		to_add_.push_back(e);
-		return e;
-	}
-
-	auto get_entities() -> entity_vec&
-	{
-		return entities_;
-	}
-
-	auto get_entities(std::string_view tag) -> entity_vec&
-	{
-		return tag_map_.at(tag);
-	}
+	void init() {}
 
 	void update()
 	{
 		// remove dead entries from vector
 		entities_.erase(std::remove_if(entities_.begin(),
 									   entities_.end(),
-									   [&](const Entity ent) -> bool { return !ent.alive_; }),
+									   [&](const std::shared_ptr<Entity> ent) -> bool
+									   { return !ent->alive_; }),
 						entities_.end());
 
 		// tag_map_ erase as well
@@ -47,11 +32,27 @@ class EntityManager
 			tag_map_[entity->tag_].push_back(entity);
 		}
 	}
-	void destroy() {}
+
+	auto add_entity(std::string_view tag) -> std::shared_ptr<Entity>
+	{
+		auto e = std::shared_ptr<Entity>(new Entity(tag, ++total_entities_));
+		to_add_.push_back(e);
+		return e;
+	}
+
+	[[nodiscard]] auto get_entities() -> entity_vec&
+	{
+		return entities_;
+	}
+
+	[[nodiscard]] auto get_entities(std::string_view tag) -> entity_vec&
+	{
+		return tag_map_.at(tag);
+	}
 
   private:
 	entity_vec entities_;
 	entity_map tag_map_;
 	entity_vec to_add_;
-	size_t	   total_entities_;
+	size_t	   total_entities_ = 0;
 };
