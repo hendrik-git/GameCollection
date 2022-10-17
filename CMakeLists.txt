@@ -108,7 +108,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/System.cpp
 )
 target_include_directories(GameEngine PUBLIC src/GameEngine/include)
-target_link_libraries(GameEngine PUBLIC GameMath)
+target_link_libraries(GameEngine PUBLIC GameMath SFML::Graphics)
 target_compile_features(GameEngine PUBLIC cxx_std_17)
 
 # -------------------------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ target_compile_features(GameEngine PUBLIC cxx_std_17)
 add_executable(GameCollectionApp app/main.cpp)
 target_compile_features(GameCollectionApp PUBLIC cxx_std_17)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
-target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 SFML::Graphics GameEngine)
+target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameEngine)
 
 # copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
 # Windows, since it doesn't support relative paths to libraries there is currently a bug, where a
