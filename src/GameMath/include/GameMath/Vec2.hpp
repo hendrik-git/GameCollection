@@ -11,43 +11,79 @@ class Vec2
 
 	Vec2(float x, float y) : x(x), y(y) {}
 
-	auto operator+(Vec2 rhs) const
+	[[nodiscard]] auto operator+(Vec2 rhs) const
 	{
 		return Vec2{x + rhs.x, y + rhs.y};
 	}
 
-	auto operator-(Vec2 rhs) const
+	[[nodiscard]] auto operator-(Vec2 rhs) const
 	{
 		return Vec2{x - rhs.x, y - rhs.y};
 	}
 
-	void operator+=(Vec2 rhs)
+	[[nodiscard]] auto operator*(float scale) const
+	{
+		return Vec2{x * scale, y * scale};
+	}
+
+	[[nodiscard]] auto operator/(float scale) const
+	{
+		return Vec2{x / scale, y / scale};
+	}
+
+	[[nodiscard]] void operator+=(Vec2 rhs)
 	{
 		x += rhs.x;
 		y += rhs.y;
 	}
 
-	void operator-=(Vec2 rhs)
+	[[nodiscard]] void operator-=(Vec2 rhs)
 	{
 		x -= rhs.x;
 		y -= rhs.y;
 	}
 
-	void operator*=(float scale)
+	[[nodiscard]] void operator*=(float scale)
 	{
 		x *= scale;
 		y *= scale;
 	}
 
-	void operator/=(float scale)
+	[[nodiscard]] void operator/=(float scale)
 	{
 		x /= scale;
 		y /= scale;
 	}
 
-	auto normalize() -> Vec2 const
+	[[nodiscard]] auto operator==(Vec2 rhs) -> bool
 	{
-		const auto length{std::sqrt(x * x + y * y)};
-		return Vec2{x / length, y / length};
+		/// @todo epsilon for floating point comparisons
+		return (x == rhs.x && y == rhs.y);
 	}
+
+	[[nodiscard]] auto operator!=(Vec2 rhs) -> bool
+	{
+		/// @todo epsilon for floating point comparisons
+		return (x != rhs.x || y != rhs.y);
+	}
+
+	[[nodiscard]] auto operator<(Vec2 rhs) -> bool
+	{
+		/// @todo epsilon for floating point comparisons
+		return (length() < rhs.length());
+	}
+
+	// todo C++20 try out operator<=>
+
+	[[nodiscard]] auto length() -> float
+	{
+		return std::sqrt(x * x + y * y);
+	}
+
+	[[nodiscard]] auto normalize() -> Vec2 const
+	{
+		const auto len{length()};
+		return Vec2{x / len, y / len};
+	}
+
 };
