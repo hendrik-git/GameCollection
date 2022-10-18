@@ -53,8 +53,16 @@ class GameEngine
   private:
 	sf::RenderWindow window_;
 	EntityManager	 manager_;
+	sf::Font		 font_;
+	sf::Text		 text_;
 	bool			 paused_		= false;
 	bool			 running_		= false;
 	size_t			 current_frame_ = 0;
+	int				 score			= 0;
+
+	// PlayerConfig
+	// EnemyConfig
+	// BulletConfig
+
 	std::shared_ptr<Entity> player_; ///< for convenient access to the player entity
 };
