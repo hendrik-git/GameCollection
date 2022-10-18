@@ -2,6 +2,7 @@
 #include "CLI/Config.hpp"
 #include "CLI/Formatter.hpp"
 #include <SFML/Graphics.hpp>
+#include <GameEngine/GameEngine.hpp>
 
 using namespace std::string_literals;
 
@@ -26,30 +27,14 @@ int main(int argc, char** argv)
 	// --------------------------------------------------------------------------------------------
 	if(!quit->as<bool>())
 	{
-		std::cout << "Starting application" << std::endl;
-
-		sf::RenderWindow window(sf::VideoMode({200, 200}), "SFML works!");
-		sf::CircleShape	 shape(100.f);
-		shape.setFillColor(sf::Color::Green);
-
-		while(window.isOpen())
-		{
-			sf::Event event;
-			while(window.pollEvent(event))
-			{
-				if(event.type == sf::Event::Closed)
-					window.close();
-			}
-
-			window.clear();
-			window.draw(shape);
-			window.display();
-		}
+		std::cout << "Test" << std::endl;
+		GameEngine engine;
+		//engine.init();
+		engine.main_loop();
 	}
 	else
 	{
 		std::cout << "Quitting application" << std::endl;
 	}
-
 	return 0;
 }
