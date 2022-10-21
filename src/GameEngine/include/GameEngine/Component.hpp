@@ -11,19 +11,19 @@ struct Transform
 	{
 	}
 
-	Vec2   pos	 = {0, 0};
-	Vec2   vel	 = {0, 0};
-	Vec2   acc	 = {0, 0};
-	double angle = 0;
+	Vec2  pos	= {0.f, 0.f};
+	Vec2  vel	= {0.f, 0.f};
+	Vec2  acc	= {0.f, 0.f};
+	float angle = 0.f;
 };
 
 struct Shape
 {
-	Shape(float radius, int points, sf::Color& fill, sf::Color& outline, float thickness)
+	Shape(float radius, size_t points, sf::Color fill, sf::Color outline, float thickness)
 		: circle(radius, points)
 	{
 		circle.setFillColor(fill);
-		circle.setOutlineColor(fill);
+		circle.setOutlineColor(outline);
 		circle.setOutlineThickness(thickness);
 		circle.setOrigin({radius, radius});
 	}
