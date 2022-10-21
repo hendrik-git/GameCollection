@@ -9,7 +9,12 @@ class Entity
 {
   public:
 	// shared pointers to the components will come here
-	std::shared_ptr<Transform> transform_;
+	std::shared_ptr<Transform> transform;
+	std::shared_ptr<Shape>	   shape;
+	std::shared_ptr<Collision> collision;
+	std::shared_ptr<Score>	   score;
+	std::shared_ptr<Lifespan>  lifespan;
+	std::shared_ptr<Input>	   input;
 
 	void destroy()
 	{
