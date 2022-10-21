@@ -57,7 +57,50 @@ class GameEngine
 			}
 		}
 	}
-	void movement() {}
+
+
+	void movement()
+	{
+		// handle player movement
+		if(player_->input->up)
+		{
+			player_->transform->pos.y -= 5.F;
+		}
+		if(player_->input->down)
+		{
+			player_->transform->pos.y += 5.F;
+		}
+		if(player_->input->right)
+		{
+			player_->transform->pos.x += 5.F;
+		}
+		if(player_->input->left)
+		{
+			player_->transform->pos.x -= 5.F;
+		}
+
+		for(auto& entity : manager_.get_entities())
+		{
+			if(auto transf = entity->transform; transf)
+			{
+				auto& x	  = transf->pos.x;
+				auto& dx  = transf->vel.x;
+				auto& ddx = transf->acc.x;
+				auto& y	  = transf->pos.y;
+				auto& dy  = transf->vel.y;
+				auto& ddy = transf->acc.y;
+
+				x += dx;
+				y += dy;
+
+				x = std::clamp(x, 0.F, static_cast<float>(window_.getSize().x));
+				y = std::clamp(y, 0.F, static_cast<float>(window_.getSize().y));
+
+				transf->angle += 2.F;
+			}
+		}
+	}
+	
 	void collision() {}
 	
 	void render()
