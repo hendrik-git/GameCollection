@@ -54,6 +54,45 @@ class GameEngine
 			if(event.type == sf::Event::Closed)
 			{
 				window_.close();
+				running_ = false;
+			}
+
+			if(event.type == sf::Event::KeyPressed)
+			{
+				switch(event.key.code)
+				{
+					case sf::Keyboard::W:
+						player_->input->up = true;
+						break;
+					case sf::Keyboard::A:
+						player_->input->left = true;
+						break;
+					case sf::Keyboard::S:
+						player_->input->down = true;
+						break;
+					case sf::Keyboard::D:
+						player_->input->right = true;
+						break;
+				}
+			}
+
+			if(event.type == sf::Event::KeyReleased)
+			{
+				switch(event.key.code)
+				{
+					case sf::Keyboard::W:
+						player_->input->up = false;
+						break;
+					case sf::Keyboard::A:
+						player_->input->left = false;
+						break;
+					case sf::Keyboard::S:
+						player_->input->down = false;
+						break;
+					case sf::Keyboard::D:
+						player_->input->right = false;
+						break;
+				}
 			}
 		}
 	}
