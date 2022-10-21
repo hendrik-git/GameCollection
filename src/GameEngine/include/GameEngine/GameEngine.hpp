@@ -59,13 +59,26 @@ class GameEngine
 	}
 	void movement() {}
 	void collision() {}
+	
 	void render()
 	{
-		sf::CircleShape shape(100.f);
-		shape.setFillColor(sf::Color::Green);
-
 		window_.clear();
-		window_.draw(shape);
+
+		for(auto entity : manager_.get_entities())
+		{
+			if(auto shape = entity->shape; shape)
+			{
+				// assume every shape has also a transform component
+				assert(entity->transform && "Missing transform component");
+
+				auto& circle = shape->circle;
+				circle.setPosition({entity->transform->pos.x, entity->transform->pos.y});
+				circle.setRotation(sf::degrees(entity->transform->angle));
+
+				window_.draw(shape->circle);
+			}
+		}
+
 		window_.display();
 	}
 
