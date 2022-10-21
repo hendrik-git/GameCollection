@@ -1,8 +1,8 @@
 #include "CLI/App.hpp"
 #include "CLI/Config.hpp"
 #include "CLI/Formatter.hpp"
-#include <SFML/Graphics.hpp>
 #include <GameEngine/GameEngine.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace std::string_literals;
 
@@ -28,9 +28,8 @@ int main(int argc, char** argv)
 	if(!quit->as<bool>())
 	{
 		std::cout << "Test" << std::endl;
-		GameEngine engine;
-		//engine.init();
-		engine.main_loop();
+		GameEngine engine{std::filesystem::path{}};
+		engine.run();
 	}
 	else
 	{

@@ -3,28 +3,47 @@
 #pragma once
 #include "EntityManager.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <filesystem>
+#include <iostream>
+
+namespace fs = std::filesystem;
 
 class GameEngine
 {
   public:
-	GameEngine()
+	GameEngine(const fs::path config)
 	{
-		window_.create(sf::VideoMode({400, 400}), "GameCollection");
+		init(config);
 	}
 
-	void init() {}
-
-	void main_loop()
+	void run()
 	{
-		while(window_.isOpen())
+		/// @todo add a pause system
+		// pause system should only pause some systems (movement / input)
+
+		while(running_)
 		{
-			current_frame_++;
 			manager_.update();
 			user_input();
 			movement();
 			collision();
 			render();
+
+			current_frame_++;
 		}
+	}
+
+  private:
+	void init(const fs::path config)
+	{
+		/// @todo read the config file
+
+		// set up window default parameters
+		window_.create(sf::VideoMode({1200, 800}), "GameCollection");
+		window_.setFramerateLimit(60);
+
+		spawn_player();
 	}
 
 	void user_input()
@@ -56,7 +75,7 @@ class GameEngine
 	sf::Font		 font_;
 	sf::Text		 text_;
 	bool			 paused_		= false;
-	bool			 running_		= false;
+	bool			 running_		= true;
 	size_t			 current_frame_ = 0;
 	int				 score			= 0;
 
@@ -64,5 +83,5 @@ class GameEngine
 	// EnemyConfig
 	// BulletConfig
 
-	std::shared_ptr<Entity> player_; ///< for convenient access to the player entity
+	std::shared_ptr<Entity> player_;  ///< for convenient access to the player entity
 };
