@@ -69,7 +69,17 @@ class GameEngine
 		window_.display();
 	}
 
-  private:
+	void spawn_player()
+	{
+		player_ = manager_.add_entity("player");
+		player_->transform =
+			std::make_shared<Transform>(Vec2{400.F, 400.F}, Vec2{0.F, 0.F}, Vec2{0.F, 0.F}, 0.F);
+
+		player_->shape = std::make_shared<Shape>(32.F, 8, sf::Color::Black, sf::Color::Red, 4.F);
+
+		player_->input = std::make_shared<Input>();
+	}
+
 	sf::RenderWindow window_;
 	EntityManager	 manager_;
 	sf::Font		 font_;
