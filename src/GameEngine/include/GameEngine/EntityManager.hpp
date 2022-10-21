@@ -31,6 +31,7 @@ class EntityManager
 			entities_.push_back(entity);
 			tag_map_[entity->tag_].push_back(entity);
 		}
+		to_add_.clear();
 	}
 
 	auto add_entity(std::string_view tag) -> std::shared_ptr<Entity>
