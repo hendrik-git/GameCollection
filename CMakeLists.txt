@@ -30,6 +30,16 @@ include(git_commands)
 # load custom functions and macros
 include(macros)
 
+# Collect compiler flags in a variable to reuse for the following targets. Setting the compiler 
+# flags globally will also cause them to be used for dependencies. This may result in the 
+# dependencies breaking the build with warnings (with /WX or -Werror)
+if(MSVC)
+    set(ADDITIONAL_COMPILER_FLAGS /MP /utf-8 /fastfail /W4 /WX)
+else()
+    set(ADDITIONAL_COMPILER_FLAGS -Werror -Wall)
+endif()
+mark_as_advanced(ADDITIONAL_COMPILER_FLAGS)
+
 # -------------------------------------------------------------------------------------------------
 # Declare all dependencies
 # -------------------------------------------------------------------------------------------------
@@ -87,7 +97,9 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameMath/Vec2.cpp
 )
 target_include_directories(GameMath PUBLIC src/GameMath/include)
-target_compile_features(GameMath PUBLIC cxx_std_17)
+target_compile_features(GameMath PUBLIC cxx_std_20)
+target_compile_options(GameMath PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
+
 
 # -------------------------------------------------------------------------------------------------
 # Building the GameEngine
@@ -110,6 +122,7 @@ add_library(
 target_include_directories(GameEngine PUBLIC src/GameEngine/include)
 target_link_libraries(GameEngine PUBLIC GameMath SFML::Graphics)
 target_compile_features(GameEngine PUBLIC cxx_std_17)
+target_compile_options(GameEngine PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # -------------------------------------------------------------------------------------------------
 # Building the executable
@@ -118,6 +131,7 @@ add_executable(GameCollectionApp app/main.cpp)
 target_compile_features(GameCollectionApp PUBLIC cxx_std_17)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
 target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameEngine)
+#target_compile_options(GameCollectionApp PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
 # Windows, since it doesn't support relative paths to libraries there is currently a bug, where a
