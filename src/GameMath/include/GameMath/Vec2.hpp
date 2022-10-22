@@ -31,25 +31,25 @@ class Vec2
 		return Vec2{x / scale, y / scale};
 	}
 
-	[[nodiscard]] void operator+=(Vec2 rhs)
+	void operator+=(Vec2 rhs)
 	{
 		x += rhs.x;
 		y += rhs.y;
 	}
 
-	[[nodiscard]] void operator-=(Vec2 rhs)
+	void operator-=(Vec2 rhs)
 	{
 		x -= rhs.x;
 		y -= rhs.y;
 	}
 
-	[[nodiscard]] void operator*=(float scale)
+	void operator*=(float scale)
 	{
 		x *= scale;
 		y *= scale;
 	}
 
-	[[nodiscard]] void operator/=(float scale)
+	void operator/=(float scale)
 	{
 		x /= scale;
 		y /= scale;
