@@ -122,12 +122,12 @@ class GameEngine
 		{
 			if(auto transf = entity->transform; transf)
 			{
-				auto& x	  = transf->pos.x;
-				auto& dx  = transf->vel.x;
-				auto& ddx = transf->acc.x;
-				auto& y	  = transf->pos.y;
-				auto& dy  = transf->vel.y;
-				auto& ddy = transf->acc.y;
+				[[maybe_unused]] auto& x   = transf->pos.x;
+				[[maybe_unused]] auto& dx  = transf->vel.x;
+				[[maybe_unused]] auto& ddx = transf->acc.x;
+				[[maybe_unused]] auto& y   = transf->pos.y;
+				[[maybe_unused]] auto& dy  = transf->vel.y;
+				[[maybe_unused]] auto& ddy = transf->acc.y;
 
 				x += dx;
 				y += dy;

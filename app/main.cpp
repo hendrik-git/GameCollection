@@ -18,7 +18,8 @@ int main(int argc, char** argv)
 
 	app.add_option("-f,--file", inputFile, "File to load");
 
-	auto quit = app.add_flag("-q,--quit", "Immediately exit program");
+	[[maybe_unused]] auto list = app.add_flag("-l,--list", "List all available games");
+	[[maybe_unused]] auto quit = app.add_flag("-q,--quit", "Immediately exit program");
 
 	CLI11_PARSE(app, argc, argv);
 
