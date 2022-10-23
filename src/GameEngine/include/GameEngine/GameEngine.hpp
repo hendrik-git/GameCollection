@@ -25,6 +25,7 @@ class GameEngine
 			if(!paused_)
 			{
 				spawn_entities();
+				reduce_lifespan();
 				manager_.update();
 				movement();
 				collision();
@@ -111,6 +112,31 @@ class GameEngine
 		}
 	}
 
+	void spawn_entities()
+	{
+		if(player_->mouse->lmb)
+		{
+			auto bullet		  = manager_.add_entity("bullet");
+			bullet->transform = std::make_shared<Transform>(
+				Vec2{player_->mouse->x, player_->mouse->y}, Vec2{1.F, 1.F}, Vec2{0.F, 0.F}, 0.F);
+
+			ShapeInit bullet_shape;
+			bullet->shape	 = std::make_shared<Shape>(bullet_shape);
+			bullet->lifespan = std::make_shared<Lifespan>(100);
+		}
+	}
+
+	void reduce_lifespan()
+	{
+		for(auto entity : manager_.get_entities())
+		{
+			if(auto lifespan_component = entity->lifespan; lifespan_component)
+			{
+				lifespan_component->remaining > 0 ? [=]() { lifespan_component->remaining--; }()
+												  : [=]() { entity->destroy(); }();
+			}
+		}
+	}
 
 	void movement()
 	{
