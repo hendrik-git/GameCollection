@@ -131,16 +131,25 @@ void GameEngine::user_input()
 
 void GameEngine::spawn_entities()
 {
-	if(player_->mouse->lmb)
+	static auto bullet_cooldown{0};
+	if(player_->mouse->lmb && bullet_cooldown == 0)
 	{
 		auto bullet		  = manager_.add_entity("bullet");
+		auto mouse_pos	  = Vec2{player_->mouse->x, player_->mouse->y};
+		auto direction	  = calc_direction(player_->transform->pos, mouse_pos);
 		bullet->transform = std::make_shared<Transform>(
-			Vec2{player_->mouse->x, player_->mouse->y}, Vec2{1.F, 1.F}, Vec2{0.F, 0.F}, 0.F);
+			player_->transform->pos, direction.normalize() * 10, Vec2{0.F, 0.F}, 0.F);
 
 		ShapeInit bullet_shape;
-		bullet->shape	 = std::make_shared<Shape>(bullet_shape);
-		bullet->lifespan = std::make_shared<Lifespan>(100);
+		bullet_shape.radius	   = 4.F;
+		bullet_shape.fill	   = sf::Color::White;
+		bullet_shape.outline   = sf::Color::Yellow;
+		bullet_shape.thickness = 1.F;
+		bullet->shape		   = std::make_shared<Shape>(bullet_shape);
+		bullet->lifespan	   = std::make_shared<Lifespan>(100);
+		bullet_cooldown		   = 10;
 	}
+	bullet_cooldown = std::max(0, --bullet_cooldown);
 }
 
 void GameEngine::reduce_lifespan()
@@ -230,7 +239,7 @@ void GameEngine::spawn_player()
 	player_shape.fill	   = sf::Color::Yellow;
 	player_shape.outline   = sf::Color::White;
 	player_shape.thickness = 4.F;
-	player_->shape = std::make_shared<Shape>(player_shape);
+	player_->shape		   = std::make_shared<Shape>(player_shape);
 
 	player_->input = std::make_shared<Input>();
 	player_->mouse = std::make_shared<Mouse>();
