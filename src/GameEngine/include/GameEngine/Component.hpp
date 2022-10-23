@@ -17,8 +17,21 @@ struct Transform
 	float angle = 0.f;
 };
 
+struct ShapeInit
+{
+	float	  radius	= 10.F;
+	size_t	  points	= 32;
+	sf::Color fill		= sf::Color::Black;
+	sf::Color outline	= sf::Color::White;
+	float	  thickness = 2.F;
+};
+
 struct Shape
 {
+	Shape(ShapeInit init) : Shape(init.radius, init.points, init.fill, init.outline, init.thickness)
+	{
+	}
+
 	Shape(float radius, size_t points, sf::Color fill, sf::Color outline, float thickness)
 		: circle(radius, points)
 	{
