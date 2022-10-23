@@ -150,6 +150,25 @@ void GameEngine::spawn_entities()
 		bullet_cooldown		   = 10;
 	}
 	bullet_cooldown = std::max(0, --bullet_cooldown);
+
+	static auto enemy_cooldown{0};
+	if(enemy_cooldown == 0 && manager_.get_entities("enemy").size() <= 10)
+	{
+		auto enemy		 = manager_.add_entity("enemy");
+		auto enemy_pos	 = get_random_start_pos(window_.getSize().x, window_.getSize().y);
+		auto dir		 = get_random_dir();
+		enemy->transform = std::make_shared<Transform>(enemy_pos, dir * 3, Vec2{0.F, 0.F}, 0.F);
+
+		ShapeInit enemy_shape;
+		enemy_shape.radius	  = 40.F;
+		enemy_shape.points	  = 3;
+		enemy_shape.fill	  = sf::Color::Red;
+		enemy_shape.outline	  = sf::Color::White;
+		enemy_shape.thickness = 1.F;
+		enemy->shape		  = std::make_shared<Shape>(enemy_shape);
+		enemy_cooldown		  = 40;
+	}
+	enemy_cooldown = std::max(0, --enemy_cooldown);
 }
 
 void GameEngine::reduce_lifespan()
