@@ -19,15 +19,16 @@ class GameEngine
 
 	void run()
 	{
-		/// @todo add a pause system
-		// pause system should only pause some systems (movement / input)
-
 		while(running_)
 		{
-			manager_.update();
 			user_input();
-			movement();
-			collision();
+			if(!paused_)
+			{
+				spawn_entities();
+				manager_.update();
+				movement();
+				collision();
+			}
 			render();
 
 			current_frame_++;
@@ -61,6 +62,7 @@ class GameEngine
 			{
 				switch(event.key.code)
 				{
+					// Movement input
 					case sf::Keyboard::W:
 						player_->input->up = true;
 						break;
@@ -72,6 +74,11 @@ class GameEngine
 						break;
 					case sf::Keyboard::D:
 						player_->input->right = true;
+						break;
+					// toggle pause
+					case sf::Keyboard::Escape:
+						paused_ = !paused_;
+					default:
 						break;
 				}
 			}
@@ -91,6 +98,8 @@ class GameEngine
 						break;
 					case sf::Keyboard::D:
 						player_->input->right = false;
+						break;
+					default:
 						break;
 				}
 			}
