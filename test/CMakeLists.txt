@@ -2,6 +2,17 @@
 # Setup
 # -------------------------------------------------------------------------------------------------
 
+# -------------------------------------------------------------------------------------------------
+# Unit tests for the GameEngine library
+# -------------------------------------------------------------------------------------------------
+add_executable(Test_GameEngine
+    ${CMAKE_CURRENT_SOURCE_DIR}/GameEngine/Entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/GameEngine/EntityManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/GameEngine/GameEngine.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/GameEngine/System.cpp
+)
+target_link_libraries(Test_GameEngine PRIVATE GameEngine Catch2::Catch2WithMain)
+set_VS_folder(Test_GameEngine Test)
 
 # -------------------------------------------------------------------------------------------------
 # Unit tests for the GameMath library
