@@ -30,8 +30,8 @@ include(git_commands)
 # load custom functions and macros
 include(macros)
 
-# Collect compiler flags in a variable to reuse for the following targets. Setting the compiler 
-# flags globally will also cause them to be used for dependencies. This may result in the 
+# Collect compiler flags in a variable to reuse for the following targets. Setting the compiler
+# flags globally will also cause them to be used for dependencies. This may result in the
 # dependencies breaking the build with warnings (with /WX or -Werror)
 if(MSVC)
     set(ADDITIONAL_COMPILER_FLAGS /MP /utf-8 /fastfail /W4 /WX)
@@ -75,16 +75,16 @@ fetchcontent_declare(
 # Make all dependencies available
 # -------------------------------------------------------------------------------------------------
 fetchcontent_makeavailable(cli11 SFML Catch2)
-set_vs_folder(CLI11 Dependencies)
-set_vs_folder(sfml-audio Dependencies)
-set_vs_folder(sfml-graphics Dependencies)
-set_vs_folder(sfml-main Dependencies)
-set_vs_folder(sfml-network Dependencies)
-set_vs_folder(sfml-network Dependencies)
-set_vs_folder(sfml-system Dependencies)
-set_vs_folder(sfml-window Dependencies)
-set_vs_folder(Catch2 Dependencies)
-set_vs_folder(Catch2WithMain Dependencies)
+setfolderinvs(CLI11 Dependencies)
+setfolderinvs(sfml-audio Dependencies)
+setfolderinvs(sfml-graphics Dependencies)
+setfolderinvs(sfml-main Dependencies)
+setfolderinvs(sfml-network Dependencies)
+setfolderinvs(sfml-network Dependencies)
+setfolderinvs(sfml-system Dependencies)
+setfolderinvs(sfml-window Dependencies)
+setfolderinvs(Catch2 Dependencies)
+setfolderinvs(Catch2WithMain Dependencies)
 
 # -------------------------------------------------------------------------------------------------
 # Building the GameMath library
@@ -99,7 +99,6 @@ add_library(
 target_include_directories(GameMath PUBLIC src/GameMath/include)
 target_compile_features(GameMath PUBLIC cxx_std_20)
 target_compile_options(GameMath PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
-
 
 # -------------------------------------------------------------------------------------------------
 # Building the GameEngine
@@ -131,7 +130,7 @@ add_executable(GameCollectionApp app/main.cpp)
 target_compile_features(GameCollectionApp PUBLIC cxx_std_17)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
 target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameEngine)
-#target_compile_options(GameCollectionApp PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
+# target_compile_options(GameCollectionApp PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
 # Windows, since it doesn't support relative paths to libraries there is currently a bug, where a
