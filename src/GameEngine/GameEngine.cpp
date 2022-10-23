@@ -203,6 +203,11 @@ void GameEngine::movement()
 		player_->transform->pos.x -= 5.F;
 	}
 
+	auto x_min = 0.F;
+	auto y_min = 0.F;
+	auto x_max = static_cast<float>(window_.getSize().x);
+	auto y_max = static_cast<float>(window_.getSize().y);
+
 	for(auto& entity : manager_.get_entities())
 	{
 		if(auto transf = entity->transform; transf)
@@ -217,10 +222,21 @@ void GameEngine::movement()
 			x += dx;
 			y += dy;
 
-			x = std::clamp(x, 0.F, static_cast<float>(window_.getSize().x));
-			y = std::clamp(y, 0.F, static_cast<float>(window_.getSize().y));
+			x = std::clamp(x, x_min, x_max);
+			y = std::clamp(y, y_min, y_max);
 
 			transf->angle += 2.F;
+		}
+	}
+
+	for(auto& bullet : manager_.get_entities("bullet"))
+	{
+		auto bullet_x = bullet->transform->pos.x;
+		auto bullet_y = bullet->transform->pos.y;
+
+		if(bullet_x <= x_min || bullet_x >= x_max || bullet_y <= y_min || bullet_y >= y_max) 
+		{
+			bullet->destroy();
 		}
 	}
 }
