@@ -48,7 +48,12 @@ class EntityManager
 
 	[[nodiscard]] auto get_entities(std::string_view tag) -> entity_vec&
 	{
-		return tag_map_.at(tag);
+		// ensure that the requested key is a valid target in the map
+		if(tag_map_.find(tag) == tag_map_.end())
+		{
+			tag_map_[tag] = entity_vec{};
+		}
+		return tag_map_[tag];
 	}
 
   private:
