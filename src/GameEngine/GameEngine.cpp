@@ -239,6 +239,22 @@ void GameEngine::movement()
 			bullet->destroy();
 		}
 	}
+
+	// have enemies bounce from the borders of the screen
+	for(auto& enemy : manager_.get_entities("enemy"))
+	{
+		auto enemy_x = enemy->transform->pos.x;
+		auto enemy_y = enemy->transform->pos.y;
+
+		if(enemy_x <= x_min || enemy_x >= x_max) 
+		{
+			enemy->transform->vel.x *= -1;
+		}
+		if(enemy_y <= y_min || enemy_y >= y_max) 
+		{
+			enemy->transform->vel.y *= -1;
+		}
+	}
 }
 
 void GameEngine::render()
