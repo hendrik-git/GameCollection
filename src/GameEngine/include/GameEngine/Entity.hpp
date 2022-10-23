@@ -2,8 +2,8 @@
 
 #pragma once
 #include "Component.hpp"
-#include <string_view>
 #include <memory>
+#include <string_view>
 
 class Entity
 {
@@ -15,6 +15,7 @@ class Entity
 	std::shared_ptr<Score>	   score;
 	std::shared_ptr<Lifespan>  lifespan;
 	std::shared_ptr<Input>	   input;
+	std::shared_ptr<Mouse>	   mouse;
 
 	void destroy()
 	{

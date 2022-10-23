@@ -103,6 +103,11 @@ class GameEngine
 						break;
 				}
 			}
+
+			player_->mouse->lmb = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+			player_->mouse->rmb = sf::Mouse::isButtonPressed(sf::Mouse::Right);
+			player_->mouse->x	= static_cast<float>(sf::Mouse::getPosition(window_).x);
+			player_->mouse->y	= static_cast<float>(sf::Mouse::getPosition(window_).y);
 		}
 	}
 
@@ -182,6 +187,7 @@ class GameEngine
 		player_->shape = std::make_shared<Shape>(32.F, 8, sf::Color::Black, sf::Color::Red, 4.F);
 
 		player_->input = std::make_shared<Input>();
+		player_->mouse = std::make_shared<Mouse>();
 	}
 
 	sf::RenderWindow window_;

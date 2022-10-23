@@ -74,3 +74,11 @@ struct Input
 	bool down  = false;
 	bool space = false;
 };
+
+struct Mouse
+{
+	bool  lmb = false;
+	bool  rmb = false;
+	float x = 0.F;
+	float y = 0.F;
+};
