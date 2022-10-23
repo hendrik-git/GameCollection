@@ -1,8 +1,30 @@
 #include <GameEngine/GameEngine.hpp>
+#include <random>
 
 namespace
 {
-}
+	auto calc_direction(Vec2 from, Vec2 to) -> Vec2
+	{
+		return (to - from);
+	}
+
+	auto get_random_start_pos(int max_x, int max_y) -> Vec2
+	{
+		auto rd	   = std::random_device{};
+		auto mtgen = std::mt19937{rd()};
+		auto x_ud  = std::uniform_int_distribution<>{0, max_x};
+		auto y_ud  = std::uniform_int_distribution<>{0, max_y};
+		return {static_cast<float>(x_ud(mtgen)), static_cast<float>(y_ud(mtgen))};
+	}
+	auto get_random_dir() -> Vec2
+	{
+		auto rd	   = std::random_device{};
+		auto mtgen = std::mt19937{rd()};
+		auto ud	   = std::uniform_int_distribution<>{-100, 100};
+		return {Vec2{static_cast<float>(ud(mtgen)), static_cast<float>(ud(mtgen))}.normalize()};
+	}
+
+}  // namespace
 
 #pragma region public functions
 
