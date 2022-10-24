@@ -85,5 +85,16 @@ class Vec2
 		const auto len{length()};
 		return Vec2{x / len, y / len};
 	}
-
 };
+
+inline float get_distance_sq(Vec2 a, Vec2 b)
+{
+	auto delta_x = a.x - b.x;
+	auto delta_y = a.y - b.y;
+	return delta_x * delta_x + delta_y * delta_y;
+}
+
+inline float get_distance(Vec2 a, Vec2 b)
+{
+	return std::sqrt(get_distance_sq(a, b));
+}
