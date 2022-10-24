@@ -27,7 +27,7 @@ class GameEngine
 
 	void movement();
 
-	void collision() {}
+	void collision();
 
 	void render();
 

@@ -16,6 +16,7 @@ namespace
 		auto y_ud  = std::uniform_int_distribution<>{0, max_y};
 		return {static_cast<float>(x_ud(mtgen)), static_cast<float>(y_ud(mtgen))};
 	}
+	
 	auto get_random_dir() -> Vec2
 	{
 		auto rd	   = std::random_device{};
@@ -234,7 +235,7 @@ void GameEngine::movement()
 		auto bullet_x = bullet->transform->pos.x;
 		auto bullet_y = bullet->transform->pos.y;
 
-		if(bullet_x <= x_min || bullet_x >= x_max || bullet_y <= y_min || bullet_y >= y_max) 
+		if(bullet_x <= x_min || bullet_x >= x_max || bullet_y <= y_min || bullet_y >= y_max)
 		{
 			bullet->destroy();
 		}
@@ -246,13 +247,41 @@ void GameEngine::movement()
 		auto enemy_x = enemy->transform->pos.x;
 		auto enemy_y = enemy->transform->pos.y;
 
-		if(enemy_x <= x_min || enemy_x >= x_max) 
+		if(enemy_x <= x_min || enemy_x >= x_max)
 		{
 			enemy->transform->vel.x *= -1;
 		}
-		if(enemy_y <= y_min || enemy_y >= y_max) 
+		if(enemy_y <= y_min || enemy_y >= y_max)
 		{
 			enemy->transform->vel.y *= -1;
+		}
+	}
+}
+
+void GameEngine::collision()
+{
+	// collision bullet <-> enemy
+	for(auto& bullet : manager_.get_entities("bullet"))
+	{
+		assert(bullet->shape && "Bullet has no shape component");
+		assert(bullet->transform && "Bullet has no tranform component");
+
+		for(auto& enemy : manager_.get_entities("enemy"))
+		{
+			assert(enemy->shape && "Enemy has no shape component");
+			assert(enemy->transform && "Enemy has no tranform component");
+
+			// two circles collide, when their distance is less than their radii
+			auto bullet_r	 = bullet->shape->circle.getRadius();
+			auto enemy_r	 = enemy->shape->circle.getRadius();
+			auto radius_sq	 = (bullet_r + enemy_r) * (bullet_r + enemy_r);
+			auto distance_sq = get_distance_sq(bullet->transform->pos, enemy->transform->pos);
+
+			if(distance_sq <= radius_sq)
+			{
+				bullet->destroy();
+				enemy->destroy();
+			}
 		}
 	}
 }
