@@ -24,6 +24,14 @@ class EntityManager
 						entities_.end());
 
 		// tag_map_ erase as well
+		for(auto& [key, value] : tag_map_)
+		{
+			value.erase(std::remove_if(value.begin(),
+									   value.end(),
+									   [&](const std::shared_ptr<Entity> ent) -> bool
+									   { return !ent->alive_; }),
+						value.end());
+		}
 
 		//
 		for(auto entity : to_add_)
