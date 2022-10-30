@@ -1,4 +1,5 @@
 #include <GameEngine/GameEngine.hpp>
+#include <fmt/core.h>
 #include <random>
 
 namespace
@@ -31,6 +32,11 @@ namespace
 
 GameEngine::GameEngine(const fs::path config)
 {
+	// Load necessary data
+	if(!font_.loadFromFile("../../data/fonts/Gidole.ttf"))
+	{
+		throw std::exception("Failed to load font");
+	}
 	init(config);
 }
 
@@ -304,6 +310,16 @@ void GameEngine::render()
 			window_.draw(shape->circle);
 		}
 	}
+
+	// draw HUD elements on top
+	sf::Text text;
+	text.setFont(font_);
+	text.setString(fmt::format("Health {}\nScore  {:>04}", "INF", score_));
+	text.setCharacterSize(24);	// in pixels
+	text.setFillColor(sf::Color::White);
+	text.setStyle(sf::Text::Bold);
+	window_.draw(text);
+
 	window_.display();
 }
 
