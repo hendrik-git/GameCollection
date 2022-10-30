@@ -49,6 +49,14 @@ set(FETCHCONTENT_UPDATES_DISCONNECTED) # only download missing dependencies
 # it is recommended to use commit SHA as argument to the GIT_TAG instead of the branch name or tag
 # because it leads to a cleaner commit history and is faster to check
 
+# fmt is a lightweight and fast formatting library
+fetchcontent_declare(
+    fmt
+    GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+    GIT_TAG a33701196adfad74917046096bf5a2aa0ab0bb50 # v9.1.0 [2022.08.27]
+)
+
+
 # cli11 is a command line parser library
 fetchcontent_declare(
     cli11
@@ -74,7 +82,8 @@ fetchcontent_declare(
 # -------------------------------------------------------------------------------------------------
 # Make all dependencies available
 # -------------------------------------------------------------------------------------------------
-fetchcontent_makeavailable(cli11 SFML Catch2)
+fetchcontent_makeavailable(fmt cli11 SFML Catch2)
+setfolderinvs(fmt Dependencies)
 setfolderinvs(CLI11 Dependencies)
 setfolderinvs(sfml-audio Dependencies)
 setfolderinvs(sfml-graphics Dependencies)
@@ -119,7 +128,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/System.cpp
 )
 target_include_directories(GameEngine PUBLIC src/GameEngine/include)
-target_link_libraries(GameEngine PUBLIC GameMath SFML::Graphics)
+target_link_libraries(GameEngine PUBLIC GameMath SFML::Graphics fmt::fmt)
 target_compile_features(GameEngine PUBLIC cxx_std_17)
 target_compile_options(GameEngine PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
