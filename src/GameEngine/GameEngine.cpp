@@ -17,7 +17,7 @@ namespace
 		auto y_ud  = std::uniform_int_distribution<>{0, max_y};
 		return {static_cast<float>(x_ud(mtgen)), static_cast<float>(y_ud(mtgen))};
 	}
-	
+
 	auto get_random_dir() -> Vec2
 	{
 		auto rd	   = std::random_device{};
@@ -37,6 +37,17 @@ GameEngine::GameEngine(const fs::path config)
 	{
 		throw std::exception("Failed to load font");
 	}
+
+	// Load necessary data
+	if(!texture_.loadFromFile("../../data/Asteroids/Background.png"))
+	{
+		throw std::exception("Failed to load background image");
+	}
+	texture_.setRepeated(false);
+	background_.setPosition({0, 0});
+	background_.setTexture(texture_);
+
+
 	init(config);
 }
 
@@ -64,6 +75,7 @@ void GameEngine::run()
 void GameEngine::init(const fs::path config)
 {
 	/// @todo read the config file
+
 
 	// set up window default parameters
 	window_.create(sf::VideoMode({1200, 800}), "GameCollection");
@@ -145,7 +157,7 @@ void GameEngine::spawn_entities()
 		auto mouse_pos	  = Vec2{player_->mouse->x, player_->mouse->y};
 		auto direction	  = calc_direction(player_->transform->pos, mouse_pos);
 		bullet->transform = std::make_shared<Transform>(
-			player_->transform->pos, direction.normalize() * 10, Vec2{0.F, 0.F}, 0.F);
+			player_->transform->pos, direction.normalize() * 20, Vec2{0.F, 0.F}, 0.F);
 
 		ShapeInit bullet_shape;
 		bullet_shape.radius	   = 4.F;
@@ -184,10 +196,10 @@ void GameEngine::reduce_lifespan()
 {
 	for(auto entity : manager_.get_entities())
 	{
-		if(auto lifespan_component = entity->lifespan; lifespan_component)
+		if(auto lifespan = entity->lifespan; lifespan)
 		{
-			lifespan_component->remaining > 0 ? [=]() { lifespan_component->remaining--; }()
-											  : [=]() { entity->destroy(); }();
+			lifespan->remaining > 0 ? [=]() { lifespan->remaining--; }()
+									: [=]() { entity->destroy(); }();
 		}
 	}
 }
@@ -299,6 +311,10 @@ void GameEngine::render()
 {
 	window_.clear();
 
+	// draw background
+	window_.draw(background_);
+
+	// draw game entities
 	for(auto entity : manager_.get_entities())
 	{
 		if(auto shape = entity->shape; shape)

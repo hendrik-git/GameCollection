@@ -37,10 +37,12 @@ class GameEngine
 	EntityManager	 manager_;
 	sf::Font		 font_;
 	sf::Text		 text_;
+	sf::Texture		 texture_;
+	sf::Sprite		 background_;
 	bool			 paused_		= false;
 	bool			 running_		= true;
 	size_t			 current_frame_ = 0;
-	int				 score			= 0;
+	int				 score_			= 0;
 
 	// for convenient access to the player entity
 	std::shared_ptr<Entity> player_;
