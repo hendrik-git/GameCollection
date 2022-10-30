@@ -174,6 +174,8 @@ void GameEngine::spawn_entities()
 		enemy_shape.thickness = 1.F;
 		enemy->shape		  = std::make_shared<Shape>(enemy_shape);
 		enemy_cooldown		  = 40;
+
+		enemy->score = std::make_shared<Score>(10);
 	}
 	enemy_cooldown = std::max(0, --enemy_cooldown);
 }
@@ -287,6 +289,7 @@ void GameEngine::collision()
 			{
 				bullet->destroy();
 				enemy->destroy();
+				score_ += enemy->score->score;
 			}
 		}
 	}
