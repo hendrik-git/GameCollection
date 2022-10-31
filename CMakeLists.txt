@@ -129,14 +129,14 @@ add_library(
 )
 target_include_directories(GameEngine PUBLIC src/GameEngine/include)
 target_link_libraries(GameEngine PUBLIC GameMath SFML::Graphics fmt::fmt)
-target_compile_features(GameEngine PUBLIC cxx_std_17)
+target_compile_features(GameEngine PUBLIC cxx_std_20)
 target_compile_options(GameEngine PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # -------------------------------------------------------------------------------------------------
 # Building the executable
 # -------------------------------------------------------------------------------------------------
 add_executable(GameCollectionApp app/main.cpp)
-target_compile_features(GameCollectionApp PUBLIC cxx_std_17)
+target_compile_features(GameCollectionApp PUBLIC cxx_std_20)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
 target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameEngine)
 # target_compile_options(GameCollectionApp PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
