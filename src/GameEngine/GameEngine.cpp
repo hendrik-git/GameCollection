@@ -33,20 +33,11 @@ namespace
 GameEngine::GameEngine(const fs::path config)
 {
 	// Load necessary data
-	if(!font_.loadFromFile("../../data/fonts/Gidole.ttf"))
-	{
-		throw std::exception("Failed to load font");
-	}
+	assets_.add_font("Gidole", "../../data/fonts/Gidole.ttf");
+	assets_.add_texture("Background", "../../data/Asteroids/Background.png");
 
-	// Load necessary data
-	if(!texture_.loadFromFile("../../data/Asteroids/Background.png"))
-	{
-		throw std::exception("Failed to load background image");
-	}
-	texture_.setRepeated(false);
 	background_.setPosition({0, 0});
-	background_.setTexture(texture_);
-
+	background_.setTexture(assets_.get_texture("Background"));
 
 	init(config);
 }
@@ -75,7 +66,6 @@ void GameEngine::run()
 void GameEngine::init(const fs::path config)
 {
 	/// @todo read the config file
-
 
 	// set up window default parameters
 	window_.create(sf::VideoMode({1200, 800}), "GameCollection");
@@ -332,7 +322,7 @@ void GameEngine::render()
 
 	// draw HUD elements on top
 	sf::Text text;
-	text.setFont(font_);
+	text.setFont(assets_.get_font("Gidole"));
 	text.setString(fmt::format("Health {}\nScore  {:>04}", "INF", score_));
 	text.setCharacterSize(24);	// in pixels
 	text.setFillColor(sf::Color::White);

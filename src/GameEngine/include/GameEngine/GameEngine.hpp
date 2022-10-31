@@ -1,6 +1,7 @@
 /// @file GameEngine
 
 #pragma once
+#include "Asset.hpp"
 #include "EntityManager.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -33,11 +34,10 @@ class GameEngine
 
 	void spawn_player();
 
-	sf::RenderWindow window_;
+	Assets			 assets_;
 	EntityManager	 manager_;
-	sf::Font		 font_;
+	sf::RenderWindow window_;
 	sf::Text		 text_;
-	sf::Texture		 texture_;
 	sf::Sprite		 background_;
 	bool			 paused_		= false;
 	bool			 running_		= true;
