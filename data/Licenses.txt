@@ -1,0 +1,9 @@
+Asteroids
+Background.png - WTFPL
+https://opengameart.org/content/space-background-1
+
+https://kenney.nl/assets/space-shooter-redux
+
+fonts
+Gidole.ttf - OFL MIT
+https://github.com/larsenwork/Gidole
