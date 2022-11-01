@@ -116,6 +116,7 @@ add_library(
     GameEngine OBJECT
     # (optional) add header files, so that they may show up in the IDE
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Action.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Animation.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Asset.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Component.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Entity.hpp
@@ -125,6 +126,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/System.hpp
     # necessary source files
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Action.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/Animation.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Asset.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Component.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Entity.cpp
