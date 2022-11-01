@@ -121,6 +121,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Entity.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/EntityManager.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/GameEngine.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Scene.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/System.hpp
     # necessary source files
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Action.cpp
@@ -129,6 +130,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Entity.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/EntityManager.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/GameEngine.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/Scene.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/System.cpp
 )
 target_include_directories(GameEngine PUBLIC src/GameEngine/include)
