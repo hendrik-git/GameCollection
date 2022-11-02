@@ -4,18 +4,14 @@
 #include "Component.hpp"
 #include <memory>
 #include <string_view>
+#include <tuple>
+
+class EntityManager;
 
 class Entity
 {
   public:
-	// shared pointers to the components will come here
-	std::shared_ptr<Transform> transform;
-	std::shared_ptr<Shape>	   shape;
-	std::shared_ptr<Collision> collision;
-	std::shared_ptr<Score>	   score;
-	std::shared_ptr<Lifespan>  lifespan;
-	std::shared_ptr<Input>	   input;
-	std::shared_ptr<Mouse>	   mouse;
+	ComponentTuple components;
 
 	void destroy()
 	{
@@ -35,6 +31,39 @@ class Entity
 	[[nodiscard]] auto is_alive() const -> bool
 	{
 		return alive_;
+	}
+
+	template<typename T>
+	[[nodiscard]] bool has_component() const
+	{
+		return std::get<T>(components).has;
+	}
+
+	template<typename T, typename... TArgs>
+	T& add_component(TArgs&&... args)
+	{
+		auto& component = get_component<T>();
+		component		= T(std::forward<TArgs>(args)...);
+		component.has	= true;
+		return component;
+	}
+
+	template<typename T>
+	void remove_component()
+	{
+		get_component<T>() = T{};
+	}
+
+	template<typename T>
+	[[nodiscard]] T& get_component()
+	{
+		return std::get<T>(components);
+	}
+
+	template<typename T>
+	[[nodiscard]] const T& get_component() const
+	{
+		return std::get<T>(components);
 	}
 
   private:
