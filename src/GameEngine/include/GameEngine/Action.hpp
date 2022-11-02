@@ -9,6 +9,8 @@ class Action
 
 	auto name() -> std::string&;
 	auto type() -> std::string&;
+	auto name() const -> const std::string&;
+	auto type() const -> const std::string&;
 	auto to_string() -> std::string;
 
   private:

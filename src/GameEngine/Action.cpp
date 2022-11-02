@@ -9,6 +9,16 @@ auto Action::name() -> std::string&
 	return name_;
 }
 
+auto Action::name() const -> const std::string&
+{
+	return name_;
+}
+
+auto Action::type() const -> const std::string&
+{
+	return type_;
+}
+
 auto Action::type() -> std::string&
 {
 	return type_;
