@@ -3,12 +3,15 @@
 #pragma once
 #include "Asset.hpp"
 #include "EntityManager.hpp"
+#include "Scene.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <filesystem>
 #include <iostream>
 
-namespace fs = std::filesystem;
+namespace fs   = std::filesystem;
+using ScenePtr = std::shared_ptr<Scene>;
+using SceneMap = std::map<std::string, ScenePtr>;
 
 class GameEngine
 {
@@ -17,33 +20,53 @@ class GameEngine
 
 	void run();
 
-  private:
-	void init(const fs::path config);
+	void quit()
+	{
+		running_ = false;
+	};
 
+	void change_scene(std::string name, ScenePtr scene, bool end_curr_scene = false)
+	{
+		assert(true);
+
+		if(end_curr_scene)
+		{
+			// end current scene here
+		}
+
+		scenes_[name]  = scene;
+		current_scene_ = name;
+	}
+
+	auto window() -> sf::RenderWindow&
+	{
+		return window_;
+	};
+	auto assets() -> Assets&
+	{
+		return assets_;
+	};
+	auto is_running() -> bool
+	{
+		return running_;
+	};
+
+
+  protected:
+	void init(const fs::path config);
+	void update();
 	void user_input();
 
-	void spawn_entities();
-
-	void reduce_lifespan();
-
-	void movement();
-
-	void collision();
-
-	void render();
-
-	void spawn_player();
+	auto current_scene() -> ScenePtr
+	{
+		assert(true);
+		return scenes_[current_scene_];
+	};
 
 	Assets			 assets_;
-	EntityManager	 manager_;
+	SceneMap		 scenes_;
 	sf::RenderWindow window_;
-	sf::Text		 text_;
-	sf::Sprite		 background_;
-	bool			 paused_		= false;
-	bool			 running_		= true;
-	size_t			 current_frame_ = 0;
-	int				 score_			= 0;
-
-	// for convenient access to the player entity
-	std::shared_ptr<Entity> player_;
+	size_t			 sim_speed_ = 1;
+	std::string		 current_scene_;
+	bool			 running_ = true;
 };

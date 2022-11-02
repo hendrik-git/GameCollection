@@ -1,7 +1,28 @@
 #pragma once
-#include "GameEngine.hpp"
 #include "Scene.hpp"
 
-class SceneAsteroids : Scene
+class SceneAsteroids : public Scene
 {
+  public:
+	SceneAsteroids(GameEngine* engine) : Scene(engine)
+	{
+		init();
+	};
+
+	void update() override;
+	void render() override;
+	void do_action(const Action& action) override;
+	void on_end() override;
+
+	void init();
+	void spawn_entities();
+	void spawn_player();
+	void reduce_lifespan();
+
+	void movement();
+	void collision();
+
+	sf::Text   text_;
+	sf::Sprite background_;
+	int		   score_ = 0;
 };
