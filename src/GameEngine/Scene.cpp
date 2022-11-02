@@ -1,10 +1,13 @@
 #include <GameEngine/Scene.hpp>
 
-Scene::Scene(GameEngine* engine) {}
+Scene::Scene(GameEngine* engine) : game_(engine) {}
 
 // void Scene::simulate() {}
 
-void Scene::register_action() {}
+void Scene::register_action(int key, std::string name) 
+{
+	action_map_[key] = name;
+}
 
 // size_t Scene::width()
 //{

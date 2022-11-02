@@ -5,6 +5,7 @@
 
 
 using ActionMap = std::map<int, std::string>;
+using PlayerPtr = std::shared_ptr<Entity>;
 
 class GameEngine;  // forward declare GameEngine class for pointer
 
@@ -14,12 +15,12 @@ class Scene
 	Scene() = default;
 	Scene(GameEngine* engine);
 
-	virtual void update()				   = 0;
-	virtual void render()				   = 0;
-	virtual void do_action(Action& action) = 0;
+	virtual void update()						 = 0;
+	virtual void render()						 = 0;
+	virtual void do_action(const Action& action) = 0;
 
 	// void simulate();
-	void register_action();
+	void register_action(int key, std::string name);
 
 	// size_t	   width();
 	// size_t	   height();
@@ -34,6 +35,7 @@ class Scene
 	virtual void on_end() = 0;
 	void		 set_paused(bool pause);
 
+	PlayerPtr	  player_;
 	ActionMap	  action_map_;
 	EntityManager entities_;
 	GameEngine*	  game_			 = nullptr;
