@@ -11,12 +11,8 @@ GameEngine::GameEngine(const fs::path config)
 	assets_.add_font("Gidole", "../../data/fonts/Gidole.ttf");
 	assets_.add_texture("Background", "../../data/Asteroids/Background.png");
 
-	// background_.setPosition({0, 0});
-	// background_.setTexture(assets_.get_texture("Background"));
-
 	init(config);
 
-	// scenes_.emplace("Asteroids", std::make_shared<SceneAsteroids>(this));
 	change_scene("Asteroids", std::make_shared<SceneAsteroids>(this));
 }
 
@@ -29,6 +25,38 @@ void GameEngine::run()
 	}
 }
 
+void GameEngine::quit()
+{
+	running_ = false;
+}
+
+void GameEngine::change_scene(std::string name, ScenePtr scene, bool end_curr_scene)
+{
+	assert(true);
+
+	if(end_curr_scene)
+	{
+		/// @todo end current scene here
+	}
+
+	scenes_[name]  = scene;
+	current_scene_ = name;
+}
+
+auto GameEngine::window() -> sf::RenderWindow&
+{
+	return window_;
+}
+
+auto GameEngine::assets() -> Assets&
+{
+	return assets_;
+}
+
+auto GameEngine::is_running() -> bool
+{
+	return running_;
+}
 #pragma endregion
 
 #pragma region private functions
@@ -65,10 +93,17 @@ void GameEngine::user_input()
 			current_scene()->do_action(Action{actions.at(event.key.code), type});
 		}
 
+		/// @todo Mouse input is currently not supported yet
 		// player_->mouse->lmb = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 		// player_->mouse->rmb = sf::Mouse::isButtonPressed(sf::Mouse::Right);
 		// player_->mouse->x	= static_cast<float>(sf::Mouse::getPosition(window_).x);
 		// player_->mouse->y	= static_cast<float>(sf::Mouse::getPosition(window_).y);
 	}
+}
+
+auto GameEngine::current_scene() -> ScenePtr
+{
+	assert(true);
+	return scenes_[current_scene_];
 }
 #pragma endregion

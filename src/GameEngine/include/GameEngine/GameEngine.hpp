@@ -19,49 +19,20 @@ class GameEngine
 	GameEngine(const fs::path config);
 
 	void run();
+	void quit();
+	void change_scene(std::string name, ScenePtr scene, bool end_curr_scene = false);
 
-	void quit()
-	{
-		running_ = false;
-	};
-
-	void change_scene(std::string name, ScenePtr scene, bool end_curr_scene = false)
-	{
-		assert(true);
-
-		if(end_curr_scene)
-		{
-			// end current scene here
-		}
-
-		scenes_[name]  = scene;
-		current_scene_ = name;
-	}
-
-	auto window() -> sf::RenderWindow&
-	{
-		return window_;
-	};
-	auto assets() -> Assets&
-	{
-		return assets_;
-	};
-	auto is_running() -> bool
-	{
-		return running_;
-	};
+	auto window() -> sf::RenderWindow&;
+	auto assets() -> Assets&;
+	auto is_running() -> bool;
 
 
   protected:
 	void init(const fs::path config);
 	void update();
 	void user_input();
+	auto current_scene() -> ScenePtr;
 
-	auto current_scene() -> ScenePtr
-	{
-		assert(true);
-		return scenes_[current_scene_];
-	};
 
 	Assets			 assets_;
 	SceneMap		 scenes_;
