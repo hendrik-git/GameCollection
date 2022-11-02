@@ -3,18 +3,25 @@
 #pragma once
 #include <GameMath/Vec2.hpp>
 #include <SFML/Graphics.hpp>
+#include <tuple>
 
-struct Transform
+struct Component
 {
-	Transform(Vec2 pos, Vec2 vel, Vec2 acc, float angle)
-		: pos(pos), vel(vel), acc(acc), angle(angle)
+	bool has = false;
+};
+
+struct Transform : public Component
+{
+	Transform(Vec2 pos = {0.f, 0.f}, Vec2 vel = {0.f, 0.f}, float angle = 0.f)
+		: pos(pos), prev_pos(pos), vel(vel), angle(angle)
 	{
 	}
 
-	Vec2  pos	= {0.f, 0.f};
-	Vec2  vel	= {0.f, 0.f};
-	Vec2  acc	= {0.f, 0.f};
-	float angle = 0.f;
+	Vec2  pos;
+	Vec2  prev_pos;
+	Vec2  vel;
+	Vec2  scale = {1.f, 1.f};
+	float angle;
 };
 
 struct ShapeInit
@@ -26,9 +33,10 @@ struct ShapeInit
 	float	  thickness = 2.F;
 };
 
-struct Shape
+struct Shape : public Component
 {
-	Shape(ShapeInit init) : Shape(init.radius, init.points, init.fill, init.outline, init.thickness)
+	Shape(ShapeInit init = ShapeInit{})
+		: Shape(init.radius, init.points, init.fill, init.outline, init.thickness)
 	{
 	}
 
@@ -44,29 +52,29 @@ struct Shape
 	sf::CircleShape circle;
 };
 
-struct Collision
+struct Collision : public Component
 {
-	Collision(float radius) : radius(radius) {}
+	Collision(float radius = 0.f) : radius(radius) {}
 
-	float radius = 0;
+	float radius;
 };
 
-struct Score
+struct Score : public Component
 {
-	Score(int score) : score(score) {}
+	Score(int score = 0) : score(score) {}
 
-	int score = 0;
+	int score;
 };
 
-struct Lifespan
+struct Lifespan : public Component
 {
-	Lifespan(int total) : remaining(total), total(total) {}
+	Lifespan(int total = 0) : remaining(total), total(total) {}
 
-	int remaining = 0;
-	int total	  = 0;
+	int remaining;
+	int total;
 };
 
-struct Input
+struct Input : public Component
 {
 	bool up	   = false;
 	bool left  = false;
@@ -75,10 +83,13 @@ struct Input
 	bool space = false;
 };
 
-struct Mouse
+struct Mouse : public Component
 {
 	bool  lmb = false;
 	bool  rmb = false;
-	float x = 0.F;
-	float y = 0.F;
+	float x	  = 0.F;
+	float y	  = 0.F;
 };
+
+
+using ComponentTuple = std::tuple<Transform, Shape, Collision, Score, Lifespan, Input, Mouse>;
