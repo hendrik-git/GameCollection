@@ -106,8 +106,6 @@ void SceneAsteroids::reduce_lifespan()
 
 void SceneAsteroids::movement()
 {
-	auto& window = game_->window();
-
 	// handle player movement
 	if(player_->get_component<Input>().up)
 	{
@@ -126,10 +124,11 @@ void SceneAsteroids::movement()
 		player_->get_component<Transform>().pos.x -= 5.F;
 	}
 
-	auto x_min = 0.F;
-	auto y_min = 0.F;
-	auto x_max = static_cast<float>(window.getSize().x);
-	auto y_max = static_cast<float>(window.getSize().y);
+	auto x_min		 = 0.F;
+	auto y_min		 = 0.F;
+	auto window_size = game_->window().getSize();
+	auto x_max		 = static_cast<float>(window_size.x);
+	auto y_max		 = static_cast<float>(window_size.y);
 
 	for(auto& entity : entities_.get_entities())
 	{
@@ -140,13 +139,8 @@ void SceneAsteroids::movement()
 			[[maybe_unused]] auto& y  = transf.pos.y;
 			[[maybe_unused]] auto& dy = transf.vel.y;
 
-			x += dx;
-			y += dy;
-
-			x = std::clamp(x, x_min, x_max);
-			y = std::clamp(y, y_min, y_max);
-
-			transf.angle += 2.F;
+			x = std::clamp(x + dx, x_min, x_max);
+			y = std::clamp(y + dy, y_min, y_max);
 		}
 	}
 
@@ -164,17 +158,20 @@ void SceneAsteroids::movement()
 	// have enemies bounce from the borders of the screen
 	for(auto& enemy : entities_.get_entities("enemy"))
 	{
-		auto enemy_x = enemy->get_component<Transform>().pos.x;
-		auto enemy_y = enemy->get_component<Transform>().pos.y;
+		auto& transf  = enemy->get_component<Transform>();
+		auto& enemy_x = transf.pos.x;
+		auto& enemy_y = transf.pos.y;
 
 		if(enemy_x <= x_min || enemy_x >= x_max)
 		{
-			enemy->get_component<Transform>().vel.x *= -1;
+			transf.vel.x *= -1;
 		}
 		if(enemy_y <= y_min || enemy_y >= y_max)
 		{
-			enemy->get_component<Transform>().vel.y *= -1;
+			transf.vel.y *= -1;
 		}
+
+		transf.angle += 2.F;
 	}
 }
 
@@ -268,7 +265,7 @@ void SceneAsteroids::render()
 	// draw HUD elements on top
 	sf::Text text;
 	text.setFont(game_->assets().get_font("Gidole"));
-	text.setString(fmt::format("Health {}\nScore  {:>04}", "INF", score_));
+	text.setString(fmt::format("Score {:>04}", score_));
 	text.setCharacterSize(24);	// in pixels
 	text.setFillColor(sf::Color::White);
 	text.setStyle(sf::Text::Bold);
@@ -279,7 +276,7 @@ void SceneAsteroids::render()
 
 void SceneAsteroids::do_action(const Action& action)
 {
-	if(action.type() == "Start") 
+	if(action.type() == "Start")
 	{
 		if(action.name() == "Up")
 		{
