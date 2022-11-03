@@ -35,12 +35,13 @@ void SceneAsteroids::spawn_entities()
 	auto& mouse = player_->get_component<Mouse>();
 
 	static auto bullet_cooldown{0};
-	if(mouse.lmb && bullet_cooldown == 0)
+	if(player_->get_component<Input>().space && bullet_cooldown == 0)
 	{
 		auto bullet	   = entities_.add_entity("bullet");
 		auto mouse_pos = Vec2{mouse.x, mouse.y};
-		auto direction = calc_direction(pos, mouse_pos);
-		bullet->add_component<Transform>(pos, direction.normalize() * 20);
+		auto direction = direction_from_degree(player_->get_component<Transform>().angle);
+		// auto direction = calc_direction(pos, mouse_pos);
+		bullet->add_component<Transform>(pos, direction * 20);
 
 		ShapeInit bullet_shape;
 		bullet_shape.radius	   = 4.F;
