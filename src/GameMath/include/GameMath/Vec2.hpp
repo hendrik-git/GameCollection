@@ -98,3 +98,14 @@ inline float get_distance(Vec2 a, Vec2 b)
 {
 	return std::sqrt(get_distance_sq(a, b));
 }
+
+inline Vec2 direction_from_radians(float angle) 
+{
+	return Vec2(std::cos(angle), std::sin(angle));
+}
+
+inline Vec2 direction_from_degree(float angle) 
+{
+	const auto angle_rad = angle * 3.14159F / 180.F;
+	return direction_from_radians(angle_rad);
+}
