@@ -83,7 +83,7 @@ void SceneAsteroids::spawn_player()
 	player_->add_component<Transform>(Vec2{400.F, 400.F});
 	ShapeInit player_shape;
 	player_shape.radius	   = 32.F;
-	player_shape.points	   = 8;
+	player_shape.points	   = 3;
 	player_shape.fill	   = sf::Color::Yellow;
 	player_shape.outline   = sf::Color::White;
 	player_shape.thickness = 4.F;
@@ -107,21 +107,24 @@ void SceneAsteroids::reduce_lifespan()
 void SceneAsteroids::movement()
 {
 	// handle player movement
+	auto& player_pos   = player_->get_component<Transform>().pos;
+	auto& player_angle = player_->get_component<Transform>().angle;
+
 	if(player_->get_component<Input>().up)
 	{
-		player_->get_component<Transform>().pos.y -= 5.F;
+		player_pos += direction_from_degree(player_angle) * 5.F;
 	}
 	if(player_->get_component<Input>().down)
 	{
-		player_->get_component<Transform>().pos.y += 5.F;
+		player_pos -= direction_from_degree(player_angle) * 5.F;
 	}
 	if(player_->get_component<Input>().right)
 	{
-		player_->get_component<Transform>().pos.x += 5.F;
+		player_angle += 5.F;
 	}
 	if(player_->get_component<Input>().left)
 	{
-		player_->get_component<Transform>().pos.x -= 5.F;
+		player_angle -= 5.F;
 	}
 
 	auto x_min		 = 0.F;
