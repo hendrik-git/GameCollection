@@ -177,11 +177,12 @@ void SceneAsteroids::movement()
 
 void SceneAsteroids::init()
 {
-	register_action(sf::Keyboard::W, "Up");
-	register_action(sf::Keyboard::A, "Left");
-	register_action(sf::Keyboard::S, "Down");
-	register_action(sf::Keyboard::D, "Right");
+	register_action(sf::Keyboard::Up, "Up");
+	register_action(sf::Keyboard::Left, "Left");
+	register_action(sf::Keyboard::Down, "Down");
+	register_action(sf::Keyboard::Right, "Right");
 	register_action(sf::Keyboard::P, "Pause");
+	register_action(sf::Keyboard::Space, "Shoot");
 	register_action(sf::Keyboard::Escape, "Quit");
 
 	background_.setPosition({0, 0});
@@ -294,6 +295,10 @@ void SceneAsteroids::do_action(const Action& action)
 		{
 			player_->get_component<Input>().right = true;
 		}
+		if(action.name() == "Shoot")
+		{
+			player_->get_component<Input>().space = true;
+		}
 		if(action.name() == "Pause")
 		{
 			set_paused(!is_paused_);
@@ -320,6 +325,10 @@ void SceneAsteroids::do_action(const Action& action)
 		if(action.name() == "Right")
 		{
 			player_->get_component<Input>().right = false;
+		}
+		if(action.name() == "Shoot")
+		{
+			player_->get_component<Input>().space = false;
 		}
 	}
 }
