@@ -56,12 +56,17 @@ void SceneAsteroids::spawn_entities()
 	bullet_cooldown = std::max(0, --bullet_cooldown);
 
 	static auto enemy_cooldown{0};
-	if(enemy_cooldown == 0 && entities_.get_entities("enemy").size() <= 10)
+	if(enemy_cooldown == 0 && entities_.get_entities("enemy").size() <= 15)
 	{
-		const auto& window	  = game_->window();
-		auto		enemy	  = entities_.add_entity("enemy");
-		auto		enemy_pos = get_random_start_pos(window.getSize().x, window.getSize().y);
-		auto		dir		  = get_random_dir();
+		Vec2 enemy_pos{0.F, 0.F};
+		do
+		{
+			enemy_pos = get_random_start_pos(static_cast<int>(world_size_.x),
+											 static_cast<int>(world_size_.y));
+		} while(get_distance_sq(enemy_pos, pos) < 30 * 30);
+
+		auto enemy = entities_.add_entity("enemy");
+		auto dir   = get_random_dir();
 		enemy->add_component<Transform>(enemy_pos, dir * 3);
 
 		ShapeInit enemy_shape;
