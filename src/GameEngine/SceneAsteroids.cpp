@@ -81,7 +81,7 @@ void SceneAsteroids::spawn_entities()
 void SceneAsteroids::spawn_player()
 {
 	player_ = entities_.add_entity("player");
-	player_->add_component<Transform>(Vec2{400.F, 400.F});
+	player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
 	ShapeInit player_shape;
 	player_shape.radius	   = 32.F;
 	player_shape.points	   = 3;
@@ -128,16 +128,17 @@ void SceneAsteroids::movement()
 		player_angle -= 5.F;
 	}
 
-	auto x_min		 = 0.F;
-	auto y_min		 = 0.F;
-	auto window_size = game_->window().getSize();
-	auto x_max		 = static_cast<float>(window_size.x);
-	auto y_max		 = static_cast<float>(window_size.y);
+	auto x_min = 0.F;
+	auto y_min = 0.F;
+	auto x_max = world_size_.x;
+	auto y_max = world_size_.y;
 
 	for(auto& entity : entities_.get_entities())
 	{
 		if(auto& transf = entity->get_component<Transform>(); transf.has)
 		{
+			transf.prev_pos = transf.pos;
+
 			[[maybe_unused]] auto& x  = transf.pos.x;
 			[[maybe_unused]] auto& dx = transf.vel.x;
 			[[maybe_unused]] auto& y  = transf.pos.y;
@@ -192,6 +193,9 @@ void SceneAsteroids::init()
 	auto& texture = game_->assets().get_texture("Background");
 	texture.setRepeated(true);
 	background_.setPosition({0, 0});
+	background_.setTexture(texture);
+	background_.setTextureRect(
+		sf::IntRect{{0, 0}, {static_cast<int>(world_size_.x), static_cast<int>(world_size_.y)}});
 
 	spawn_player();
 }
@@ -225,7 +229,6 @@ void SceneAsteroids::collision()
 		}
 	}
 }
-
 
 void SceneAsteroids::update()
 {

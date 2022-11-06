@@ -24,5 +24,6 @@ class SceneAsteroids : public Scene
 
 	sf::Text   text_;
 	sf::Sprite background_;
-	int		   score_ = 0;
+	int		   score_	   = 0;
+	Vec2	   world_size_ = {2000, 2000};
 };
