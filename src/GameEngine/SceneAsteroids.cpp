@@ -88,8 +88,8 @@ void SceneAsteroids::spawn_player()
 	player_ = entities_.add_entity("player");
 	player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
 	ShapeInit player_shape;
-	player_shape.radius	   = 32.F;
-	player_shape.points	   = 3;
+	player_shape.radius	   = 12.F;
+	player_shape.points	   = 32;
 	player_shape.fill	   = sf::Color::Yellow;
 	player_shape.outline   = sf::Color::White;
 	player_shape.thickness = 4.F;
@@ -276,6 +276,15 @@ void SceneAsteroids::render()
 		}
 	}
 
+	auto& ship_texture = game_->assets().get_texture("PlayerShip");
+	auto  ship		   = sf::Sprite{ship_texture};
+	auto  transf	   = player_->get_component<Transform>();
+
+	ship.setOrigin((sf::Vector2f)ship_texture.getSize() / 2.f);
+	ship.setPosition({transf.pos.x, transf.pos.y});
+	ship.setRotation(sf::degrees(transf.angle + 90));
+	ship.setColor(sf::Color{255, 255, 255, 50});
+	window.draw(ship);
 	// draw HUD elements on top
 	sf::Text text;
 	text.setFont(game_->assets().get_font("Gidole"));

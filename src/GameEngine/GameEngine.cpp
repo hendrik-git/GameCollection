@@ -10,6 +10,7 @@ GameEngine::GameEngine(const fs::path config)
 	// Load necessary data
 	assets_.add_font("Gidole", "../../data/fonts/Gidole.ttf");
 	assets_.add_texture("Background", "../../data/Asteroids/Background.png");
+	assets_.add_texture("PlayerShip", "../../data/Asteroids/PlayerShip.png");
 
 	init(config);
 
