@@ -30,9 +30,15 @@ int main(int argc, char** argv)
 	// --------------------------------------------------------------------------------------------
 	if(!quit->as<bool>())
 	{
-		std::cout << "Test" << std::endl;
-		GameEngine engine{std::filesystem::path{inputFile}};
-		engine.run();
+		try
+		{
+			GameEngine engine{std::filesystem::path{inputFile}};
+			engine.run();
+		}
+		catch(const std::exception& e)
+		{
+			std::cerr << e.what() << std::endl;
+		}
 	}
 	else
 	{
