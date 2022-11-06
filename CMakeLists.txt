@@ -125,6 +125,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Scene.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneAsteroids.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/System.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Utility.hpp
     # necessary source files
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Action.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Animation.cpp
@@ -136,6 +137,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Scene.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneAsteroids.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/System.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/Utility.cpp
 )
 target_include_directories(GameEngine PUBLIC src/GameEngine/include)
 target_link_libraries(GameEngine PUBLIC GameMath SFML::Graphics fmt::fmt)
