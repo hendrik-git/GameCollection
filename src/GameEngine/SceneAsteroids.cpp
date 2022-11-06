@@ -253,6 +253,7 @@ void SceneAsteroids::update()
 void SceneAsteroids::render()
 {
 	auto& window = game_->window();
+	auto  view	 = window.getDefaultView();
 	window.clear();
 
 	// draw background
@@ -285,6 +286,17 @@ void SceneAsteroids::render()
 	ship.setRotation(sf::degrees(transf.angle + 90));
 	ship.setColor(sf::Color{255, 255, 255, 50});
 	window.draw(ship);
+
+	const auto view_size  = view.getSize();
+	const auto view_min_x = view_size.x / 2;
+	const auto view_min_y = view_size.y / 2;
+	const auto view_max_x = world_size_.x - view_min_x;
+	const auto view_max_y = world_size_.y - view_min_y;
+
+	auto view_point = sf::Vector2f{std::clamp(transf.pos.x, view_min_x, view_max_x),
+								   std::clamp(transf.pos.y, view_min_y, view_max_y)};
+	view.setCenter(view_point);
+
 	// draw HUD elements on top
 	sf::Text text;
 	text.setFont(game_->assets().get_font("Gidole"));
@@ -292,8 +304,11 @@ void SceneAsteroids::render()
 	text.setCharacterSize(24);	// in pixels
 	text.setFillColor(sf::Color::White);
 	text.setStyle(sf::Text::Bold);
+	text.setPosition(window.mapPixelToCoords({10, 10}, view));
 	window.draw(text);
 
+
+	window.setView(view);
 	window.display();
 }
 
