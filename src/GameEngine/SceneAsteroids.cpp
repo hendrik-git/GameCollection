@@ -189,8 +189,9 @@ void SceneAsteroids::init()
 	register_action(sf::Keyboard::Space, "Shoot");
 	register_action(sf::Keyboard::Escape, "Quit");
 
+	auto& texture = game_->assets().get_texture("Background");
+	texture.setRepeated(true);
 	background_.setPosition({0, 0});
-	background_.setTexture(game_->assets().get_texture("Background"));
 
 	spawn_player();
 }
