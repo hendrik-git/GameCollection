@@ -93,9 +93,12 @@ void SceneAsteroids::spawn_player()
 	player_shape.fill	   = sf::Color::Yellow;
 	player_shape.outline   = sf::Color::White;
 	player_shape.thickness = 4.F;
-	player_->add_component<Shape>(player_shape);
+	//player_->add_component<Shape>(player_shape);
 	player_->add_component<Input>();
 	player_->add_component<Mouse>();
+
+	player_->add_component<Drawable>("PlayerShip", game_->assets().get_texture("PlayerShip"), 1, 1);
+	//auto draw = Drawable{"PlayerShip", game_->assets().get_texture("PlayerShip"), 1, 1};
 }
 
 void SceneAsteroids::reduce_lifespan()
@@ -275,17 +278,32 @@ void SceneAsteroids::render()
 
 			window.draw(shape.circle);
 		}
+
+		if(auto& shape = entity->get_component<Drawable>(); shape.has)
+		{
+			// assume every shape has also a transform component
+			assert(entity->get_component<Transform>().has && "Missing transform component");
+			//shape.update();
+			auto  sprite = shape.get_sprite();
+			auto& transf = entity->get_component<Transform>();
+
+			sprite.setPosition({transf.pos.x, transf.pos.y});
+			sprite.setRotation(sf::degrees(transf.angle));
+
+			window.draw(sprite);
+		}
+
 	}
 
-	auto& ship_texture = game_->assets().get_texture("PlayerShip");
-	auto  ship		   = sf::Sprite{ship_texture};
+	//auto& ship_texture = game_->assets().get_texture("PlayerShip");
+	//auto  ship		   = sf::Sprite{ship_texture};
 	auto  transf	   = player_->get_component<Transform>();
 
-	ship.setOrigin((sf::Vector2f)ship_texture.getSize() / 2.f);
-	ship.setPosition({transf.pos.x, transf.pos.y});
-	ship.setRotation(sf::degrees(transf.angle + 90));
-	ship.setColor(sf::Color{255, 255, 255, 50});
-	window.draw(ship);
+	//ship.setOrigin((sf::Vector2f)ship_texture.getSize() / 2.f);
+	//ship.setPosition({transf.pos.x, transf.pos.y});
+	//ship.setRotation(sf::degrees(transf.angle + 90));
+	//ship.setColor(sf::Color{255, 255, 255, 50});
+	//window.draw(ship);
 
 	const auto view_size  = view.getSize();
 	const auto view_min_x = view_size.x / 2;
