@@ -18,9 +18,9 @@ class Animation
 
   private:
 	sf::Sprite	sprite_;
-	size_t		frame_count_   = 1;	 ///< total amount of frames for animation
-	size_t		current_frame_ = 0;	 ///< current frame being displayed
-	size_t		speed_		   = 0;	 ///< speed to play this animation
-	Vec2		size_		   = {1, 1};
+	size_t		frame_count_   = 1;		  ///< total amount of frames for animation
+	size_t		current_frame_ = 0;		  ///< current frame being displayed
+	size_t		speed_		   = 0;		  ///< speed to play this animation
+	Vec2		size_		   = {1, 1};  ///< how much the sprite is scaled
 	std::string name_;
 };
