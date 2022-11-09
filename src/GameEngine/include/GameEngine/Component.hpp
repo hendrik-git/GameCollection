@@ -1,6 +1,7 @@
 /// @file Component
 
 #pragma once
+#include <GameEngine/Animation.hpp>
 #include <GameMath/Vec2.hpp>
 #include <SFML/Graphics.hpp>
 #include <tuple>
@@ -52,6 +53,21 @@ struct Shape : public Component
 	sf::CircleShape circle;
 };
 
+struct Drawable
+	: public Component
+	, public Animation
+{
+	Drawable() {}
+
+	Drawable(std::string name, sf::Texture texture) : Animation(name, texture) {}
+
+
+	Drawable(std::string name, sf::Texture texture, size_t frame_count, size_t speed)
+		: Animation(name, texture, frame_count, speed)
+	{
+	}
+};
+
 struct Collision : public Component
 {
 	Collision(float radius = 0.f) : radius(radius) {}
@@ -92,4 +108,5 @@ struct Mouse : public Component
 };
 
 
-using ComponentTuple = std::tuple<Transform, Shape, Collision, Score, Lifespan, Input, Mouse>;
+using ComponentTuple =
+	std::tuple<Transform, Drawable, Shape, Collision, Score, Lifespan, Input, Mouse>;
