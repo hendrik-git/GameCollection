@@ -97,7 +97,7 @@ void SceneAsteroids::spawn_player()
 	player_->add_component<Input>();
 	player_->add_component<Mouse>();
 
-	player_->add_component<Drawable>("PlayerShip", game_->assets().get_texture("PlayerShip"), 1, 1);
+	player_->add_component<Drawable>("PlayerShip", game_->assets().get_texture("PlayerShip"));
 	//auto draw = Drawable{"PlayerShip", game_->assets().get_texture("PlayerShip"), 1, 1};
 }
 

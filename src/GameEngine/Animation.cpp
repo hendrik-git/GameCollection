@@ -1,12 +1,22 @@
 #include "GameEngine/Animation.hpp"
+#include <iostream>
 
 Animation::Animation() {}
 
-Animation::Animation(std::string name, sf::Texture texture) {}
+Animation::Animation(std::string name, sf::Texture& texture) : name_{name}
+{
+	auto size = static_cast<sf::Vector2f>(texture.getSize());
+	std::cout << "Coord" << size.x / 2 << " | " << size.y / 2 << "\n";
+	sprite_.setOrigin({size.x / 2, size.y / 2});
+	sprite_.setTexture(texture);
+}
 
-Animation::Animation(std::string name, sf::Texture texture, size_t frame_count, size_t speed)
+Animation::Animation(std::string name, sf::Texture& texture, size_t frame_count, size_t speed)
 	: name_{name}, frame_count_{frame_count}, speed_{speed}
 {
+	auto size = static_cast<sf::Vector2f>(texture.getSize());
+	std::cout << "Coord" << size.x / 2 << " | " << size.y / 2 << "\n";
+	sprite_.setOrigin({size.x / 2, size.y / 2});
 	sprite_.setTexture(texture);
 }
 
