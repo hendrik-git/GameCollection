@@ -7,8 +7,8 @@ class Animation
 {
   public:
 	Animation();
-	Animation(std::string name, sf::Texture texture);
-	Animation(std::string name, sf::Texture texture, size_t frame_count, size_t speed);
+	Animation(std::string name, sf::Texture& texture);
+	Animation(std::string name, sf::Texture& texture, size_t frame_count, size_t speed);
 
 	void update();
 	auto has_ended() -> bool;

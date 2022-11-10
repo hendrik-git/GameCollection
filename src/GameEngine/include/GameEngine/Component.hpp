@@ -59,10 +59,10 @@ struct Drawable
 {
 	Drawable() {}
 
-	Drawable(std::string name, sf::Texture texture) : Animation(name, texture) {}
+	Drawable(std::string name, sf::Texture& texture) : Animation(name, texture) {}
 
 
-	Drawable(std::string name, sf::Texture texture, size_t frame_count, size_t speed)
+	Drawable(std::string name, sf::Texture& texture, size_t frame_count, size_t speed)
 		: Animation(name, texture, frame_count, speed)
 	{
 	}
