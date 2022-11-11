@@ -45,3 +45,13 @@ auto Animation::get_sprite() -> sf::Sprite&
 {
 	return sprite_;
 }
+
+auto Animation::get_rotation() -> float
+{
+	return rotation_;
+}
+
+void Animation::set_rotation(float degree) 
+{
+	rotation_ = degree;
+}

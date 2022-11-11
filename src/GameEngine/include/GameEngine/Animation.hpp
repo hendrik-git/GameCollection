@@ -15,6 +15,8 @@ class Animation
 	auto get_name() -> std::string;
 	auto get_size() -> Vec2;
 	auto get_sprite() -> sf::Sprite&;
+	auto get_rotation() -> float;
+	void set_rotation(float degree);
 
   private:
 	sf::Sprite	sprite_;
@@ -22,5 +24,6 @@ class Animation
 	size_t		current_frame_ = 0;		  ///< current frame being displayed
 	size_t		speed_		   = 0;		  ///< speed to play this animation
 	Vec2		size_		   = {1, 1};  ///< how much the sprite is scaled
+	float		rotation_	   = 0.F;	  ///< how much the texture is rotated [degree]
 	std::string name_;
 };
