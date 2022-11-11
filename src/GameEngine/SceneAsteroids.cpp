@@ -39,9 +39,10 @@ void SceneAsteroids::spawn_entities()
 	{
 		auto bullet	   = entities_.add_entity("bullet");
 		auto mouse_pos = Vec2{mouse.x, mouse.y};
-		auto direction = direction_from_degree(player_->get_component<Transform>().angle);
+		auto angle	   = player_->get_component<Transform>().angle;
+		auto direction = direction_from_degree(angle);
 		// auto direction = calc_direction(pos, mouse_pos);
-		bullet->add_component<Transform>(pos, direction * 20);
+		bullet->add_component<Transform>(pos, direction * 25, angle + 90.F);
 
 		ShapeInit bullet_shape;
 		bullet_shape.radius	   = 4.F;
@@ -49,7 +50,8 @@ void SceneAsteroids::spawn_entities()
 		bullet_shape.outline   = sf::Color::Yellow;
 		bullet_shape.thickness = 1.F;
 		bullet->add_component<Shape>(bullet_shape);
-		bullet->add_component<Lifespan>(100);
+		bullet->add_component<Lifespan>(120);
+		bullet->add_component<Drawable>("Laser", game_->assets().get_texture("LaserShot"));
 
 		bullet_cooldown = 10;
 	}
@@ -214,7 +216,6 @@ void SceneAsteroids::collision()
 	// collision bullet <-> enemy
 	for(auto& bullet : entities_.get_entities("bullet"))
 	{
-		assert(bullet->get_component<Shape>().has && "Bullet has no shape component");
 		assert(bullet->get_component<Transform>().has && "Bullet has no tranform component");
 
 		for(auto& enemy : entities_.get_entities("enemy"))
@@ -284,27 +285,26 @@ void SceneAsteroids::render()
 		{
 			// assume every shape has also a transform component
 			assert(entity->get_component<Transform>().has && "Missing transform component");
-			//shape.update();
+			// shape.update();
 			auto  sprite = shape.get_sprite();
 			auto& transf = entity->get_component<Transform>();
 
 			sprite.setPosition({transf.pos.x, transf.pos.y});
-			sprite.setRotation(sf::degrees(transf.angle));
+			sprite.setRotation(sf::degrees(transf.angle + shape.get_rotation()));
 
 			window.draw(sprite);
 		}
-
 	}
 
-	//auto& ship_texture = game_->assets().get_texture("PlayerShip");
-	//auto  ship		   = sf::Sprite{ship_texture};
-	auto  transf	   = player_->get_component<Transform>();
+	// auto& ship_texture = game_->assets().get_texture("PlayerShip");
+	// auto  ship		   = sf::Sprite{ship_texture};
+	auto transf = player_->get_component<Transform>();
 
-	//ship.setOrigin((sf::Vector2f)ship_texture.getSize() / 2.f);
-	//ship.setPosition({transf.pos.x, transf.pos.y});
-	//ship.setRotation(sf::degrees(transf.angle + 90));
-	//ship.setColor(sf::Color{255, 255, 255, 50});
-	//window.draw(ship);
+	// ship.setOrigin((sf::Vector2f)ship_texture.getSize() / 2.f);
+	// ship.setPosition({transf.pos.x, transf.pos.y});
+	// ship.setRotation(sf::degrees(transf.angle + 90));
+	// ship.setColor(sf::Color{255, 255, 255, 50});
+	// window.draw(ship);
 
 	const auto view_size  = view.getSize();
 	const auto view_min_x = view_size.x / 2;
