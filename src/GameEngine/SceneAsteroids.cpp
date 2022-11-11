@@ -93,12 +93,13 @@ void SceneAsteroids::spawn_player()
 	player_shape.fill	   = sf::Color::Yellow;
 	player_shape.outline   = sf::Color::White;
 	player_shape.thickness = 4.F;
-	//player_->add_component<Shape>(player_shape);
+	// player_->add_component<Shape>(player_shape);
 	player_->add_component<Input>();
 	player_->add_component<Mouse>();
 
-	player_->add_component<Drawable>("PlayerShip", game_->assets().get_texture("PlayerShip"));
-	//auto draw = Drawable{"PlayerShip", game_->assets().get_texture("PlayerShip"), 1, 1};
+	auto& draw =
+		player_->add_component<Drawable>("PlayerShip", game_->assets().get_texture("PlayerShip"));
+	draw.set_rotation(90.F);
 }
 
 void SceneAsteroids::reduce_lifespan()
