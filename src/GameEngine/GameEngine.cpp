@@ -12,6 +12,16 @@ GameEngine::GameEngine(const fs::path config)
 	assets_.add_texture("Background", "../../data/Asteroids/Background.png");
 	assets_.add_texture("PlayerShip", "../../data/Asteroids/PlayerShip.png");
 	assets_.add_texture("LaserShot", "../../data/Asteroids/Laser.png");
+	assets_.add_texture("Meteor0", "../../data/Asteroids/Meteor0.png");
+	assets_.add_texture("Meteor1", "../../data/Asteroids/Meteor1.png");
+	assets_.add_texture("Meteor2", "../../data/Asteroids/Meteor2.png");
+	assets_.add_texture("Meteor3", "../../data/Asteroids/Meteor3.png");
+	assets_.add_texture("Meteor4", "../../data/Asteroids/Meteor4.png");
+	assets_.add_texture("Meteor5", "../../data/Asteroids/Meteor5.png");
+	assets_.add_texture("Meteor6", "../../data/Asteroids/Meteor6.png");
+	assets_.add_texture("Meteor7", "../../data/Asteroids/Meteor7.png");
+	assets_.add_texture("Meteor8", "../../data/Asteroids/Meteor8.png");
+	assets_.add_texture("Meteor9", "../../data/Asteroids/Meteor9.png");
 
 	init(config);
 
