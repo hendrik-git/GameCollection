@@ -10,23 +10,26 @@ namespace
 		return (to - from);
 	}
 
+	auto get_random_int(int from, int to)
+	{
+		static auto rd	  = std::random_device{};
+		static auto mtgen = std::mt19937{rd()};
+		auto		ud	  = std::uniform_int_distribution<>{from, to};
+		return ud(mtgen);
+	}
+
 	auto get_random_start_pos(int max_x, int max_y) -> Vec2
 	{
-		auto rd	   = std::random_device{};
-		auto mtgen = std::mt19937{rd()};
-		auto x_ud  = std::uniform_int_distribution<>{0, max_x};
-		auto y_ud  = std::uniform_int_distribution<>{0, max_y};
-		return {static_cast<float>(x_ud(mtgen)), static_cast<float>(y_ud(mtgen))};
+		return {static_cast<float>(get_random_int(0, max_x)),
+				static_cast<float>(get_random_int(0, max_y))};
 	}
 
 	auto get_random_dir() -> Vec2
 	{
-		auto rd	   = std::random_device{};
-		auto mtgen = std::mt19937{rd()};
-		auto ud	   = std::uniform_int_distribution<>{-100, 100};
-		return {Vec2{static_cast<float>(ud(mtgen)), static_cast<float>(ud(mtgen))}.normalize()};
+		return {Vec2{static_cast<float>(get_random_int(-100, 100)),
+					 static_cast<float>(get_random_int(-100, 100))}
+					.normalize()};
 	}
-
 }  // namespace
 
 void SceneAsteroids::spawn_entities()
