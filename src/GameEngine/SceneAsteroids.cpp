@@ -63,6 +63,8 @@ void SceneAsteroids::spawn_entities()
 	static auto enemy_cooldown{0};
 	if(enemy_cooldown == 0 && entities_.get_entities("enemy").size() <= 15)
 	{
+		const auto nr = get_random_int(0, 9);
+
 		Vec2 enemy_pos{0.F, 0.F};
 		do
 		{
@@ -74,16 +76,50 @@ void SceneAsteroids::spawn_entities()
 		auto dir   = get_random_dir();
 		enemy->add_component<Transform>(enemy_pos, dir * 3);
 
-		ShapeInit enemy_shape;
-		enemy_shape.radius	  = 40.F;
-		enemy_shape.points	  = 3;
-		enemy_shape.fill	  = sf::Color::Red;
-		enemy_shape.outline	  = sf::Color::White;
-		enemy_shape.thickness = 1.F;
-		enemy->add_component<Shape>(enemy_shape);
-		enemy_cooldown = 40;
 
-		enemy->add_component<Score>(10);
+		switch(nr)
+		{
+			default:
+				[[fallthrough]];
+			case 0:
+				[[fallthrough]];
+			case 1:
+				enemy->add_component<Score>(5);
+				enemy->add_component<Hitpoints>(1);
+				break;
+			case 2:
+				[[fallthrough]];
+			case 3:
+				enemy->add_component<Score>(10);
+				enemy->add_component<Hitpoints>(1);
+				break;
+			case 4:
+				[[fallthrough]];
+			case 5:
+				enemy->add_component<Score>(20);
+				enemy->add_component<Hitpoints>(2);
+				break;
+			case 6:
+				[[fallthrough]];
+			case 7:
+				enemy->add_component<Score>(20);
+				enemy->add_component<Hitpoints>(2);
+				break;
+			case 8:
+				[[fallthrough]];
+			case 9:
+				enemy->add_component<Score>(50);
+				enemy->add_component<Hitpoints>(5);
+				break;
+		}
+
+		auto& texture = game_->assets().get_texture("Meteor" + std::to_string(nr));
+		enemy->add_component<Drawable>("Meteor", texture);
+
+		ShapeInit enemy_shape;
+		enemy_shape.radius = static_cast<float>(texture.getSize().x) / 2.F;
+		enemy->add_component<Shape>(enemy_shape);
+		enemy_cooldown = 30;
 	}
 	enemy_cooldown = std::max(0, --enemy_cooldown);
 }
