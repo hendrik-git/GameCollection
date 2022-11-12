@@ -107,6 +107,15 @@ struct Mouse : public Component
 	float y	  = 0.F;
 };
 
+struct Hitpoints : public Component
+{
+	Hitpoints(int start_hp = 1) : max_hp(start_hp), current_hp(start_hp), invulnerable(false) {}
+
+	int	 max_hp;
+	int	 current_hp;
+	bool invulnerable;
+};
+
 
 using ComponentTuple =
-	std::tuple<Transform, Drawable, Shape, Collision, Score, Lifespan, Input, Mouse>;
+	std::tuple<Transform, Drawable, Shape, Collision, Score, Lifespan, Input, Mouse, Hitpoints>;
