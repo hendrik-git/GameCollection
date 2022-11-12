@@ -45,7 +45,7 @@ void SceneAsteroids::spawn_entities()
 		auto angle	   = player_->get_component<Transform>().angle;
 		auto direction = direction_from_degree(angle);
 		// auto direction = calc_direction(pos, mouse_pos);
-		bullet->add_component<Transform>(pos, direction * 25, angle + 90.F);
+		bullet->add_component<Transform>(pos + (direction * 20), direction * 25, angle + 90.F);
 
 		ShapeInit bullet_shape;
 		bullet_shape.radius	   = 4.F;
