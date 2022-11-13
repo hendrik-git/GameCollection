@@ -271,9 +271,19 @@ void SceneAsteroids::collision()
 
 			if(distance_sq <= radius_sq)
 			{
-				bullet->destroy();
-				enemy->destroy();
-				score_ += enemy->get_component<Score>().score;
+				auto& enemy_hp = enemy->get_component<Hitpoints>();
+				if(!enemy_hp.invulnerable) 
+				{
+					/// @todo damage component for bullet
+					enemy_hp.current_hp -= 1; 
+				}
+				
+				if(enemy_hp.current_hp <= 0) {
+					enemy->destroy();
+					score_ += enemy->get_component<Score>().score;
+				}
+
+				bullet->destroy();				
 			}
 		}
 	}
