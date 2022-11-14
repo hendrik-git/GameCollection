@@ -24,6 +24,7 @@ class GameEngine
 
 	auto window() -> sf::RenderWindow&;
 	auto assets() -> Assets&;
+	auto scenes() -> SceneMap&;
 	auto is_running() -> bool;
 
 

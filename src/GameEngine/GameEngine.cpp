@@ -1,4 +1,5 @@
 #include "GameEngine/SceneAsteroids.hpp"
+#include "GameEngine/SceneMainMenu.hpp"
 #include <GameEngine/GameEngine.hpp>
 #include <fmt/core.h>
 
@@ -25,7 +26,11 @@ GameEngine::GameEngine(const fs::path config)
 
 	init(config);
 
-	change_scene("Asteroids", std::make_shared<SceneAsteroids>(this));
+	scenes_["MainMenu"]	 = std::make_shared<SceneMainMenu>(this);
+	scenes_["Asteroids"] = std::make_shared<SceneAsteroids>(this);
+
+	change_scene("MainMenu", scenes_["MainMenu"]);
+	// change_scene("Asteroids",  scenes_["Asteroids"]);
 }
 
 void GameEngine::run()
@@ -63,6 +68,11 @@ auto GameEngine::window() -> sf::RenderWindow&
 auto GameEngine::assets() -> Assets&
 {
 	return assets_;
+}
+
+auto GameEngine::scenes() -> SceneMap&
+{
+	return scenes_;
 }
 
 auto GameEngine::is_running() -> bool
