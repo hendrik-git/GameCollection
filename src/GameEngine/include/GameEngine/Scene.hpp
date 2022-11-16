@@ -1,3 +1,10 @@
+/// @file Scene.hpp
+/// @brief ...
+/// @details ...
+/// @see ...
+/// @date 2022.11.16
+/// @author Hendrik Pöttker
+
 #pragma once
 #include "Action.hpp"
 #include "EntityManager.hpp"

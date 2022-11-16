@@ -1,3 +1,10 @@
+/// @file Utility.hpp
+/// @brief A collection of useful helper functions
+/// @details ...
+/// @see ...
+/// @date 2022.11.16
+/// @author Hendrik Pöttker
+
 #pragma once
 #include <SFML/Graphics.hpp>
 

@@ -1,3 +1,10 @@
+/// @file SceneMainMenu.hpp
+/// @brief ...
+/// @details ...
+/// @see ...
+/// @date 2022.11.16
+/// @author Hendrik Pöttker
+
 #pragma once
 #include "Scene.hpp"
 

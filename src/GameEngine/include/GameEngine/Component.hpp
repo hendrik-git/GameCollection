@@ -1,4 +1,9 @@
-/// @file Component
+/// @file Component.hpp
+/// @brief Defines the data holding components of entities
+/// @details Components inherit from a base class, that holds a value if the component is present
+/// @see Entity Component System
+/// @date 2022.11.16
+/// @author Hendrik Pöttker
 
 #pragma once
 #include <GameEngine/Animation.hpp>
@@ -6,11 +11,13 @@
 #include <SFML/Graphics.hpp>
 #include <tuple>
 
+/// @brief Base Component interface, determines if a component was added to an entity
 struct Component
 {
 	bool has = false;
 };
 
+/// @brief Holds data related to movement, position and angle
 struct Transform : public Component
 {
 	Transform(Vec2 pos = {0.f, 0.f}, Vec2 vel = {0.f, 0.f}, float angle = 0.f)
@@ -34,6 +41,7 @@ struct ShapeInit
 	float	  thickness = 2.F;
 };
 
+/// @brief Initial component for visualization, superceeded by Drawable
 struct Shape : public Component
 {
 	Shape(ShapeInit init = ShapeInit{})
@@ -53,6 +61,10 @@ struct Shape : public Component
 	sf::CircleShape circle;
 };
 
+/// @brief Holds data related to animation and texture
+/// @details This component slightly violates the ECS pattern, by having utility functions inside a
+/// class, that is supposed to hold data only. However the advantage of this deviation is, that
+/// common functionality pertaining to animations does not have to be reimplemented for each scene.
 struct Drawable
 	: public Component
 	, public Animation
@@ -68,6 +80,7 @@ struct Drawable
 	}
 };
 
+/// @brief Holds the shape, that is used to check for collisions with another entity.
 struct Collision : public Component
 {
 	Collision(float radius = 0.f) : radius(radius) {}
@@ -75,6 +88,7 @@ struct Collision : public Component
 	float radius;
 };
 
+/// @brief Holds an amount of value attributed to this entity.
 struct Score : public Component
 {
 	Score(int score = 0) : score(score) {}
@@ -82,6 +96,7 @@ struct Score : public Component
 	int score;
 };
 
+/// @brief Shows certain doom aproaching
 struct Lifespan : public Component
 {
 	Lifespan(int total = 0) : remaining(total), total(total) {}
@@ -90,6 +105,7 @@ struct Lifespan : public Component
 	int total;
 };
 
+/// @brief This component indicates the entity may use key press input
 struct Input : public Component
 {
 	bool up	   = false;
@@ -99,6 +115,7 @@ struct Input : public Component
 	bool space = false;
 };
 
+/// @brief This component indicates the entity may use mouse input
 struct Mouse : public Component
 {
 	bool  lmb = false;
@@ -107,6 +124,7 @@ struct Mouse : public Component
 	float y	  = 0.F;
 };
 
+/// @brief Holds the amount of damage an entity can withstand
 struct Hitpoints : public Component
 {
 	Hitpoints(int start_hp = 1) : max_hp(start_hp), current_hp(start_hp), invulnerable(false) {}
@@ -116,6 +134,6 @@ struct Hitpoints : public Component
 	bool invulnerable;
 };
 
-
+/// @brief Hold all components in one container
 using ComponentTuple =
 	std::tuple<Transform, Drawable, Shape, Collision, Score, Lifespan, Input, Mouse, Hitpoints>;

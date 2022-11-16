@@ -1,4 +1,9 @@
-/// @file vec2
+/// @file Vec2.hpp
+/// @brief Defines a class representing a two dimensional vector
+/// @details ...
+/// @see ...
+/// @date 2022.11.16
+/// @author Hendrik Pöttker
 
 #pragma once
 #include <cmath>
