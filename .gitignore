@@ -2,6 +2,7 @@
 bin
 build
 lib
+docs/html
 
 # Compiled Object files
 *.slo
