@@ -188,5 +188,16 @@ include(graphviz)
 include(cmake-format)
 include(cmake-lint)
 
+# https://cmake.org/cmake/help/v3.9/module/FindDoxygen.html
+find_package(Doxygen REQUIRED dot OPTIONAL_COMPONENTS mscgen dia)
+set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/docs)
+set(DOXYGEN_GENERATE_HTML YES)
+doxygen_add_docs(
+    doxygen
+    ${CMAKE_SOURCE_DIR}/src
+    COMMENT "Create HTML documentation"
+)
+set_target_properties(doxygen PROPERTIES FOLDER Tools)
+
 # set the active project to the executable in Visual Studio
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT GameCollectionApp)
