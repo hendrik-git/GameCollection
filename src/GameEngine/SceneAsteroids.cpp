@@ -300,7 +300,6 @@ void SceneAsteroids::update()
 		movement();
 		collision();
 	}
-	render();
 	current_frame_++;
 }
 

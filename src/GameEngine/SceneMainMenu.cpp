@@ -19,7 +19,6 @@ void SceneMainMenu::init()
 void SceneMainMenu::update()
 {
 	entities_.update();
-	render();
 	current_frame_++;
 }
 

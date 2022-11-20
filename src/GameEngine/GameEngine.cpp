@@ -1,8 +1,8 @@
 #include "GameEngine/SceneAsteroids.hpp"
 #include "GameEngine/SceneMainMenu.hpp"
 #include <GameEngine/GameEngine.hpp>
+#include <chrono>
 #include <fmt/core.h>
-
 
 #pragma region public functions
 
@@ -29,16 +29,33 @@ GameEngine::GameEngine(const fs::path config)
 	scenes_["MainMenu"]	 = std::make_shared<SceneMainMenu>(this);
 	scenes_["Asteroids"] = std::make_shared<SceneAsteroids>(this);
 
-	change_scene("MainMenu", scenes_["MainMenu"]);
-	// change_scene("Asteroids",  scenes_["Asteroids"]);
+	// change_scene("MainMenu", scenes_["MainMenu"]);
+	change_scene("Asteroids", scenes_["Asteroids"]);
 }
 
 void GameEngine::run()
 {
+	using namespace std::chrono;
 	while(running_)
 	{
+		// calculate how long the last frame took
+		static auto lag{0.F};
+		static auto current{steady_clock::now()};
+		static auto previous{current};
+
+		current = steady_clock::now();
+		lag += duration_cast<microseconds>(current - previous).count();
+		previous = current;
+
+
 		user_input();
-		scenes_[current_scene_]->update();
+
+		while(lag >= frame_time_)
+		{
+			scenes_[current_scene_]->update();
+			lag -= frame_time_;
+		}
+		scenes_[current_scene_]->render();
 	}
 }
 
@@ -88,7 +105,7 @@ void GameEngine::init(const fs::path config)
 
 	// set up window default parameters
 	window_.create(sf::VideoMode({1200, 800}), "GameCollection");
-	window_.setFramerateLimit(60);
+	// window_.setFramerateLimit(60); // replaced by own implementation
 }
 
 void GameEngine::update() {}

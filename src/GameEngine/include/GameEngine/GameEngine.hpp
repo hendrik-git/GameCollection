@@ -39,11 +39,13 @@ class GameEngine
 	void user_input();
 	auto current_scene() -> ScenePtr;
 
-
 	Assets			 assets_;
-	SceneMap		 scenes_;
 	sf::RenderWindow window_;
-	size_t			 sim_speed_ = 1;
+	SceneMap		 scenes_;
 	std::string		 current_scene_;
-	bool			 running_ = true;
+	size_t			 sim_speed_	 = 1;
+	bool			 running_	 = true;
+	long long		 frame_time_ = 10 * 1'000;  ///< in microseconds
+
+	// frame time of 10 ms equals a refresh rate of 100 Hz
 };
