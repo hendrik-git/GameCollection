@@ -3,7 +3,7 @@
 /// @details ...
 /// @see ...
 /// @date 2022.11.16
-/// @author Hendrik Pöttker
+/// @author Hendrik Poettker
 
 #pragma once
 #include "Component.hpp"

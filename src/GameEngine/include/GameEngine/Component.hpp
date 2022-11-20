@@ -3,7 +3,7 @@
 /// @details Components inherit from a base class, that holds a value if the component is present
 /// @see Entity Component System
 /// @date 2022.11.16
-/// @author Hendrik Pöttker
+/// @author Hendrik Poettker
 
 #pragma once
 #include <GameEngine/Animation.hpp>
