@@ -34,7 +34,7 @@ include(macros)
 # flags globally will also cause them to be used for dependencies. This may result in the
 # dependencies breaking the build with warnings (with /WX or -Werror)
 if(MSVC)
-    set(ADDITIONAL_COMPILER_FLAGS /MP /utf-8 /fastfail /W4 /WX)
+    set(ADDITIONAL_COMPILER_FLAGS /MP /fastfail /W4 /WX) # /utf-8 
 else()
     set(ADDITIONAL_COMPILER_FLAGS -Werror -Wall)
 endif()
@@ -187,17 +187,7 @@ endif()
 include(graphviz)
 include(cmake-format)
 include(cmake-lint)
-
-# https://cmake.org/cmake/help/v3.9/module/FindDoxygen.html
-find_package(Doxygen REQUIRED dot OPTIONAL_COMPONENTS mscgen dia)
-set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/docs)
-set(DOXYGEN_GENERATE_HTML YES)
-doxygen_add_docs(
-    doxygen
-    ${CMAKE_SOURCE_DIR}/src
-    COMMENT "Create HTML documentation"
-)
-set_target_properties(doxygen PROPERTIES FOLDER Tools)
+include(documentation)
 
 # set the active project to the executable in Visual Studio
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT GameCollectionApp)
