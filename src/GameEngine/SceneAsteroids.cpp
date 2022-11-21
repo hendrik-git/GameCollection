@@ -74,7 +74,7 @@ void SceneAsteroids::spawn_entities()
 
 		auto enemy = entities_.add_entity("enemy");
 		auto dir   = get_random_dir();
-		enemy->add_component<Transform>(enemy_pos, dir * 3);
+		enemy->add_component<Transform>(enemy_pos, dir * 2.F);
 
 
 		switch(nr)
@@ -163,19 +163,19 @@ void SceneAsteroids::movement()
 
 	if(player_->get_component<Input>().up)
 	{
-		player_pos += direction_from_degree(player_angle) * 5.F;
+		player_pos += direction_from_degree(player_angle) * 4.F;
 	}
 	if(player_->get_component<Input>().down)
 	{
-		player_pos -= direction_from_degree(player_angle) * 5.F;
+		player_pos -= direction_from_degree(player_angle) * 4.F;
 	}
 	if(player_->get_component<Input>().right)
 	{
-		player_angle += 5.F;
+		player_angle += 3.F;
 	}
 	if(player_->get_component<Input>().left)
 	{
-		player_angle -= 5.F;
+		player_angle -= 3.F;
 	}
 
 	auto x_min = 0.F;
@@ -272,18 +272,19 @@ void SceneAsteroids::collision()
 			if(distance_sq <= radius_sq)
 			{
 				auto& enemy_hp = enemy->get_component<Hitpoints>();
-				if(!enemy_hp.invulnerable) 
+				if(!enemy_hp.invulnerable)
 				{
 					/// @todo damage component for bullet
-					enemy_hp.current_hp -= 1; 
+					enemy_hp.current_hp -= 1;
 				}
-				
-				if(enemy_hp.current_hp <= 0) {
+
+				if(enemy_hp.current_hp <= 0)
+				{
 					enemy->destroy();
 					score_ += enemy->get_component<Score>().score;
 				}
 
-				bullet->destroy();				
+				bullet->destroy();
 			}
 		}
 	}
