@@ -308,12 +308,27 @@ void SceneAsteroids::render()
 {
 	auto& window = game_->window();
 	auto  view	 = window.getDefaultView();
+
+	// from now on, fill the blank canvas
 	window.clear();
 
-	// draw background
+	// firstly set up the view on the players spaceship
+	auto	   player_transf = player_->get_component<Transform>();
+	const auto view_size	 = view.getSize();
+	const auto view_min_x	 = view_size.x / 2;
+	const auto view_min_y	 = view_size.y / 2;
+	const auto view_max_x	 = world_size_.x - view_min_x;
+	const auto view_max_y	 = world_size_.y - view_min_y;
+
+	auto view_point = sf::Vector2f{std::clamp(player_transf.pos.x, view_min_x, view_max_x),
+								   std::clamp(player_transf.pos.y, view_min_y, view_max_y)};
+	view.setCenter(view_point);
+	window.setView(view);
+
+	// next draw the background (bottom layer)
 	window.draw(background_);
 
-	// draw game entities
+	// then fill the vastness of space with entities (space ship, lasers, asteroids..)
 	for(auto& entity : entities_.get_entities())
 	{
 		if(auto& shape = entity->get_component<Shape>(); shape.has)
@@ -345,26 +360,6 @@ void SceneAsteroids::render()
 		}
 	}
 
-	// auto& ship_texture = game_->assets().get_texture("PlayerShip");
-	// auto  ship		   = sf::Sprite{ship_texture};
-	auto transf = player_->get_component<Transform>();
-
-	// ship.setOrigin((sf::Vector2f)ship_texture.getSize() / 2.f);
-	// ship.setPosition({transf.pos.x, transf.pos.y});
-	// ship.setRotation(sf::degrees(transf.angle + 90));
-	// ship.setColor(sf::Color{255, 255, 255, 50});
-	// window.draw(ship);
-
-	const auto view_size  = view.getSize();
-	const auto view_min_x = view_size.x / 2;
-	const auto view_min_y = view_size.y / 2;
-	const auto view_max_x = world_size_.x - view_min_x;
-	const auto view_max_y = world_size_.y - view_min_y;
-
-	auto view_point = sf::Vector2f{std::clamp(transf.pos.x, view_min_x, view_max_x),
-								   std::clamp(transf.pos.y, view_min_y, view_max_y)};
-	view.setCenter(view_point);
-
 	// draw HUD elements on top
 	sf::Text text;
 	text.setFont(game_->assets().get_font("Gidole"));
@@ -375,8 +370,7 @@ void SceneAsteroids::render()
 	text.setPosition(window.mapPixelToCoords({10, 10}, view));
 	window.draw(text);
 
-
-	window.setView(view);
+	// finally display all rendered content
 	window.display();
 }
 
