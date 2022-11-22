@@ -237,6 +237,8 @@ void SceneAsteroids::init()
 	register_action(sf::Keyboard::Down, "Down");
 	register_action(sf::Keyboard::Right, "Right");
 	register_action(sf::Keyboard::P, "Pause");
+	register_action(sf::Keyboard::G, "ToggleSprites");
+	register_action(sf::Keyboard::H, "ToggleHitboxes");
 	register_action(sf::Keyboard::Space, "Shoot");
 	register_action(sf::Keyboard::Escape, "Quit");
 
@@ -313,7 +315,7 @@ void SceneAsteroids::render()
 	window.clear();
 
 	// firstly set up the view on the players spaceship
-	auto	   player_transf = player_->get_component<Transform>();
+	const auto player_transf = player_->get_component<Transform>();
 	const auto view_size	 = view.getSize();
 	const auto view_min_x	 = view_size.x / 2;
 	const auto view_min_y	 = view_size.y / 2;
@@ -331,7 +333,7 @@ void SceneAsteroids::render()
 	// then fill the vastness of space with entities (space ship, lasers, asteroids..)
 	for(auto& entity : entities_.get_entities())
 	{
-		if(auto& shape = entity->get_component<Shape>(); shape.has)
+		if(auto& shape = entity->get_component<Shape>(); shape.has && draw_hitboxes_)
 		{
 			// assume every shape has also a transform component
 			assert(entity->get_component<Transform>().has && "Missing transform component");
@@ -345,7 +347,7 @@ void SceneAsteroids::render()
 			window.draw(shape.circle);
 		}
 
-		if(auto& shape = entity->get_component<Drawable>(); shape.has)
+		if(auto& shape = entity->get_component<Drawable>(); shape.has && draw_sprites_)
 		{
 			// assume every shape has also a transform component
 			assert(entity->get_component<Transform>().has && "Missing transform component");
@@ -405,6 +407,14 @@ void SceneAsteroids::do_action(const Action& action)
 		if(action.name() == "Quit")
 		{
 			game_->quit();
+		}
+		if(action.name() == "ToggleSprites")
+		{
+			draw_sprites_ = !draw_sprites_;
+		}
+		if(action.name() == "ToggleHitboxes")
+		{
+			draw_hitboxes_ = !draw_hitboxes_;
 		}
 	}
 	else if(action.type() == "End")

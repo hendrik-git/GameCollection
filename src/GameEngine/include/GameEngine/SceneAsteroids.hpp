@@ -31,6 +31,8 @@ class SceneAsteroids : public Scene
 
 	sf::Text   text_;
 	sf::Sprite background_;
-	int		   score_	   = 0;
-	Vec2	   world_size_ = {2000, 2000};
+	int		   score_		  = 0;
+	Vec2	   world_size_	  = {2000, 2000};
+	bool	   draw_hitboxes_ = false;
+	bool	   draw_sprites_  = true;
 };
