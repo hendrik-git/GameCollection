@@ -24,7 +24,7 @@ namespace Utility
 		for(size_t i = 0; i < string.length(); ++i)
 		{
 			uint32_t character = string[i];
-			auto	 glyph	   = font->getGlyph(character, charSize, bold);
+			auto&	 glyph	   = font->getGlyph(character, charSize, bold);
 			auto	 height	   = glyph.bounds.height;
 			if(height <= max)
 			{
@@ -43,4 +43,4 @@ namespace Utility
 		auto center_h = rect.top + (max_h >= rect.height ? max_h * 0.5f : rect.height * 0.5f);
 		text.setOrigin({center_v, center_h});
 	}
-}  // namespace Util
+}  // namespace Utility
