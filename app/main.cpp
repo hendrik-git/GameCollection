@@ -1,11 +1,11 @@
-#include <CLI/App.hpp>
-#include <CLI/Config.hpp>
-#include <CLI/Formatter.hpp>
+#include <CLI/App.hpp>		  // NOLINT
+#include <CLI/Config.hpp>	  // NOLINT
+#include <CLI/Formatter.hpp>  // NOLINT
 #include <GameEngine/GameEngine.hpp>
 
 using namespace std::string_literals;
 
-int main(int argc, char** argv)
+auto main(int argc, char** argv) -> int
 {
 	//!---------------------------------------------------------------------------------------------
 	//! Parse command line arguments
@@ -19,8 +19,8 @@ int main(int argc, char** argv)
 	app.add_option("-g,--game", gameSelect, "Which game to load");
 	app.add_option("-f,--file", inputFile, "Settings file to load");
 
-	[[maybe_unused]] auto list = app.add_flag("-l,--list", "List all available games");
-	[[maybe_unused]] auto quit = app.add_flag("-q,--quit", "Immediately exit program");
+	[[maybe_unused]] auto* list = app.add_flag("-l,--list", "List all available games");
+	[[maybe_unused]] auto* quit = app.add_flag("-q,--quit", "Immediately exit program");
 
 	CLI11_PARSE(app, argc, argv);
 
