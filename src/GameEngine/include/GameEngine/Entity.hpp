@@ -76,7 +76,7 @@ class Entity
 	Entity(std::string_view tag, size_t id) : tag_(tag), id_(id) {}
 	friend class EntityManager;
 
-	const size_t		   id_	  = 0;
 	const std::string_view tag_	  = "default";
+	const size_t		   id_	  = 0;
 	bool				   alive_ = true;
 };

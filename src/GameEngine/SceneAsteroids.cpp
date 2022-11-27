@@ -315,12 +315,12 @@ void SceneAsteroids::render()
 	window.clear();
 
 	// firstly set up the view on the players spaceship
-	const auto player_transf = player_->get_component<Transform>();
-	const auto view_size	 = view.getSize();
-	const auto view_min_x	 = view_size.x / 2;
-	const auto view_min_y	 = view_size.y / 2;
-	const auto view_max_x	 = world_size_.x - view_min_x;
-	const auto view_max_y	 = world_size_.y - view_min_y;
+	const auto& player_transf = player_->get_component<Transform>();
+	const auto	view_size	  = view.getSize();
+	const auto	view_min_x	  = view_size.x / 2;
+	const auto	view_min_y	  = view_size.y / 2;
+	const auto	view_max_x	  = world_size_.x - view_min_x;
+	const auto	view_max_y	  = world_size_.y - view_min_y;
 
 	auto view_point = sf::Vector2f{std::clamp(player_transf.pos.x, view_min_x, view_max_x),
 								   std::clamp(player_transf.pos.y, view_min_y, view_max_y)};
