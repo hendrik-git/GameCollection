@@ -1,5 +1,6 @@
 #include "GameEngine/Asset.hpp"
 #include <cassert>
+#include <iostream>
 
 namespace fs = std::filesystem;
 
@@ -10,7 +11,8 @@ void Assets::add_font(std::string name, fs::path path)
 	sf::Font font;
 	if(!font.loadFromFile(path))
 	{
-		throw std::exception("Failed to load font");
+		std::string error_msg{"Failed to load font " + name};
+		throw std::exception(error_msg.c_str());
 	}
 
 	fonts_[name] = font;
@@ -26,10 +28,21 @@ void Assets::add_texture(std::string name, fs::path path)
 	sf::Texture texture;
 	if(!texture.loadFromFile(path))
 	{
-		throw std::exception("Failed to load font");
+		std::string error_msg{"Failed to load texture " + name};
+		throw std::exception(error_msg.c_str());
 	}
 
 	textures_[name] = texture;
+}
+
+void Assets::add_shader(std::string name, std::filesystem::path path, sf::Shader::Type type)
+{
+	auto& shader = shader_[name];
+	if(!shader.loadFromFile(path, type))
+	{
+		std::string error_msg{"Failed to load shader " + name};
+		throw std::exception(error_msg.c_str());
+	}
 }
 
 // void Assets::add_sound(std::string name, fs::path path)
@@ -56,6 +69,11 @@ auto Assets::get_texture(std::string name) -> sf::Texture&
 {
 	assert(textures_.find(name) != textures_.end() && "Requested texture not available");
 	return textures_[name];
+}
+auto Assets::get_shader(std::string name) -> sf::Shader&
+{
+	assert(shader_.find(name) != shader_.end() && "Requested shader not available");
+	return shader_[name];
 }
 
 // auto Assets::get_sound(std::string name) -> sf::SoundBuffer&
