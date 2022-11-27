@@ -2,11 +2,14 @@
 #include <CLI/Config.hpp>	  // NOLINT
 #include <CLI/Formatter.hpp>  // NOLINT
 #include <GameEngine/GameEngine.hpp>
+#include <CodeHelpers/Profiler.hpp>
 
 using namespace std::string_literals;
 
 auto main(int argc, char** argv) -> int
 {
+	PROFILE_FUNC();
+
 	//!---------------------------------------------------------------------------------------------
 	//! Parse command line arguments
 	//!---------------------------------------------------------------------------------------------
@@ -30,6 +33,7 @@ auto main(int argc, char** argv) -> int
 	// --------------------------------------------------------------------------------------------
 	if(!quit->as<bool>())
 	{
+		PROFILE_SCOPE("start");
 		try
 		{
 			GameEngine engine{std::filesystem::path{inputFile}};
