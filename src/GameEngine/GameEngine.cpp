@@ -24,6 +24,12 @@ GameEngine::GameEngine(const fs::path config)
 	assets_.add_texture("Meteor8", "../../data/Asteroids/Meteor8.png");
 	assets_.add_texture("Meteor9", "../../data/Asteroids/Meteor9.png");
 
+	assets_.add_shader("billboard", "../../data/shader/billboard.frag");
+	assets_.add_shader("blink", "../../data/shader/blink.frag");
+	assets_.add_shader("blur", "../../data/shader/blur.frag");
+	assets_.add_shader("edge", "../../data/shader/edge.frag");
+	assets_.add_shader("pixelate", "../../data/shader/pixelate.frag");
+
 	init(config);
 
 	scenes_["MainMenu"]	 = std::make_shared<SceneMainMenu>(this);
