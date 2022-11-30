@@ -1,5 +1,6 @@
 #include "GameEngine/SceneAsteroids.hpp"
 #include "GameEngine/SceneMainMenu.hpp"
+#include "GameEngine/SceneShaderGallery.hpp"
 #include <GameEngine/GameEngine.hpp>
 #include <chrono>
 #include <filesystem>
@@ -51,11 +52,13 @@ GameEngine::GameEngine(const fs::path config)
 
 	init(config);
 
-	scenes_["MainMenu"]	 = std::make_shared<SceneMainMenu>(this);
-	scenes_["Asteroids"] = std::make_shared<SceneAsteroids>(this);
+	scenes_["MainMenu"]		 = std::make_shared<SceneMainMenu>(this);
+	scenes_["Asteroids"]	 = std::make_shared<SceneAsteroids>(this);
+	scenes_["ShaderGallery"] = std::make_shared<SceneShaderGallery>(this);
 
 	// change_scene("MainMenu", scenes_["MainMenu"]);
 	change_scene("Asteroids", scenes_["Asteroids"]);
+	// change_scene("ShaderGallery", scenes_["ShaderGallery"]);
 }
 
 void GameEngine::run()
