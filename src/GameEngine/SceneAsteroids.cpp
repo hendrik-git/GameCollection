@@ -54,7 +54,7 @@ void SceneAsteroids::spawn_entities()
 		bullet_shape.thickness = 1.F;
 		bullet->add_component<Shape>(bullet_shape);
 		bullet->add_component<Lifespan>(120);
-		bullet->add_component<Drawable>("Laser", game_->assets().get_texture("LaserShot"));
+		bullet->add_component<Drawable>("Laser", game_->assets().get_texture("Laser"));
 
 		bullet_cooldown = 10;
 	}
@@ -357,7 +357,6 @@ void SceneAsteroids::render()
 
 			sprite.setPosition({transf.pos.x, transf.pos.y});
 			sprite.setRotation(sf::degrees(transf.angle + shape.get_rotation()));
-
 			window.draw(sprite);
 		}
 	}
