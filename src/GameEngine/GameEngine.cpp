@@ -2,7 +2,33 @@
 #include "GameEngine/SceneMainMenu.hpp"
 #include <GameEngine/GameEngine.hpp>
 #include <chrono>
+#include <filesystem>
 #include <fmt/core.h>
+#include <functional>
+
+namespace
+{
+	struct FileData
+	{
+		std::string filepath;
+		std::string filename;
+	};
+
+	/// @todo Automate reading all assets in a given directory
+	auto find_in_directory(std::filesystem::path path) -> std::vector<FileData>
+	{
+		std::vector<FileData> results;
+		for(const auto& entry : std::filesystem::directory_iterator(path))
+		{
+			if(entry.is_regular_file())
+			{
+				results.push_back(FileData{entry.path().string(), entry.path().stem().string()});
+			}
+		}
+		return results;
+	}
+}  // namespace
+
 
 #pragma region public functions
 
@@ -10,25 +36,18 @@ GameEngine::GameEngine(const fs::path config)
 {
 	// Load necessary data
 	assets_.add_font("Gidole", "../../data/fonts/Gidole.ttf");
-	assets_.add_texture("Background", "../../data/Asteroids/Background.png");
-	assets_.add_texture("PlayerShip", "../../data/Asteroids/PlayerShip.png");
-	assets_.add_texture("LaserShot", "../../data/Asteroids/Laser.png");
-	assets_.add_texture("Meteor0", "../../data/Asteroids/Meteor0.png");
-	assets_.add_texture("Meteor1", "../../data/Asteroids/Meteor1.png");
-	assets_.add_texture("Meteor2", "../../data/Asteroids/Meteor2.png");
-	assets_.add_texture("Meteor3", "../../data/Asteroids/Meteor3.png");
-	assets_.add_texture("Meteor4", "../../data/Asteroids/Meteor4.png");
-	assets_.add_texture("Meteor5", "../../data/Asteroids/Meteor5.png");
-	assets_.add_texture("Meteor6", "../../data/Asteroids/Meteor6.png");
-	assets_.add_texture("Meteor7", "../../data/Asteroids/Meteor7.png");
-	assets_.add_texture("Meteor8", "../../data/Asteroids/Meteor8.png");
-	assets_.add_texture("Meteor9", "../../data/Asteroids/Meteor9.png");
 
-	assets_.add_shader("billboard", "../../data/shader/billboard.frag");
-	assets_.add_shader("blink", "../../data/shader/blink.frag");
-	assets_.add_shader("blur", "../../data/shader/blur.frag");
-	assets_.add_shader("edge", "../../data/shader/edge.frag");
-	assets_.add_shader("pixelate", "../../data/shader/pixelate.frag");
+	for(auto& texture : find_in_directory("../../data/Asteroids"))
+	{
+		std::cout << "Loading: " << texture.filename << std::endl;
+		assets_.add_texture(texture.filename, texture.filepath);
+	}
+
+	for(auto& shader : find_in_directory("../../data/shader"))
+	{
+		std::cout << "Loading: " << shader.filename << std::endl;
+		assets_.add_shader(shader.filename, shader.filepath);
+	}
 
 	init(config);
 
