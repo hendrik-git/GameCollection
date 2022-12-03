@@ -37,7 +37,7 @@ void Assets::add_texture(std::string name, fs::path path)
 
 void Assets::add_shader(std::string name, std::filesystem::path path, sf::Shader::Type type)
 {
-	auto& shader = shader_[name];
+	auto& shader = shaders_[name];
 	if(!shader.loadFromFile(path, type))
 	{
 		std::string error_msg{"Failed to load shader " + name};
@@ -72,8 +72,8 @@ auto Assets::get_texture(std::string name) -> sf::Texture&
 }
 auto Assets::get_shader(std::string name) -> sf::Shader&
 {
-	assert(shader_.find(name) != shader_.end() && "Requested shader not available");
-	return shader_[name];
+	assert(shaders_.find(name) != shaders_.end() && "Requested shader not available");
+	return shaders_[name];
 }
 
 // auto Assets::get_sound(std::string name) -> sf::SoundBuffer&

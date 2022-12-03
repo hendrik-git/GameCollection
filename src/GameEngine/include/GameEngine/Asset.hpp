@@ -36,8 +36,7 @@ class Assets
   private:
 	std::map<std::string, sf::Font>	   fonts_;
 	std::map<std::string, sf::Texture> textures_;
-	std::map<std::string, sf::Shader>  shader_;
+	std::map<std::string, sf::Shader>  shaders_;
 	// std::map<std::string, sf::SoundBuffer> sounds_;
-
 	// std::map<std::string, Animation> animations_;
 };
