@@ -33,6 +33,15 @@ class Assets
 	// void add_animation();
 	// [[nodiscard]] auto get_animation() -> Animation&;
 
+	/// @brief Returns a vector of names (keys) for the stored shaders
+	[[nodiscard]] auto get_shader_names() const -> const std::vector<std::string>;
+
+	/// @brief Returns a vector of names (keys) for the stored fonts
+	[[nodiscard]] auto get_font_names() const -> const std::vector<std::string>;
+
+	/// @brief Returns a vector of names (keys) for the stored textures
+	[[nodiscard]] auto get_texture_names() const -> const std::vector<std::string>;
+
   private:
 	std::map<std::string, sf::Font>	   fonts_;
 	std::map<std::string, sf::Texture> textures_;

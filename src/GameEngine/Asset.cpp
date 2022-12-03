@@ -81,3 +81,36 @@ auto Assets::get_shader(std::string name) -> sf::Shader&
 //	assert(sounds_.find(name) != sounds_.end() && "Requested sound not available");
 //	return sounds_[name];
 //}
+
+
+namespace
+{
+	template<typename T>
+	auto get_names_from(const std::map<std::string, T>& map) -> const std::vector<std::string>
+	{
+		std::vector<std::string> result;
+		result.reserve(map.size());
+
+		for(auto& [key, val] : map)
+		{
+			result.push_back(key);
+		}
+		return result;
+	}
+}  // namespace
+
+
+auto Assets::get_shader_names() const -> const std::vector<std::string>
+{
+	return get_names_from(shaders_);
+}
+
+auto Assets::get_font_names() const -> const std::vector<std::string>
+{
+	return get_names_from(fonts_);
+}
+
+auto Assets::get_texture_names() const -> const std::vector<std::string>
+{
+	return get_names_from(textures_);
+}
