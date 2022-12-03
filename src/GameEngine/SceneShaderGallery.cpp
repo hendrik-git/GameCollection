@@ -37,8 +37,8 @@ void SceneShaderGallery::init()
 	register_action(sf::Keyboard::Left, "Prev");
 	register_action(sf::Keyboard::Down, "Next");
 	register_action(sf::Keyboard::Right, "Next");
-	register_action(sf::Keyboard::Space, "Select");
-	register_action(sf::Keyboard::Enter, "Select");
+	// register_action(sf::Keyboard::Space, "Select");
+	// register_action(sf::Keyboard::Enter, "Select");
 	register_action(sf::Keyboard::Escape, "Quit");
 
 	spawn_player();
@@ -98,7 +98,32 @@ void SceneShaderGallery::render()
 
 void SceneShaderGallery::do_action([[maybe_unused]] const Action& action)
 {
+	auto print_current_shader_name = [&]()
+	{
+		if(const auto names = game_->assets().get_shader_names(); !names.empty())
+		{
+			selection_ = selection_ % names.size();
+			std::cout << "Selected shader: " << names[selection_] << std::endl;
+		}
+	};
 
+	if(action.type() == "Start")
+	{
+		if(action.name() == "Prev")
+		{
+			selection_--;
+			print_current_shader_name();
+		}
+		if(action.name() == "Next")
+		{
+			selection_++;
+			print_current_shader_name();
+		}
+		if(action.name() == "Quit")
+		{
+			game_->quit();
+		}
+	}
 }
 
 void SceneShaderGallery::on_end() {}
