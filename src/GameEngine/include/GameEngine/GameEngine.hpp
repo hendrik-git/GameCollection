@@ -27,7 +27,7 @@ struct EngineInitializer
 class GameEngine
 {
   public:
-	GameEngine(const fs::path config);
+	GameEngine(const EngineInitializer& ini, const fs::path& config);
 
 	void run();
 	void quit();

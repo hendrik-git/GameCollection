@@ -33,20 +33,22 @@ namespace
 
 #pragma region public functions
 
-GameEngine::GameEngine(const fs::path config)
+GameEngine::GameEngine(const EngineInitializer& ini, const fs::path& config)
 {
 	// Load necessary data
 	assets_.add_font("Gidole", "../../data/fonts/Gidole.ttf");
 
+	std::cout << "Loading textures\n";
 	for(auto& texture : find_in_directory("../../data/Asteroids"))
 	{
-		std::cout << "Loading: " << texture.filename << std::endl;
+		std::cout << "-- " << texture.filename << std::endl;
 		assets_.add_texture(texture.filename, texture.filepath);
 	}
 
+	std::cout << "Loading shaders\n";
 	for(auto& shader : find_in_directory("../../data/shader"))
 	{
-		std::cout << "Loading: " << shader.filename << std::endl;
+		std::cout << "-- " << shader.filename << std::endl;
 		assets_.add_shader(shader.filename, shader.filepath);
 	}
 
@@ -56,9 +58,14 @@ GameEngine::GameEngine(const fs::path config)
 	scenes_["Asteroids"]	 = std::make_shared<SceneAsteroids>(this);
 	scenes_["ShaderGallery"] = std::make_shared<SceneShaderGallery>(this);
 
-	// change_scene("MainMenu", scenes_["MainMenu"]);
-	change_scene("Asteroids", scenes_["Asteroids"]);
-	// change_scene("ShaderGallery", scenes_["ShaderGallery"]);
+	if(const auto& scene = ini.initial_scene.value_or("MainMenu"); !scenes_.contains(scene))
+	{
+		std::string error_msg{"Can not load specified scene: " + scene};
+		throw(std::exception{error_msg.c_str()});
+	}
+
+	change_scene(ini.initial_scene.value_or("MainMenu"),
+				 scenes_[ini.initial_scene.value_or("MainMenu")]);
 }
 
 void GameEngine::run()
