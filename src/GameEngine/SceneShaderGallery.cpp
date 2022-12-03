@@ -22,6 +22,30 @@ void SceneShaderGallery::update()
 	current_frame_++;
 }
 
+namespace
+{
+	void draw_text(GameEngine*		   game_,
+				   const std::string&  text,
+				   const sf::Vector2f& pos,
+				   const int		   size = 24,
+				   bool				   bold = false)
+	{
+		auto&	 window = game_->window();
+		sf::Text result;
+		result.setFont(game_->assets().get_font("Gidole"));
+		result.setString(text);
+		result.setCharacterSize(size);	// in pixels
+		result.setFillColor(sf::Color::White);
+		if(bold)
+		{
+			result.setStyle(sf::Text::Bold);
+		}
+		result.setPosition(pos);
+		Utility::center_text(result);
+		window.draw(result);
+	}
+}  // namespace
+
 void SceneShaderGallery::render()
 {
 	auto& window	= game_->window();
@@ -33,17 +57,12 @@ void SceneShaderGallery::render()
 	// draw background
 	window.draw(background_);
 
-	// draw HUD elements on top
-	sf::Text text;
-	text.setFont(game_->assets().get_font("Gidole"));
-	text.setString("Asteroids");
-	text.setCharacterSize(48);	// in pixels
-	text.setFillColor(sf::Color::White);
-	text.setStyle(sf::Text::Bold);
-	text.setPosition(window.mapPixelToCoords(
-		{static_cast<int>(view_size.x) / 2, static_cast<int>(view_size.y) / 2}, view));
-	Utility::center_text(text);
-	window.draw(text);
+
+	// draw name of the scene at the top
+	auto pos_x = static_cast<int>(view_size.x) / 2;		 // horizontal center
+	auto pos_y = static_cast<int>(view_size.y) * 1 / 4;	 // top quarter
+	auto pos   = window.mapPixelToCoords({pos_x, pos_y}, view);
+	draw_text(game_, "Shader Gallery", pos, 48, true);
 
 	// finally display all rendered content
 	window.display();
