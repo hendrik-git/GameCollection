@@ -18,6 +18,12 @@ namespace fs   = std::filesystem;
 using ScenePtr = std::shared_ptr<Scene>;
 using SceneMap = std::map<std::string, ScenePtr>;
 
+struct EngineInitializer
+{
+	std::optional<std::string> initial_scene;
+};
+
+
 class GameEngine
 {
   public:
