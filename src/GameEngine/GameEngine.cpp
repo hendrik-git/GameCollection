@@ -16,10 +16,10 @@ namespace
 	};
 
 	/// @todo Automate reading all assets in a given directory
-	auto find_in_directory(std::filesystem::path path) -> std::vector<FileData>
+	auto find_in_directory(fs::path path) -> std::vector<FileData>
 	{
 		std::vector<FileData> results;
-		for(const auto& entry : std::filesystem::directory_iterator(path))
+		for(const auto& entry : fs::directory_iterator(path))
 		{
 			if(entry.is_regular_file())
 			{
