@@ -85,6 +85,39 @@ void SceneShaderGallery::render()
 	// draw background
 	window.draw(background_);
 
+	// then fill the vastness of space with entities (space ship, lasers, asteroids..)
+	for(auto& entity : entities_.get_entities())
+	{
+		if(auto& shape = entity->get_component<Drawable>(); shape.has)
+		{
+			// assume every shape has also a transform component
+			assert(entity->get_component<Transform>().has && "Missing transform component");
+			auto  sprite = shape.get_sprite();
+			auto& transf = entity->get_component<Transform>();
+
+			sprite.setPosition({transf.pos.x, transf.pos.y});
+			sprite.setRotation(sf::degrees(transf.angle + shape.get_rotation()));
+
+			if(const auto names = game_->assets().get_shader_names(); !names.empty())
+			{
+				[[maybe_unused]] auto& pixel_shader = game_->assets().get_shader(names[selection_]);
+
+				// pixel_shader.setParameter("myvar", 5.f);
+				// pixel_shader.setUniform("blink_alpha", 0.5f);
+				pixel_shader.setUniform("ourTexture", sprite.getTexture());
+				// pixel_shader.setUniform("ourColor", sf::Glsl::Vec4{0.5, 0.5, 0.5, 0.5});
+				// pixel_shader.setUniform("tex_coord", sf::Vector2f{100.f,100.f});
+				window.draw(sprite, &pixel_shader);
+				// window.draw(sprite);
+
+				// draw the name of the shader under the shader image
+				auto pos_x = static_cast<int>(view_size.x) / 2;		 // horizontal center
+				auto pos_y = static_cast<int>(view_size.y) * 3 / 4;	 // bottom quarter
+				auto pos   = window.mapPixelToCoords({pos_x, pos_y}, view);
+				draw_text(game_, names[selection_], pos);
+			}
+		}
+	}
 
 	// draw name of the scene at the top
 	auto pos_x = static_cast<int>(view_size.x) / 2;		 // horizontal center
