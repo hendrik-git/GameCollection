@@ -1,14 +1,17 @@
 #include <CLI/App.hpp>		  // NOLINT
 #include <CLI/Config.hpp>	  // NOLINT
 #include <CLI/Formatter.hpp>  // NOLINT
-#include <GameEngine/GameEngine.hpp>
 #include <CodeHelpers/Profiler.hpp>
+#include <GameEngine/GameEngine.hpp>
 
 using namespace std::string_literals;
 
 auto main(int argc, char** argv) -> int
 {
 	PROFILE_FUNC();
+
+	// The following Initializer for the Game Engine will be modified by the CL parameters
+	EngineInitializer ini;
 
 	//!---------------------------------------------------------------------------------------------
 	//! Parse command line arguments
@@ -19,14 +22,13 @@ auto main(int argc, char** argv) -> int
 	auto gameSelect{""s};
 	auto inputFile{"default"s};
 
-	app.add_option("-g,--game", gameSelect, "Which game to load");
+	app.add_option("-g,--game", ini.initial_scene, "Which game to load");
 	app.add_option("-f,--file", inputFile, "Settings file to load");
 
 	[[maybe_unused]] auto* list = app.add_flag("-l,--list", "List all available games");
 	[[maybe_unused]] auto* quit = app.add_flag("-q,--quit", "Immediately exit program");
 
 	CLI11_PARSE(app, argc, argv);
-
 
 	// --------------------------------------------------------------------------------------------
 	// Start the application
@@ -36,7 +38,7 @@ auto main(int argc, char** argv) -> int
 		PROFILE_SCOPE("start");
 		try
 		{
-			GameEngine engine{std::filesystem::path{inputFile}};
+			GameEngine engine{ini, std::filesystem::path{inputFile}};
 			engine.run();
 		}
 		catch(const std::exception& e)
