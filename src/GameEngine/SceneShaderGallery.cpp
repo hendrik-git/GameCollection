@@ -26,6 +26,13 @@ void SceneShaderGallery::spawn_player()
 
 void SceneShaderGallery::init()
 {
+	auto& texture = game_->assets().get_texture("Background");
+	texture.setRepeated(true);
+	background_.setPosition({0, 0});
+	background_.setTexture(texture);
+	background_.setTextureRect(
+		sf::IntRect{{0, 0}, {static_cast<int>(world_size_.x), static_cast<int>(world_size_.y)}});
+
 	register_action(sf::Keyboard::Up, "Prev");
 	register_action(sf::Keyboard::Left, "Prev");
 	register_action(sf::Keyboard::Down, "Next");
