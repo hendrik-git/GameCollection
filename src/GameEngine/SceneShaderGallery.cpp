@@ -4,6 +4,25 @@
 #include <fmt/core.h>
 #include <random>
 
+void SceneShaderGallery::spawn_player()
+{
+	player_ = entities_.add_entity("player");
+	player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
+
+
+	ShapeInit player_shape;
+	player_shape.radius	   = 12.F;
+	player_shape.points	   = 32;
+	player_shape.fill	   = sf::Color::Yellow;
+	player_shape.outline   = sf::Color::White;
+	player_shape.thickness = 4.F;
+	// player_->add_component<Shape>(player_shape);
+	// player_->add_component<Input>();
+	// player_->add_component<Mouse>();
+
+	player_->add_component<Drawable>("PlayerShip", game_->assets().get_texture("Meteor9"));
+}
+
 
 void SceneShaderGallery::init()
 {
@@ -14,6 +33,8 @@ void SceneShaderGallery::init()
 	register_action(sf::Keyboard::Space, "Select");
 	register_action(sf::Keyboard::Enter, "Select");
 	register_action(sf::Keyboard::Escape, "Quit");
+
+	spawn_player();
 }
 
 void SceneShaderGallery::update()
