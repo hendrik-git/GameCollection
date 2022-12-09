@@ -76,9 +76,10 @@ namespace
 
 void SceneShaderGallery::render()
 {
-	auto& window	= game_->window();
-	auto  view		= window.getDefaultView();
-	auto  view_size = view.getSize();
+	static auto clock	  = sf::Clock{};
+	auto&		window	  = game_->window();
+	auto		view	  = window.getDefaultView();
+	auto		view_size = view.getSize();
 	window.clear();
 	window.setView(view);
 
@@ -102,13 +103,9 @@ void SceneShaderGallery::render()
 			{
 				[[maybe_unused]] auto& pixel_shader = game_->assets().get_shader(names[selection_]);
 
-				// pixel_shader.setParameter("myvar", 5.f);
-				// pixel_shader.setUniform("blink_alpha", 0.5f);
-				pixel_shader.setUniform("ourTexture", sprite.getTexture());
-				// pixel_shader.setUniform("ourColor", sf::Glsl::Vec4{0.5, 0.5, 0.5, 0.5});
-				// pixel_shader.setUniform("tex_coord", sf::Vector2f{100.f,100.f});
+				pixel_shader.setUniform("texture", sf::Shader::CurrentTexture);
+				pixel_shader.setUniform("u_time", clock.getElapsedTime().asSeconds());
 				window.draw(sprite, &pixel_shader);
-				// window.draw(sprite);
 
 				// draw the name of the shader under the shader image
 				auto pos_x = static_cast<int>(view_size.x) / 2;		 // horizontal center
