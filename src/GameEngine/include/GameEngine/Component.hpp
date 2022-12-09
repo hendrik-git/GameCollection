@@ -15,6 +15,12 @@
 struct Component
 {
 	bool has = false;
+
+	// by adding an implicit conversion to bool, it is no longer necessary to ask for 'has'
+	operator bool() const
+	{
+		return has;
+	};
 };
 
 /// @brief Holds data related to movement, position and angle
