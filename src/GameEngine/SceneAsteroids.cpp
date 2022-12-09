@@ -147,7 +147,7 @@ void SceneAsteroids::reduce_lifespan()
 {
 	for(auto& entity : entities_.get_entities())
 	{
-		if(auto& lifespan = entity->get_component<Lifespan>(); lifespan.has)
+		if(auto& lifespan = entity->get_component<Lifespan>(); lifespan)
 		{
 			lifespan.remaining > 0 ? [&]() { lifespan.remaining--; }()
 								   : [=]() { entity->destroy(); }();
@@ -185,7 +185,7 @@ void SceneAsteroids::movement()
 
 	for(auto& entity : entities_.get_entities())
 	{
-		if(auto& transf = entity->get_component<Transform>(); transf.has)
+		if(auto& transf = entity->get_component<Transform>(); transf)
 		{
 			transf.prev_pos = transf.pos;
 
@@ -257,12 +257,12 @@ void SceneAsteroids::collision()
 	// collision bullet <-> enemy
 	for(auto& bullet : entities_.get_entities("bullet"))
 	{
-		assert(bullet->get_component<Transform>().has && "Bullet has no tranform component");
+		assert(bullet->get_component<Transform>() && "Bullet has no tranform component");
 
 		for(auto& enemy : entities_.get_entities("enemy"))
 		{
-			assert(enemy->get_component<Shape>().has && "Enemy has no shape component");
-			assert(enemy->get_component<Transform>().has && "Enemy has no tranform component");
+			assert(enemy->get_component<Shape>() && "Enemy has no shape component");
+			assert(enemy->get_component<Transform>() && "Enemy has no tranform component");
 
 			// two circles collide, when their distance is less than their radii
 			auto bullet_r	 = bullet->get_component<Shape>().circle.getRadius();
@@ -333,10 +333,10 @@ void SceneAsteroids::render()
 	// then fill the vastness of space with entities (space ship, lasers, asteroids..)
 	for(auto& entity : entities_.get_entities())
 	{
-		if(auto& shape = entity->get_component<Shape>(); shape.has && draw_hitboxes_)
+		if(auto& shape = entity->get_component<Shape>(); shape && draw_hitboxes_)
 		{
 			// assume every shape has also a transform component
-			assert(entity->get_component<Transform>().has && "Missing transform component");
+			assert(entity->get_component<Transform>() && "Missing transform component");
 
 			auto& circle = shape.circle;
 			auto& transf = entity->get_component<Transform>();
@@ -347,10 +347,10 @@ void SceneAsteroids::render()
 			window.draw(shape.circle);
 		}
 
-		if(auto& shape = entity->get_component<Drawable>(); shape.has && draw_sprites_)
+		if(auto& shape = entity->get_component<Drawable>(); shape && draw_sprites_)
 		{
 			// assume every shape has also a transform component
-			assert(entity->get_component<Transform>().has && "Missing transform component");
+			assert(entity->get_component<Transform>() && "Missing transform component");
 			// shape.update();
 			auto  sprite = shape.get_sprite();
 			auto& transf = entity->get_component<Transform>();

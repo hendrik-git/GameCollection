@@ -89,10 +89,10 @@ void SceneShaderGallery::render()
 	// then fill the vastness of space with entities (space ship, lasers, asteroids..)
 	for(auto& entity : entities_.get_entities())
 	{
-		if(auto& shape = entity->get_component<Drawable>(); shape.has)
+		if(auto& shape = entity->get_component<Drawable>(); shape)
 		{
 			// assume every shape has also a transform component
-			assert(entity->get_component<Transform>().has && "Missing transform component");
+			assert(entity->get_component<Transform>() && "Missing transform component");
 			auto  sprite = shape.get_sprite();
 			auto& transf = entity->get_component<Transform>();
 
