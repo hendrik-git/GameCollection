@@ -4,7 +4,7 @@ uniform float u_time;
 
 void main()
 {
-    float blur_radius = 0.1 * sin(u_time);
+    float blur_radius = abs(0.1 * sin(u_time));
 
     vec2 offx = vec2(blur_radius, 0.0);
     vec2 offy = vec2(0.0, blur_radius);
