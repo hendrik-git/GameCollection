@@ -1,0 +1,37 @@
+# this is a config file for Poxy - a Doxygen + m.css front-end written in Python.
+# https://github.com/marzer/poxy
+#
+# config reference: https://github.com/marzer/poxy/wiki/Configuration-options
+
+name            = 'Game Collection'
+author          = 'Hendrik Poettker'
+description     = 'A collection of game and algorithm implementations'
+cpp             = 20
+github          = 'hendrik-git/GameCollection'
+license         = [ '', '' ]
+show_includes   = false
+changelog       = true
+#logo            = 'images/logo.svg'
+#favicon         = 'images/favicon.ico'
+navbar          = [ 'namespaces', 'annotated' ]
+theme           = 'dark'
+extra_files     = [
+    #'images/badge-awesome.svg',
+    #'images/badge-TOML.svg',
+    #'images/badge-gitter.svg',
+    #'images/badge-sponsor.svg',
+]
+
+[warnings]
+enabled         = true
+treat_as_errors = false
+undocumented    = true
+
+[sources]
+paths           = [ 'pages' ]
+recursive_paths = [ '../src' ]
+patterns        = [ '*.hpp', '*.dox' ]
+strip_paths     = [ '../src' ]
+
+[images]
+paths           = [ 'images' ]
