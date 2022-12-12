@@ -140,6 +140,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Scene.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneAsteroids.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneMainMenu.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneParticleGallery.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneShaderGallery.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/System.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Utility.hpp
@@ -155,6 +156,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Scene.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneAsteroids.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneMainMenu.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneParticleGallery.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneShaderGallery.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/System.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Utility.cpp
