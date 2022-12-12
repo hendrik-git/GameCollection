@@ -10,6 +10,7 @@
 #include <GameMath/Vec2.hpp>
 #include <SFML/Graphics.hpp>
 #include <tuple>
+#include <variant>
 
 /// @brief Base Component interface, determines if a component was added to an entity
 struct Component
@@ -87,12 +88,27 @@ struct Drawable
 };
 
 /// @brief Holds the shape, that is used to check for collisions with another entity.
-struct Collision : public Component
+inline namespace v1
 {
-	Collision(float radius = 0.f) : radius(radius) {}
+	struct Collision : public Component
+	{
+		Collision(float radius = 0.f) : radius(radius) {}
 
-	float radius;
-};
+		float radius;
+	};
+}  // namespace v1
+
+/// @brief Holds the shape, that is used to check for collisions with another entity.
+namespace v2
+{
+	using CollShape = std::variant<sf::CircleShape, sf::RectangleShape>;
+	struct Collision : public Component
+	{
+		Collision(CollShape hitbox) : shape(hitbox){};
+
+		CollShape shape;
+	};
+}  // namespace v2
 
 /// @brief Holds an amount of value attributed to this entity.
 struct Score : public Component
