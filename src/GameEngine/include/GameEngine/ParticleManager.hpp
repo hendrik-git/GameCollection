@@ -13,7 +13,7 @@ class ParticleManager
 	, public sf::Transformable
 {
   public:
-	ParticleManager(unsigned int count)
+	ParticleManager(unsigned int count = 100)
 		: particles_(count)
 		, vertices_(sf::Points, count)
 		, lifetime_(sf::seconds(3.f))
@@ -28,6 +28,7 @@ class ParticleManager
 
 	void update(sf::Time elapsed)
 	{
+
 		for(std::size_t i = 0; i < particles_.size(); ++i)
 		{
 			// update the particle lifetime
@@ -47,8 +48,24 @@ class ParticleManager
 		}
 	}
 
-  private:
+  protected:
+	// Inherited via Drawable
+	virtual void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
+	// virtual void draw(RenderTarget& target, const RenderStates& states) const = 0;
+	// virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+	//{
+	//	// apply the transform
+	//	states.transform *= getTransform();
+
+	//	// our particles don't use a texture
+	//	states.texture = NULL;
+
+	//	// draw the vertex array
+	//	target.draw(vertices_, states);
+	//}
+
+  private:
 	/// @brief POD struct holding lifetime and velocity of a single particle
 	struct Particle
 	{
@@ -56,17 +73,6 @@ class ParticleManager
 		sf::Time	 lifetime;
 	};
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
-	{
-		// apply the transform
-		states.transform *= getTransform();
-
-		// our particles don't use a texture
-		states.texture = NULL;
-
-		// draw the vertex array
-		target.draw(vertices_, states);
-	}
 
 	void reset_particle(std::size_t index)
 	{
