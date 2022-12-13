@@ -1,4 +1,4 @@
-#include <GameEngine/Scene.hpp>
+#include <GameScenes/Scene.hpp>
 
 Scene::Scene(GameEngine* engine) : game_(engine) {}
 

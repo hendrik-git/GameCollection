@@ -1,8 +1,8 @@
-#include "GameEngine/SceneAsteroids.hpp"
-#include "GameEngine/SceneMainMenu.hpp"
-#include "GameEngine/SceneParticleGallery.hpp"
-#include "GameEngine/SceneShaderGallery.hpp"
 #include <GameEngine/GameEngine.hpp>
+#include <GameScenes/SceneAsteroids.hpp>
+#include <GameScenes/SceneMainMenu.hpp>
+#include <GameScenes/SceneParticleGallery.hpp>
+#include <GameScenes/SceneShaderGallery.hpp>
 #include <chrono>
 #include <filesystem>
 #include <fmt/core.h>

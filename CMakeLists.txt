@@ -185,7 +185,9 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/System.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Utility.cpp
 )
-target_include_directories(GameEngine PUBLIC src/GameEngine/include)
+target_include_directories(GameEngine 
+PUBLIC  src/GameEngine/include 
+PRIVATE src/GameScenes/include)
 target_link_libraries(GameEngine PUBLIC CodeHelpers GameMath SFML::Graphics fmt::fmt)
 target_compile_features(GameEngine PUBLIC cxx_std_20)
 target_compile_options(GameEngine PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
