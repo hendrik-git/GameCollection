@@ -110,6 +110,30 @@ target_compile_features(CodeHelpers PUBLIC cxx_std_20)
 target_compile_options(CodeHelpers PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # -------------------------------------------------------------------------------------------------
+# Building the GameScenes library
+# -------------------------------------------------------------------------------------------------
+add_library(
+    GameScenes OBJECT
+    # (optional) add header files, so that they may show up in the IDE
+    ${CMAKE_SOURCE_DIR}/src/GameScenes/include/GameScenes/Scene.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameScenes/include/GameScenes/SceneAsteroids.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameScenes/include/GameScenes/SceneMainMenu.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameScenes/include/GameScenes/SceneParticleGallery.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameScenes/include/GameScenes/SceneShaderGallery.hpp
+
+    # necessary source files
+    ${CMAKE_SOURCE_DIR}/src/GameScenes/Scene.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameScenes/SceneAsteroids.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameScenes/SceneMainMenu.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameScenes/SceneParticleGallery.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameScenes/SceneShaderGallery.cpp
+)
+target_link_libraries(GameScenes PUBLIC GameEngine)
+target_include_directories(GameScenes PUBLIC src/GameScenes/include)
+target_compile_features(GameScenes PUBLIC cxx_std_20)
+target_compile_options(GameScenes PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
+
+# -------------------------------------------------------------------------------------------------
 # Building the GameMath library
 # -------------------------------------------------------------------------------------------------
 add_library(
@@ -137,11 +161,11 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/EntityManager.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/GameEngine.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/ParticleManager.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Scene.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneAsteroids.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneMainMenu.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneParticleGallery.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneShaderGallery.hpp
+    # ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Scene.hpp
+    # ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneAsteroids.hpp
+    # ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneMainMenu.hpp
+    # ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneParticleGallery.hpp
+    # ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneShaderGallery.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/System.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Utility.hpp
     # necessary source files
@@ -153,11 +177,11 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/EntityManager.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/GameEngine.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/ParticleManager.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/Scene.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneAsteroids.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneMainMenu.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneParticleGallery.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneShaderGallery.cpp
+    # ${CMAKE_SOURCE_DIR}/src/GameEngine/Scene.cpp
+    # ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneAsteroids.cpp
+    # ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneMainMenu.cpp
+    # ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneParticleGallery.cpp
+    # ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneShaderGallery.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/System.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Utility.cpp
 )
@@ -172,7 +196,7 @@ target_compile_options(GameEngine PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 add_executable(GameCollectionApp app/main.cpp)
 target_compile_features(GameCollectionApp PUBLIC cxx_std_20)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
-target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameEngine)
+target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameScenes GameEngine)
 # target_compile_options(GameCollectionApp PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
