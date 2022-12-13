@@ -14,6 +14,7 @@
 using ActionMap = std::map<int, std::string>;
 using PlayerPtr = std::shared_ptr<Entity>;
 
+class EntityManager;
 class GameEngine;  // forward declare GameEngine class for pointer
 
 class Scene

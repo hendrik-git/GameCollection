@@ -8,12 +8,13 @@
 #pragma once
 #include "Asset.hpp"
 #include "EntityManager.hpp"
-#include "Scene.hpp"
+//#include "Scene.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <filesystem>
 #include <iostream>
 
+class Scene;
 namespace fs   = std::filesystem;
 using ScenePtr = std::shared_ptr<Scene>;
 using SceneMap = std::map<std::string, ScenePtr>;
