@@ -10,7 +10,7 @@ cpp             = 20
 github          = 'hendrik-git/GameCollection'
 license         = [ '', '' ]
 show_includes   = false
-changelog       = true
+changelog       = false
 #logo            = 'images/logo.svg'
 #favicon         = 'images/favicon.ico'
 navbar          = [ 'namespaces', 'annotated' ]
@@ -30,7 +30,7 @@ undocumented    = true
 [sources]
 paths           = [ 'pages' ]
 recursive_paths = [ '../src' ]
-patterns        = [ '*.hpp', '*.dox' ]
+patterns        = [ '*.hpp', '*.cpp', '*.dox' ]
 strip_paths     = [ '../src' ]
 
 [images]
