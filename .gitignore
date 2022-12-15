@@ -3,6 +3,7 @@ bin
 build
 lib
 docs/html
+docs/xml
 
 # Compiled Object files
 *.slo
