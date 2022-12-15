@@ -10,12 +10,13 @@ cpp             = 20
 github          = 'hendrik-git/GameCollection'
 license         = [ '', '' ]
 show_includes   = false
-changelog       = false
+changelog       = 'pages/changelog.md'
 #logo            = 'images/logo.svg'
 #favicon         = 'images/favicon.ico'
 navbar          = [ 'namespaces', 'annotated' ]
 theme           = 'dark'
 extra_files     = [
+	'images/poxy-badge-c++20.svg'
     #'images/badge-awesome.svg',
     #'images/badge-TOML.svg',
     #'images/badge-gitter.svg',
@@ -30,7 +31,7 @@ undocumented    = true
 [sources]
 paths           = [ 'pages' ]
 recursive_paths = [ '../src' ]
-patterns        = [ '*.hpp', '*.cpp', '*.dox' ]
+patterns        = [ '*.hpp', '*.cpp', '*.dox', '.md' ]
 strip_paths     = [ '../src' ]
 
 [images]
