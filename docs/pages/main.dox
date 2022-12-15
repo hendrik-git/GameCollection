@@ -3,16 +3,23 @@
 \mainpage GameCollection
 \tableofcontents
 
-\section mainpage-features Features
-- Header-only (optional!)
+\section mainpage-overview Overview
 
-\section mainpage-api-documentation API documentation
-You're looking at it! Browse the docs using the links at the top of the page.
-You can search from anywhere by pressing the TAB key.
+\section mainpage-scenes Scenes
+
+\subsection Asteroids
+
+\image html Asteroids01.png width=1280px
+
+\subsection ShaderGallery
+
+\subsection ParticleGallery
 
 \section mainpage-contact Contacting the author
-For bug reports and feature requests please use the ...
-- Email:
-- LinkedIn:
+to be added
+
+See \ref page1 for more info.
+
+
 
 */
