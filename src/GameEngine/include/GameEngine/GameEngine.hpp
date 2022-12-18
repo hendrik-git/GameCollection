@@ -14,9 +14,14 @@
 #include <filesystem>
 #include <iostream>
 
-class Scene;
+
+namespace Engine::Scene
+{
+	class BaseScene;
+}
+
 namespace fs   = std::filesystem;
-using ScenePtr = std::shared_ptr<Scene>;
+using ScenePtr = std::shared_ptr<Engine::Scene::BaseScene>;
 using SceneMap = std::map<std::string, ScenePtr>;
 
 struct EngineInitializer
@@ -52,7 +57,7 @@ class GameEngine
 	std::string		 current_scene_;
 	size_t			 sim_speed_	 = 1;
 	bool			 running_	 = true;
-	long long		 frame_time_ = 10 * 1'000;  ///< in microseconds
+	long long		 frame_time_ = 10 * 1'000;	///< in microseconds
 
 	// frame time of 10 ms equals a refresh rate of 100 Hz
 };

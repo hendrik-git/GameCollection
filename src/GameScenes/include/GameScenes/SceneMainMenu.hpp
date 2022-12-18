@@ -8,21 +8,24 @@
 #pragma once
 #include "Scene.hpp"
 
-class SceneMainMenu : public Scene
+namespace Engine::Scene
 {
-  public:
-	SceneMainMenu(GameEngine* engine) : Scene(engine)
+	class SceneMainMenu : public BaseScene
 	{
-		init();
+	  public:
+		SceneMainMenu(GameEngine* engine) : BaseScene(engine)
+		{
+			init();
+		};
+
+		void init();
+		void update() override;
+		void render() override;
+		void do_action(const Action& action) override;
+		void on_end() override;
+
+		sf::Text   text_;
+		sf::Sprite background_;
+		int		   selection_;
 	};
-
-	void init();
-	void update() override;
-	void render() override;
-	void do_action(const Action& action) override;
-	void on_end() override;
-
-	sf::Text   text_;
-	sf::Sprite background_;
-	int		   selection_;
-};
+}  // namespace Engine::Scene

@@ -55,6 +55,7 @@ GameEngine::GameEngine(const EngineInitializer& ini, const fs::path& config)
 
 	init(config);
 
+	using namespace Engine::Scene;
 	scenes_["MainMenu"]		   = std::make_shared<SceneMainMenu>(this);
 	scenes_["Asteroids"]	   = std::make_shared<SceneAsteroids>(this);
 	scenes_["ParticleGallery"] = std::make_shared<SceneParticleGallery>(this);

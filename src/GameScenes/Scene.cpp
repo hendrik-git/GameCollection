@@ -1,42 +1,46 @@
 #include <GameScenes/Scene.hpp>
 
-Scene::Scene(GameEngine* engine) : game_(engine) {}
-
-// void Scene::simulate() {}
-
-void Scene::register_action(int key, std::string name)
+namespace Engine::Scene
 {
-	action_map_[key] = name;
-}
+	BaseScene::BaseScene(GameEngine* engine) : game_(engine) {}
 
-// size_t Scene::width()
-//{
-//	return size_t();
-//}
-//
-// size_t Scene::height()
-//{
-//	return size_t();
-//}
+	// void Scene::simulate() {}
 
-bool Scene::has_ended()
-{
-	return has_ended_;
-}
+	void BaseScene::register_action(int key, std::string name)
+	{
+		action_map_[key] = name;
+	}
 
-size_t Scene::current_frame()
-{
-	return current_frame_;
-}
+	// size_t Scene::width()
+	//{
+	//	return size_t();
+	//}
+	//
+	// size_t Scene::height()
+	//{
+	//	return size_t();
+	//}
 
-ActionMap& Scene::get_ActionMap()
-{
-	return action_map_;
-}
+	bool BaseScene::has_ended()
+	{
+		return has_ended_;
+	}
 
-// void Scene::draw_line(Vec2 p1, Vec2 p2) {}
+	size_t BaseScene::current_frame()
+	{
+		return current_frame_;
+	}
 
-void Scene::set_paused(bool pause)
-{
-	is_paused_ = pause;
-}
+	ActionMap& BaseScene::get_ActionMap()
+	{
+		return action_map_;
+	}
+
+	// void Scene::draw_line(Vec2 p1, Vec2 p2) {}
+
+	void BaseScene::set_paused(bool pause)
+	{
+		is_paused_ = pause;
+	}
+
+}  // namespace Engine::Scene

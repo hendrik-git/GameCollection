@@ -8,24 +8,27 @@
 #pragma once
 #include "Scene.hpp"
 
-class SceneShaderGallery : public Scene
+namespace Engine::Scene
 {
-  public:
-	SceneShaderGallery(GameEngine* engine) : Scene(engine)
+	class SceneShaderGallery : public BaseScene
 	{
-		init();
+	  public:
+		SceneShaderGallery(GameEngine* engine) : BaseScene(engine)
+		{
+			init();
+		};
+
+		void init();
+		void update() override;
+		void render() override;
+		void do_action(const Action& action) override;
+		void on_end() override;
+
+		void spawn_player();
+
+		sf::Text   text_;
+		sf::Sprite background_;
+		int		   selection_{0};
+		Vec2	   world_size_{1200, 800};
 	};
-
-	void init();
-	void update() override;
-	void render() override;
-	void do_action(const Action& action) override;
-	void on_end() override;
-
-	void spawn_player();
-
-	sf::Text   text_;
-	sf::Sprite background_;
-	int		   selection_{0};
-	Vec2	   world_size_{1200, 800};
-};
+}  // namespace Engine::Scene
