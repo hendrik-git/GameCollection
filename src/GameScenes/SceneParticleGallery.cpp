@@ -19,11 +19,17 @@ void SceneParticleGallery::init()
 	register_action(sf::Keyboard::Down, "Next");
 	register_action(sf::Keyboard::Right, "Next");
 	register_action(sf::Keyboard::Escape, "Quit");
+
+	for(float x{0}; x < world_size_.x; x += 7.f) 
+	{
+		particles_.create(x, world_size_.y / 2, 0.0, 0.0, 200);
+	}
 }
 
 void SceneParticleGallery::update()
 {
 	entities_.update();
+	particles_.update();
 	current_frame_++;
 }
 
@@ -61,6 +67,9 @@ void SceneParticleGallery::render()
 
 	// draw background
 	window.draw(background_);
+
+	// draw particles
+	particles_.draw(window);
 
 	// draw name of the scene at the top
 	auto pos_x = static_cast<int>(view_size.x) / 2;		 // horizontal center

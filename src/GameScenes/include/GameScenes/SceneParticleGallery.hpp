@@ -7,6 +7,7 @@
 
 #pragma once
 #include "Scene.hpp"
+#include <GameEngine/ParticleManager.hpp>
 
 class SceneParticleGallery : public Scene
 {
@@ -22,8 +23,9 @@ class SceneParticleGallery : public Scene
 	void do_action(const Action& action) override;
 	void on_end() override;
 
-	sf::Text   text_;
-	sf::Sprite background_;
-	int		   selection_{0};
-	Vec2	   world_size_{1200, 800};
+	sf::Text		text_;
+	sf::Sprite		background_;
+	int				selection_{0};
+	Vec2			world_size_{1200, 800};
+	ParticleManager particles_;
 };
