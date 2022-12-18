@@ -34,6 +34,8 @@ namespace
 
 void SceneAsteroids::spawn_entities()
 {
+	using namespace Engine::Components;
+
 	auto& pos	= player_->get_component<Transform>().pos;
 	auto& mouse = player_->get_component<Mouse>();
 
@@ -126,6 +128,8 @@ void SceneAsteroids::spawn_entities()
 
 void SceneAsteroids::spawn_player()
 {
+	using namespace Engine::Components;
+
 	player_ = entities_.add_entity("player");
 	player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
 	ShapeInit player_shape;
@@ -145,6 +149,8 @@ void SceneAsteroids::spawn_player()
 
 void SceneAsteroids::reduce_lifespan()
 {
+	using namespace Engine::Components;
+
 	for(auto& entity : entities_.get_entities())
 	{
 		if(auto& lifespan = entity->get_component<Lifespan>(); lifespan)
@@ -157,6 +163,8 @@ void SceneAsteroids::reduce_lifespan()
 
 void SceneAsteroids::movement()
 {
+	using namespace Engine::Components;
+
 	// handle player movement
 	auto& player_pos   = player_->get_component<Transform>().pos;
 	auto& player_angle = player_->get_component<Transform>().angle;
@@ -254,6 +262,8 @@ void SceneAsteroids::init()
 
 void SceneAsteroids::collision()
 {
+	using namespace Engine::Components;
+
 	// collision bullet <-> enemy
 	for(auto& bullet : entities_.get_entities("bullet"))
 	{
@@ -308,6 +318,8 @@ void SceneAsteroids::update()
 
 void SceneAsteroids::render()
 {
+	using namespace Engine::Components;
+
 	auto& window = game_->window();
 	auto  view	 = window.getDefaultView();
 
@@ -377,6 +389,8 @@ void SceneAsteroids::render()
 
 void SceneAsteroids::do_action(const Action& action)
 {
+	using namespace Engine::Components;
+
 	if(action.type() == "Start")
 	{
 		if(action.name() == "Up")

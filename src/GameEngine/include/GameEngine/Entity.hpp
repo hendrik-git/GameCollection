@@ -16,7 +16,7 @@ class EntityManager;
 class Entity
 {
   public:
-	ComponentTuple components;
+	Engine::Components::ComponentTuple components;
 
 	void destroy()
 	{

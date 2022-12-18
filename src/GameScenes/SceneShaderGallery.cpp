@@ -6,6 +6,8 @@
 
 void SceneShaderGallery::spawn_player()
 {
+	using namespace Engine::Components;
+
 	player_ = entities_.add_entity("player");
 	player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
 
@@ -76,6 +78,8 @@ namespace
 
 void SceneShaderGallery::render()
 {
+	using namespace Engine::Components;
+
 	static auto clock	  = sf::Clock{};
 	auto&		window	  = game_->window();
 	auto		view	  = window.getDefaultView();

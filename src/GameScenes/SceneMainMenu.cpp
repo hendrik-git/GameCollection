@@ -50,6 +50,8 @@ void SceneMainMenu::render()
 
 void SceneMainMenu::do_action(const Action& action)
 {
+	using namespace Engine::Components;
+
 	if(action.type() == "Start")
 	{
 		if(action.name() == "Prev")
