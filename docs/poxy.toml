@@ -11,12 +11,12 @@ github          = 'hendrik-git/GameCollection'
 license         = [ '', '' ]
 show_includes   = false
 changelog       = 'pages/changelog.md'
-#logo            = 'images/logo.svg'
-#favicon         = 'images/favicon.ico'
-navbar          = [ 'namespaces', 'annotated' ]
+#logo            = 'images/banner.png'
+#favicon         = 'images/banner.png'
+#navbar          = [ 'namespaces', 'annotated' ]
 theme           = 'dark'
 extra_files     = [
-	'images/poxy-badge-c++20.svg'
+    'images/banner.png',
     #'images/badge-awesome.svg',
     #'images/badge-TOML.svg',
     #'images/badge-gitter.svg',
@@ -33,6 +33,10 @@ paths           = [ 'pages' ]
 recursive_paths = [ '../src' ]
 patterns        = [ '*.hpp', '*.cpp', '*.dox', '.md' ]
 strip_paths     = [ '../src' ]
+extract_all     = true
 
 [images]
 paths           = [ 'images' ]
+
+#[badges]
+#'C++20'       = [ 'badge-C++20.svg', 'https://en.cppreference.com/w/cpp/compiler_support' ]
