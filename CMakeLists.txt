@@ -156,6 +156,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Action.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Animation.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Asset.hpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Collision.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Component.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Entity.hpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/EntityManager.hpp
@@ -172,6 +173,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Action.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Animation.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Asset.cpp
+    ${CMAKE_SOURCE_DIR}/src/GameEngine/Collision.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Component.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/Entity.cpp
     ${CMAKE_SOURCE_DIR}/src/GameEngine/EntityManager.cpp
