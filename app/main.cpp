@@ -8,6 +8,7 @@ using namespace std::string_literals;
 
 auto main(int argc, char** argv) -> int
 {
+	using namespace CodeHelper;
 	PROFILE_FUNC();
 
 	// The following Initializer for the Game Engine will be modified by the CL parameters
