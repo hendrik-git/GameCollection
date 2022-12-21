@@ -104,8 +104,10 @@ setfolderinvs(Catch2WithMain Dependencies)
 add_library(
     CodeHelpers OBJECT
     # (optional) add header files, so that they may show up in the IDE
+    ${CMAKE_SOURCE_DIR}/src/CodeHelpers/include/CodeHelpers/Overload.hpp
     ${CMAKE_SOURCE_DIR}/src/CodeHelpers/include/CodeHelpers/Profiler.hpp
     # necessary source files
+    ${CMAKE_SOURCE_DIR}/src/CodeHelpers/Overload.cpp
     ${CMAKE_SOURCE_DIR}/src/CodeHelpers/Profiler.cpp
 )
 target_include_directories(CodeHelpers PUBLIC src/CodeHelpers/include)
