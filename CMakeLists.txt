@@ -13,6 +13,9 @@ project(
 # select whether to build and link dynamic or static
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
+# select whether to enable profiling support
+option(USE_PROFILING "Enable PROFILING makros for chrome tracing" OFF)
+
 # tell cmake to look into the local /cmake subdirectory to look for modules (.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
@@ -108,6 +111,9 @@ add_library(
 target_include_directories(CodeHelpers PUBLIC src/CodeHelpers/include)
 target_compile_features(CodeHelpers PUBLIC cxx_std_20)
 target_compile_options(CodeHelpers PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
+if(USE_PROFILING)
+    target_compile_definitions(CodeHelpers PUBLIC PROFILING)
+endif()
 
 # -------------------------------------------------------------------------------------------------
 # Building the GameScenes library
@@ -128,7 +134,7 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/GameScenes/SceneParticleGallery.cpp
     ${CMAKE_SOURCE_DIR}/src/GameScenes/SceneShaderGallery.cpp
 )
-target_link_libraries(GameScenes PUBLIC GameEngine)
+target_link_libraries(GameScenes PUBLIC CodeHelpers GameEngine)
 target_include_directories(GameScenes PUBLIC src/GameScenes/include)
 target_compile_features(GameScenes PUBLIC cxx_std_20)
 target_compile_options(GameScenes PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
@@ -200,7 +206,7 @@ target_compile_options(GameEngine PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 add_executable(GameCollectionApp app/main.cpp)
 target_compile_features(GameCollectionApp PUBLIC cxx_std_20)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
-target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameScenes GameEngine)
+target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameScenes GameEngine CodeHelpers)
 # target_compile_options(GameCollectionApp PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
