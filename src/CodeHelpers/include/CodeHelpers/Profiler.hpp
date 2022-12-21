@@ -6,129 +6,76 @@
 /// @date 2022.11.24
 /// @author Hendrik Poettker
 
-
 #pragma once
 #include <chrono>
 #include <fstream>
 #include <mutex>
 #include <string>
 
-
-/// @brief Contains the necessary data for the tracing tool
-struct ProfileResult
+namespace CodeHelper
 {
-	std::string name{"Default"};
-	long long	start{0};
-	long long	end{0};
-	size_t		thread_id{0};
-};
-
-class Profiler
-{
-  public:
-	static Profiler& get()
+	/// @brief Contains the necessary data for the tracing tool
+	struct ProfileResult
 	{
-		static Profiler instance;
-		return instance;
-	}
-
-	void write(const ProfileResult& result)
-	{
-		// ensure profiling from multiple thread works
-		std::lock_guard<std::mutex> lock(lock_);
-
-		// need to seperate each profile struct with a commata
-		if(profile_count_++ > 0)
-		{
-			outfile_ << ",";
-		}
-
-		auto name = result.name;
-		std::replace(name.begin(), name.end(), '"', '\'');
-
-		// Write result JSON here
-		outfile_ << "\n  {";
-		outfile_ << "\n    \"cat\"  : \"function\",";
-		outfile_ << "\n    \"dur\"  : " << result.end - result.start << ",";
-		outfile_ << "\n    \"name\" : \"" << name << "\",";
-		outfile_ << "\n    \"ph\"   : \"X\",";
-		outfile_ << "\n    \"pid\"  : 0,";
-		outfile_ << "\n    \"tid\"  : " << result.thread_id << ",";
-		outfile_ << "\n    \"ts\"   : " << result.start;
-		outfile_ << "\n  }";
-	}
-
-	~Profiler()
-	{
-		// Write JSON footer here
-		outfile_ << "\n]}";
-	}
-
-  private:
-	/// @brief Private constructor
-	/// @see Singleton pattern
-	Profiler()
-	{
-		// Write JSON header here
-		outfile_ << "{\"otherData\": {}, \"traceEvents\":[";
-	};
-	std::ofstream outfile_{"profiling_results.json"};
-
-	std::mutex lock_;
-	size_t	   profile_count_{0};
-};
-
-class Timer
-{
-  public:
-	Timer(const std::string& name)
-	{
-		result_.name = name;
-		start();
+		std::string name{"Default"};  ///< name of the timed block
+		long long	start{0};		  ///< begin of timing in microeconds
+		long long	end{0};			  ///< end of timing in microseconds
+		size_t		thread_id{0};	  ///< needed for chrome tracing
 	};
 
-	~Timer()
+	/// @brief Writes benchmarks to the file 'profiling_results.json'
+	class Profiler
 	{
-		stop();
-	}
+	  public:
+		/// @brief Accessor to this singleton class
+		/// @return reference to the singleton
+		[[nodiscard]] static Profiler& get();
 
-	void start()
+		/// @brief Add a new measurement to the file
+		/// @param result to be added
+		void write(const ProfileResult& result);
+
+		/// @brief End of profiling closes the file
+		~Profiler();
+
+	  private:
+		/// @brief Private constructor
+		/// @see Singleton pattern
+		Profiler();
+
+		std::ofstream outfile_{"profiling_results.json"};
+		std::mutex	  lock_;
+		size_t		  profile_count_{0};
+	};
+
+	/// @brief Handles timing code
+	class Timer
 	{
-		// get first time point here
-		using namespace std::chrono;
-		result_.start =
-			time_point_cast<microseconds>(steady_clock::now()).time_since_epoch().count();
-	}
+	  public:
+		/// @brief Takes the time until this object is stopped or goes out of scope
+		/// @param name is used to differentiate different measurements
+		Timer(const std::string& name);
 
-	void stop()
-	{
-		if(finished_)
-			return;
-		finished_ = true;
+		/// @brief Ensures the measurement is finished
+		~Timer();
 
-		// get second time point here
-		using namespace std::chrono;
-		result_.end = time_point_cast<microseconds>(steady_clock::now()).time_since_epoch().count();
+		/// @brief Can be used to reset the timer after construction
+		void start();
 
-		// calculate the time difference
+		/// @brief Can be used to stop the timer before it goes out of scope
+		void stop();
 
-		// save the result
-		result_.thread_id = std::hash<std::thread::id>{}(std::this_thread::get_id());
-		Profiler::get().write(result_);
-	}
+	  private:
+		ProfileResult result_;
+		bool		  finished_{false};
+	};
 
-  private:
-	ProfileResult result_;
-	bool		  finished_{false};
-};
-
-#define PROFILING
 #ifdef PROFILING
-	#define PROFILE_SCOPE(name) Timer timer##__LINE__(name)
-
+	#define PROFILE_SCOPE(name) CodeHelper::Timer timer##__LINE__(name)
 	#define PROFILE_FUNC() PROFILE_SCOPE(__FUNCTION__)
 #else
 	#define PROFILE_SCOPE(name)
-
 	#define PROFILE_FUNC()
 #endif
+
+}  // namespace CodeHelper
