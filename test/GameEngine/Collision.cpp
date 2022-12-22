@@ -28,7 +28,7 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 
 		SECTION("Same position")
 		{
-			auto circle = v2::CollShape(sh1);
+			auto circle = CollShape(sh1);
 			CHECK(std::get<sf::CircleShape>(circle).getRadius() == 10.F);
 			CHECK(std::get<sf::CircleShape>(circle).getPosition() == sf::Vector2f(0.F, 0.F));
 			REQUIRE(std::visit(CollisionChecker{}, circle, circle));
@@ -39,8 +39,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 			{
 				sh1.setPosition({0.F, 0.F});
 				sh2.setPosition({15.F, 0.F});
-				auto circle1 = v2::CollShape(sh1);
-				auto circle2 = v2::CollShape(sh2);
+				auto circle1 = CollShape(sh1);
+				auto circle2 = CollShape(sh2);
 				CHECK(std::get<sf::CircleShape>(circle1).getRadius() == 10.F);
 				CHECK(std::get<sf::CircleShape>(circle2).getRadius() == 10.F);
 				CHECK(std::get<sf::CircleShape>(circle1).getPosition() == sf::Vector2f(0.F, 0.F));
@@ -50,8 +50,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 			{
 				sh1.setPosition({0.F, 0.F});
 				sh2.setPosition({0.F, -15.F});
-				auto circle1 = v2::CollShape(sh1);
-				auto circle2 = v2::CollShape(sh2);
+				auto circle1 = CollShape(sh1);
+				auto circle2 = CollShape(sh2);
 				CHECK(std::get<sf::CircleShape>(circle1).getRadius() == 10.F);
 				CHECK(std::get<sf::CircleShape>(circle2).getRadius() == 10.F);
 				CHECK(std::get<sf::CircleShape>(circle1).getPosition() == sf::Vector2f(0.F, 0.F));
@@ -61,8 +61,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 			{
 				sh1.setPosition({0.F, 0.F});
 				sh2.setPosition({5.F, 5.F});
-				auto circle1 = v2::CollShape(sh1);
-				auto circle2 = v2::CollShape(sh2);
+				auto circle1 = CollShape(sh1);
+				auto circle2 = CollShape(sh2);
 				CHECK(std::get<sf::CircleShape>(circle1).getRadius() == 10.F);
 				CHECK(std::get<sf::CircleShape>(circle2).getRadius() == 10.F);
 				CHECK(std::get<sf::CircleShape>(circle1).getPosition() == sf::Vector2f(0.F, 0.F));
@@ -75,8 +75,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 		{
 			sh1.setPosition({0.F, 0.F});
 			sh2.setPosition({125.F, 125.F});
-			auto circle1 = v2::CollShape(sh1);
-			auto circle2 = v2::CollShape(sh2);
+			auto circle1 = CollShape(sh1);
+			auto circle2 = CollShape(sh2);
 			CHECK(std::get<sf::CircleShape>(circle1).getRadius() == 10.F);
 			CHECK(std::get<sf::CircleShape>(circle2).getRadius() == 10.F);
 			CHECK(std::get<sf::CircleShape>(circle1).getPosition() == sf::Vector2f(0.F, 0.F));
@@ -96,7 +96,7 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 		SECTION("Same position")
 		{
 			sh1.setPosition({0.F, 0.F});
-			auto box = v2::CollShape(sh1);
+			auto box = CollShape(sh1);
 			CHECK(std::get<sf::RectangleShape>(box).getSize() == sf::Vector2f{10.F, 10.F});
 			CHECK(std::get<sf::RectangleShape>(box).getPosition() == sf::Vector2f(0.F, 0.F));
 			REQUIRE(std::visit(CollisionChecker{}, box, box));
@@ -106,8 +106,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 		{
 			sh1.setPosition({0.F, 0.F});
 			sh2.setPosition({5.F, 5.F});
-			auto box1 = v2::CollShape(sh1);
-			auto box2 = v2::CollShape(sh2);
+			auto box1 = CollShape(sh1);
+			auto box2 = CollShape(sh2);
 			CHECK(std::get<sf::RectangleShape>(box1).getSize() == sf::Vector2f{10.F, 10.F});
 			CHECK(std::get<sf::RectangleShape>(box2).getSize() == sf::Vector2f{20.F, 5.F});
 			CHECK(std::get<sf::RectangleShape>(box1).getPosition() == sf::Vector2f(0.F, 0.F));
@@ -119,8 +119,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 		{
 			sh1.setPosition({0.F, 0.F});
 			sh2.setPosition({125.F, 125.F});
-			auto box1 = v2::CollShape(sh1);
-			auto box2 = v2::CollShape(sh2);
+			auto box1 = CollShape(sh1);
+			auto box2 = CollShape(sh2);
 			CHECK(std::get<sf::RectangleShape>(box1).getSize() == sf::Vector2f{10.F, 10.F});
 			CHECK(std::get<sf::RectangleShape>(box2).getSize() == sf::Vector2f{20.F, 5.F});
 			CHECK(std::get<sf::RectangleShape>(box1).getPosition() == sf::Vector2f(0.F, 0.F));
@@ -141,8 +141,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 		{
 			sh1.setPosition({0.F, 0.F});
 			sh2.setPosition({0.F, 0.F});
-			auto box	= v2::CollShape(sh1);
-			auto circle = v2::CollShape(sh2);
+			auto box	= CollShape(sh1);
+			auto circle = CollShape(sh2);
 			CHECK(std::get<sf::RectangleShape>(box).getSize() == sf::Vector2f{10.F, 10.F});
 			CHECK(std::get<sf::RectangleShape>(box).getPosition() == sf::Vector2f(0.F, 0.F));
 			CHECK(std::get<sf::CircleShape>(circle).getPosition() == sf::Vector2f(0.F, 0.F));
@@ -155,8 +155,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 		{
 			sh1.setPosition({0.F, 0.F});
 			sh2.setPosition({12.F, 12.F});
-			auto box	= v2::CollShape(sh1);
-			auto circle = v2::CollShape(sh2);
+			auto box	= CollShape(sh1);
+			auto circle = CollShape(sh2);
 			CHECK(std::get<sf::RectangleShape>(box).getSize() == sf::Vector2f{10.F, 10.F});
 			CHECK(std::get<sf::RectangleShape>(box).getPosition() == sf::Vector2f(0.F, 0.F));
 			CHECK(std::get<sf::CircleShape>(circle).getPosition() == sf::Vector2f(12.F, 12.F));
@@ -169,8 +169,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 		{
 			sh1.setPosition({0.F, 0.F});
 			sh2.setPosition({125.F, 125.F});
-			auto box	= v2::CollShape(sh1);
-			auto circle = v2::CollShape(sh2);
+			auto box	= CollShape(sh1);
+			auto circle = CollShape(sh2);
 			CHECK(std::get<sf::RectangleShape>(box).getSize() == sf::Vector2f{10.F, 10.F});
 			CHECK(std::get<sf::RectangleShape>(box).getPosition() == sf::Vector2f(0.F, 0.F));
 			CHECK(std::get<sf::CircleShape>(circle).getPosition() == sf::Vector2f(125.F, 125.F));
@@ -191,8 +191,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 		{
 			sh1.setPosition({0.F, 0.F});
 			sh2.setPosition({0.F, 0.F});
-			auto box	= v2::CollShape(sh1);
-			auto circle = v2::CollShape(sh2);
+			auto box	= CollShape(sh1);
+			auto circle = CollShape(sh2);
 			CHECK(std::get<sf::RectangleShape>(box).getSize() == sf::Vector2f{10.F, 10.F});
 			CHECK(std::get<sf::RectangleShape>(box).getPosition() == sf::Vector2f(0.F, 0.F));
 			CHECK(std::get<sf::CircleShape>(circle).getPosition() == sf::Vector2f(0.F, 0.F));
@@ -205,8 +205,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 		{
 			sh1.setPosition({0.F, 0.F});
 			sh2.setPosition({12.F, 12.F});
-			auto box	= v2::CollShape(sh1);
-			auto circle = v2::CollShape(sh2);
+			auto box	= CollShape(sh1);
+			auto circle = CollShape(sh2);
 			CHECK(std::get<sf::RectangleShape>(box).getSize() == sf::Vector2f{10.F, 10.F});
 			CHECK(std::get<sf::RectangleShape>(box).getPosition() == sf::Vector2f(0.F, 0.F));
 			CHECK(std::get<sf::CircleShape>(circle).getPosition() == sf::Vector2f(12.F, 12.F));
@@ -218,8 +218,8 @@ TEST_CASE("Component Collision", "[GameEngine][Physics]")
 		{
 			sh1.setPosition({0.F, 0.F});
 			sh2.setPosition({125.F, 125.F});
-			auto box	= v2::CollShape(sh1);
-			auto circle = v2::CollShape(sh2);
+			auto box	= CollShape(sh1);
+			auto circle = CollShape(sh2);
 			CHECK(std::get<sf::RectangleShape>(box).getSize() == sf::Vector2f{10.F, 10.F});
 			CHECK(std::get<sf::RectangleShape>(box).getPosition() == sf::Vector2f(0.F, 0.F));
 			CHECK(std::get<sf::CircleShape>(circle).getPosition() == sf::Vector2f(125.F, 125.F));
