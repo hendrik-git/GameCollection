@@ -61,30 +61,7 @@ setfolderinvs(Catch2WithMain Dependencies)
 add_subdirectory(src/CodeHelpers)
 add_subdirectory(src/GameEngine)
 add_subdirectory(src/GameMath)
-# -------------------------------------------------------------------------------------------------
-# Building the GameScenes library
-# -------------------------------------------------------------------------------------------------
-add_library(
-    GameScenes OBJECT
-    # (optional) add header files, so that they may show up in the IDE
-    ${CMAKE_SOURCE_DIR}/src/GameScenes/include/GameScenes/Scene.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameScenes/include/GameScenes/SceneAsteroids.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameScenes/include/GameScenes/SceneMainMenu.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameScenes/include/GameScenes/SceneParticleGallery.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameScenes/include/GameScenes/SceneShaderGallery.hpp
-
-    # necessary source files
-    ${CMAKE_SOURCE_DIR}/src/GameScenes/Scene.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameScenes/SceneAsteroids.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameScenes/SceneMainMenu.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameScenes/SceneParticleGallery.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameScenes/SceneShaderGallery.cpp
-)
-target_link_libraries(GameScenes PUBLIC CodeHelpers GameEngine)
-target_include_directories(GameScenes PUBLIC src/GameScenes/include)
-target_compile_features(GameScenes PUBLIC cxx_std_20)
-target_compile_options(GameScenes PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
-
+add_subdirectory(src/GameScenes)
 # -------------------------------------------------------------------------------------------------
 # Building the executable
 # -------------------------------------------------------------------------------------------------
