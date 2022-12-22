@@ -15,7 +15,7 @@ class Vec2
 	float x;
 	float y;
 
-	Vec2(float x, float y) : x(x), y(y) {}
+	Vec2(float pos_x, float pos_y) : x(pos_x), y(pos_y) {}
 
 	[[nodiscard]] auto operator+(Vec2 rhs) const
 	{
@@ -61,19 +61,19 @@ class Vec2
 		y /= scale;
 	}
 
-	[[nodiscard]] auto operator==(Vec2 rhs) -> bool
+	[[nodiscard]] auto operator==(Vec2 rhs) const -> bool
 	{
 		/// @todo epsilon for floating point comparisons
 		return (x == rhs.x && y == rhs.y);
 	}
 
-	[[nodiscard]] auto operator!=(Vec2 rhs) -> bool
+	[[nodiscard]] auto operator!=(Vec2 rhs) const -> bool
 	{
 		/// @todo epsilon for floating point comparisons
 		return (x != rhs.x || y != rhs.y);
 	}
 
-	[[nodiscard]] auto operator<(Vec2 rhs) -> bool
+	[[nodiscard]] auto operator<(Vec2 rhs) const -> bool
 	{
 		/// @todo epsilon for floating point comparisons
 		return (length() < rhs.length());
@@ -81,36 +81,36 @@ class Vec2
 
 	// todo C++20 try out operator<=>
 
-	[[nodiscard]] auto length() -> float
+	[[nodiscard]] auto length() const -> float
 	{
 		return std::sqrt(x * x + y * y);
 	}
 
-	[[nodiscard]] auto normalize() -> Vec2 const
+	[[nodiscard]] auto normalize() const -> Vec2
 	{
 		const auto len{length()};
 		return Vec2{x / len, y / len};
 	}
 };
 
-inline float get_distance_sq(Vec2 a, Vec2 b)
+inline auto get_distance_sq(Vec2 start, Vec2 end) -> float
 {
-	auto delta_x = a.x - b.x;
-	auto delta_y = a.y - b.y;
+	const auto delta_x = start.x - end.x;
+	const auto delta_y = start.y - end.y;
 	return delta_x * delta_x + delta_y * delta_y;
 }
 
-inline float get_distance(Vec2 a, Vec2 b)
+inline auto get_distance(Vec2 start, Vec2 end) -> float
 {
-	return std::sqrt(get_distance_sq(a, b));
+	return std::sqrt(get_distance_sq(start, end));
 }
 
-inline Vec2 direction_from_radians(float angle) 
+inline auto direction_from_radians(float angle) -> Vec2 
 {
-	return Vec2(std::cos(angle), std::sin(angle));
+	return {std::cos(angle), std::sin(angle)};
 }
 
-inline Vec2 direction_from_degree(float angle) 
+inline auto direction_from_degree(float angle) -> Vec2 
 {
 	const auto angle_rad = angle * 3.14159F / 180.F;
 	return direction_from_radians(angle_rad);
