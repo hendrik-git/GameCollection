@@ -46,55 +46,23 @@ mark_as_advanced(ADDITIONAL_COMPILER_FLAGS)
 # -------------------------------------------------------------------------------------------------
 # Declare all dependencies
 # -------------------------------------------------------------------------------------------------
-include(FetchContent)
-set(FETCHCONTENT_UPDATES_DISCONNECTED) # only download missing dependencies
-
-# it is recommended to use commit SHA as argument to the GIT_TAG instead of the branch name or tag
-# because it leads to a cleaner commit history and is faster to check
-
-# fmt is a lightweight and fast formatting library
-fetchcontent_declare(
-    fmt
-    GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-    GIT_TAG a33701196adfad74917046096bf5a2aa0ab0bb50 # v9.1.0 [2022.08.27]
-)
-
-
-# cli11 is a command line parser library
-fetchcontent_declare(
-    cli11
-    GIT_REPOSITORY https://github.com/CLIUtils/CLI11
-    GIT_TAG a66ae4145779c56dc0f9f98a631656417dd77de8 # v2.3.0 [2022.10.15]
-)
-
-# The Simple and Fast Multimedia Library is used for graphics, audio, windows and input see also
-# https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
-fetchcontent_declare(
-    SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 8f54a3e97c35476012613a8a41b7d2234d7ce38e # latest [2022.10.15]
-)
-
-# Catch2 is a unit test library
-fetchcontent_declare(
-    Catch2
-    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-    GIT_TAG 97c48e0c343d26d50764fafdc90b1e630fbd10ce # v3.1.0 [2022.10.15]
-)
-
-# -------------------------------------------------------------------------------------------------
-# Make all dependencies available
-# -------------------------------------------------------------------------------------------------
-fetchcontent_makeavailable(fmt cli11 SFML Catch2)
+# package manager build on top of fetch_content, see https://github.com/cpm-cmake/CPM.cmake
+include(CPM) 
+CPMAddPackage("gh:fmtlib/fmt#a33701196adfad74917046096bf5a2aa0ab0bb50") # v9.1.0 [2022.08.27]
 setfolderinvs(fmt Dependencies)
+
+CPMAddPackage("gh:CLIUtils/CLI11#a66ae4145779c56dc0f9f98a631656417dd77de8") # v2.3.0 [2022.10.15]
 setfolderinvs(CLI11 Dependencies)
+
+CPMAddPackage("gh:SFML/SFML#8f54a3e97c35476012613a8a41b7d2234d7ce38e") # latest [2022.10.15]
 setfolderinvs(sfml-audio Dependencies)
 setfolderinvs(sfml-graphics Dependencies)
 setfolderinvs(sfml-main Dependencies)
 setfolderinvs(sfml-network Dependencies)
-setfolderinvs(sfml-network Dependencies)
 setfolderinvs(sfml-system Dependencies)
 setfolderinvs(sfml-window Dependencies)
+
+CPMAddPackage("gh:catchorg/Catch2#97c48e0c343d26d50764fafdc90b1e630fbd10ce") # v3.1.0 [2022.10.15]
 setfolderinvs(Catch2 Dependencies)
 setfolderinvs(Catch2WithMain Dependencies)
 
@@ -209,7 +177,7 @@ add_executable(GameCollectionApp app/main.cpp)
 target_compile_features(GameCollectionApp PUBLIC cxx_std_20)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
 target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameScenes GameEngine CodeHelpers)
-# target_compile_options(GameCollectionApp PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
+target_compile_options(GameCollectionApp PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
 # Windows, since it doesn't support relative paths to libraries there is currently a bug, where a
