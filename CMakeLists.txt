@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.21)
 project(
     GameCollection
-    VERSION 0.3.0
+    VERSION 0.4.0
     DESCRIPTION "A collection of games"
     LANGUAGES CXX
 )
@@ -33,7 +33,7 @@ endif()
 mark_as_advanced(ADDITIONAL_COMPILER_FLAGS)
 
 # -------------------------------------------------------------------------------------------------
-# Declare all dependencies
+# Download and enable all dependencies
 # -------------------------------------------------------------------------------------------------
 # package manager build on top of fetch_content, see https://github.com/cpm-cmake/CPM.cmake
 include(CPM) 
