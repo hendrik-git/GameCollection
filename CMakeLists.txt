@@ -59,6 +59,7 @@ setfolderinvs(Catch2WithMain Dependencies)
 # Building the targets
 # -------------------------------------------------------------------------------------------------
 add_subdirectory(src/CodeHelpers)
+add_subdirectory(src/GameEngine)
 # -------------------------------------------------------------------------------------------------
 # Building the GameScenes library
 # -------------------------------------------------------------------------------------------------
@@ -96,53 +97,6 @@ add_library(
 target_include_directories(GameMath PUBLIC src/GameMath/include)
 target_compile_features(GameMath PUBLIC cxx_std_20)
 target_compile_options(GameMath PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
-
-# -------------------------------------------------------------------------------------------------
-# Building the GameEngine
-# -------------------------------------------------------------------------------------------------
-add_library(
-    GameEngine OBJECT
-    # (optional) add header files, so that they may show up in the IDE
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Action.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Animation.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Asset.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Collision.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Component.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Entity.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/EntityManager.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/GameEngine.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/ParticleManager.hpp
-    # ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Scene.hpp
-    # ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneAsteroids.hpp
-    # ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneMainMenu.hpp
-    # ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneParticleGallery.hpp
-    # ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/SceneShaderGallery.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/System.hpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/include/GameEngine/Utility.hpp
-    # necessary source files
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/Action.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/Animation.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/Asset.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/Collision.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/Component.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/Entity.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/EntityManager.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/GameEngine.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/ParticleManager.cpp
-    # ${CMAKE_SOURCE_DIR}/src/GameEngine/Scene.cpp
-    # ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneAsteroids.cpp
-    # ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneMainMenu.cpp
-    # ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneParticleGallery.cpp
-    # ${CMAKE_SOURCE_DIR}/src/GameEngine/SceneShaderGallery.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/System.cpp
-    ${CMAKE_SOURCE_DIR}/src/GameEngine/Utility.cpp
-)
-target_include_directories(GameEngine 
-PUBLIC  src/GameEngine/include 
-PRIVATE src/GameScenes/include)
-target_link_libraries(GameEngine PUBLIC CodeHelpers GameMath SFML::Graphics fmt::fmt)
-target_compile_features(GameEngine PUBLIC cxx_std_20)
-target_compile_options(GameEngine PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # -------------------------------------------------------------------------------------------------
 # Building the executable
