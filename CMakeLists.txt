@@ -2,7 +2,6 @@
 # GameCollection Project
 # -------------------------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.21)
-
 project(
     GameCollection
     VERSION 0.3.0
@@ -10,28 +9,18 @@ project(
     LANGUAGES CXX
 )
 
-# select whether to build and link dynamic or static
-option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
-
-# select whether to enable profiling support
-option(USE_PROFILING "Enable PROFILING makros for chrome tracing" OFF)
-
 # tell cmake to look into the local /cmake subdirectory to look for modules (.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+include(git_commands) # update submodules, get the latest git commit
+include(macros) # load custom functions and macros
+
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON) # to build and link dynamic or static
+option(USE_PROFILING "Enable PROFILING makros for chrome tracing" OFF)
 
 # set the output directories
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
-# use folders to group targets in IDE
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-# update submodules, get the latest git commit
-include(git_commands)
-
-# load custom functions and macros
-include(macros)
 
 # Collect compiler flags in a variable to reuse for the following targets. Setting the compiler
 # flags globally will also cause them to be used for dependencies. This may result in the
@@ -211,8 +200,15 @@ endif()
 include(graphviz)
 include(cmake-format)
 include(cmake-lint)
-include(documentation)
+# include(documentation)
 include(poxy)
 
+# -------------------------------------------------------------------------------------------------
+# Visual Studio settings
+# -------------------------------------------------------------------------------------------------
 # set the active project to the executable in Visual Studio
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT GameCollectionApp)
+# set the working directory to the /bin directory
+set_target_properties(GameCollectionApp PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>")
+# neatly put all targets in their folders
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
