@@ -60,6 +60,7 @@ setfolderinvs(Catch2WithMain Dependencies)
 # -------------------------------------------------------------------------------------------------
 add_subdirectory(src/CodeHelpers)
 add_subdirectory(src/GameEngine)
+add_subdirectory(src/GameMath)
 # -------------------------------------------------------------------------------------------------
 # Building the GameScenes library
 # -------------------------------------------------------------------------------------------------
@@ -83,20 +84,6 @@ target_link_libraries(GameScenes PUBLIC CodeHelpers GameEngine)
 target_include_directories(GameScenes PUBLIC src/GameScenes/include)
 target_compile_features(GameScenes PUBLIC cxx_std_20)
 target_compile_options(GameScenes PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
-
-# -------------------------------------------------------------------------------------------------
-# Building the GameMath library
-# -------------------------------------------------------------------------------------------------
-add_library(
-    GameMath OBJECT
-    # (optional) add header files, so that they may show up in the IDE
-    ${CMAKE_SOURCE_DIR}/src/GameMath/include/GameMath/Vec2.hpp
-    # necessary source files
-    ${CMAKE_SOURCE_DIR}/src/GameMath/Vec2.cpp
-)
-target_include_directories(GameMath PUBLIC src/GameMath/include)
-target_compile_features(GameMath PUBLIC cxx_std_20)
-target_compile_options(GameMath PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # -------------------------------------------------------------------------------------------------
 # Building the executable
