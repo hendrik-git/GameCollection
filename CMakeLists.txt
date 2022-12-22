@@ -56,24 +56,9 @@ setfolderinvs(Catch2 Dependencies)
 setfolderinvs(Catch2WithMain Dependencies)
 
 # -------------------------------------------------------------------------------------------------
-# Building the CodeHelpers library
+# Building the targets
 # -------------------------------------------------------------------------------------------------
-add_library(
-    CodeHelpers OBJECT
-    # (optional) add header files, so that they may show up in the IDE
-    ${CMAKE_SOURCE_DIR}/src/CodeHelpers/include/CodeHelpers/Overload.hpp
-    ${CMAKE_SOURCE_DIR}/src/CodeHelpers/include/CodeHelpers/Profiler.hpp
-    # necessary source files
-    ${CMAKE_SOURCE_DIR}/src/CodeHelpers/Overload.cpp
-    ${CMAKE_SOURCE_DIR}/src/CodeHelpers/Profiler.cpp
-)
-target_include_directories(CodeHelpers PUBLIC src/CodeHelpers/include)
-target_compile_features(CodeHelpers PUBLIC cxx_std_20)
-target_compile_options(CodeHelpers PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
-if(USE_PROFILING)
-    target_compile_definitions(CodeHelpers PUBLIC PROFILING)
-endif()
-
+add_subdirectory(src/CodeHelpers)
 # -------------------------------------------------------------------------------------------------
 # Building the GameScenes library
 # -------------------------------------------------------------------------------------------------
