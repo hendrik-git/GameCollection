@@ -15,6 +15,7 @@ Checks: "*,\
   -modernize-use-nodiscard,\
   -misc-non-private-member-variables-in-classes"
 WarningsAsErrors: ''
+HeaderFilterRegex: ''
 CheckOptions:
   - key: 'bugprone-argument-comment.StrictMode'
     value: 'true'
