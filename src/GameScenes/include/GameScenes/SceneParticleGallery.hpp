@@ -22,7 +22,7 @@ namespace Engine::Scene
 		void init();
 		void update() override;
 		void render() override;
-		void do_action(const Action& action) override;
+		void do_action(const Engine::Systems::Action& action) override;
 		void on_end() override;
 
 		sf::Text		text_;

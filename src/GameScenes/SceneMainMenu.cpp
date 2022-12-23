@@ -49,11 +49,11 @@ namespace Engine::Scene
 		window.display();
 	}
 
-	void SceneMainMenu::do_action(const Action& action)
+	void SceneMainMenu::do_action(const Engine::Systems::Action& action)
 	{
 		using namespace Engine::Components;
 
-		if(action.type() == "Start")
+		if(action.type() == Engine::Systems::ActionType::Start)
 		{
 			if(action.name() == "Prev")
 			{
@@ -72,7 +72,7 @@ namespace Engine::Scene
 				game_->quit();
 			}
 		}
-		else if(action.type() == "End")
+		else if(action.type() == Engine::Systems::ActionType::End)
 		{
 			// if(action.name() == "Up")
 			//{

@@ -151,8 +151,12 @@ void GameEngine::update() {}
 void GameEngine::user_input()
 {
 	sf::Event event;
+	auto&	  actions = current_scene()->get_ActionMap();
+
 	while(window_.pollEvent(event))
 	{
+		using namespace Engine::Systems;
+
 		if(event.type == sf::Event::Closed)
 		{
 			window_.close();
@@ -161,20 +165,32 @@ void GameEngine::user_input()
 
 		if(event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
 		{
-			auto& actions = current_scene()->get_ActionMap();
 			if(actions.find(event.key.code) == actions.end())
 			{
-				continue;
+				continue;  // ignore events, that the scene does not use
 			}
-			const auto type = std::string{(event.type == sf::Event::KeyPressed) ? "Start" : "End"};
+
+			const auto type =
+				event.type == sf::Event::KeyPressed ? ActionType::Start : ActionType::End;
 			current_scene()->do_action(Action{actions.at(event.key.code), type});
 		}
 
-		/// @todo Mouse input is currently not supported yet
-		// player_->mouse->lmb = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-		// player_->mouse->rmb = sf::Mouse::isButtonPressed(sf::Mouse::Right);
-		// player_->mouse->x	= static_cast<float>(sf::Mouse::getPosition(window_).x);
-		// player_->mouse->y	= static_cast<float>(sf::Mouse::getPosition(window_).y);
+		if(event.type == sf::Event::MouseButtonPressed ||
+		   event.type == sf::Event::MouseButtonReleased)
+		{
+
+			if(actions.find(event.key.code) == actions.end())
+			{
+				continue;  // ignore events, that the scene does not use
+			}
+			auto pos = MousePos{{static_cast<float>(sf::Mouse::getPosition(window_).x),
+								 static_cast<float>(sf::Mouse::getPosition(window_).y)}};
+
+			const auto type =
+				event.type == sf::Event::MouseButtonPressed ? ActionType::Start : ActionType::End;
+
+			current_scene()->do_action(Action{actions.at(event.key.code), type, pos});
+		}
 	}
 }
 

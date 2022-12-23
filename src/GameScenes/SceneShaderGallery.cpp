@@ -133,7 +133,7 @@ namespace Engine::Scene
 		window.display();
 	}
 
-	void SceneShaderGallery::do_action([[maybe_unused]] const Action& action)
+	void SceneShaderGallery::do_action([[maybe_unused]] const Engine::Systems::Action& action)
 	{
 		auto print_current_shader_name = [&]()
 		{
@@ -144,7 +144,7 @@ namespace Engine::Scene
 			}
 		};
 
-		if(action.type() == "Start")
+		if(action.type() == Engine::Systems::ActionType::Start)
 		{
 			if(action.name() == "Prev")
 			{

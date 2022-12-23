@@ -23,21 +23,13 @@ namespace Engine::Scene
 		BaseScene() = default;
 		BaseScene(GameEngine* engine);
 
-		virtual void update()						 = 0;
-		virtual void render()						 = 0;
-		virtual void do_action(const Action& action) = 0;
-
-		// void simulate();
-		void register_action(int key, std::string name);
-
-		// size_t	   width();
-		// size_t	   height();
-
-		bool	   has_ended();
-		size_t	   current_frame();
-		ActionMap& get_ActionMap();
-
-		// void	   draw_line(Vec2 p1, Vec2 p2);
+		virtual void update()										  = 0;
+		virtual void render()										  = 0;
+		virtual void do_action(const Engine::Systems::Action& action) = 0;
+		void		 register_action(int key, std::string name);
+		bool		 has_ended();
+		size_t		 current_frame();
+		ActionMap&	 get_ActionMap();
 
 	  protected:
 		virtual void on_end() = 0;

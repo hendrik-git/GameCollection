@@ -1,5 +1,7 @@
-#include "GameScenes/SceneAsteroids.hpp"
-#include "GameEngine/GameEngine.hpp"
+#include <GameEngine/Collision.hpp>
+#include <GameEngine/GameEngine.hpp>
+#include <GameScenes/SceneAsteroids.hpp>
+#include <CodeHelpers/Overload.hpp>
 #include <fmt/core.h>
 #include <random>
 
@@ -30,10 +32,25 @@ namespace
 					 static_cast<float>(get_random_int(-100, 100))}
 					.normalize()};
 	}
+
+	struct draw_visitor
+	{
+		bool operator()(sf::RectangleShape& shape, sf::RenderTarget& window)
+		{
+			window.draw(shape);
+		};
+		bool operator()(sf::CircleShape& shape, sf::RenderTarget& window)
+		{
+			window.draw(shape);
+		};
+	};
+
 }  // namespace
 
 namespace Engine::Scene
 {
+	using namespace CodeHelper;
+
 	void SceneAsteroids::spawn_entities()
 	{
 		using namespace Engine::Components;
@@ -48,15 +65,12 @@ namespace Engine::Scene
 			auto mouse_pos = Vec2{mouse.x, mouse.y};
 			auto angle	   = player_->get_component<Transform>().angle;
 			auto direction = direction_from_degree(angle);
-			// auto direction = calc_direction(pos, mouse_pos);
 			bullet->add_component<Transform>(pos + (direction * 20), direction * 25, angle + 90.F);
 
-			ShapeInit bullet_shape;
-			bullet_shape.radius	   = 4.F;
-			bullet_shape.fill	   = sf::Color::White;
-			bullet_shape.outline   = sf::Color::Yellow;
-			bullet_shape.thickness = 1.F;
-			bullet->add_component<Shape>(bullet_shape);
+			const auto radius = 4.F;
+			auto	   circle = sf::CircleShape(radius);
+			circle.setOrigin({radius, radius});
+			bullet->add_component<Collision>(circle);
 			bullet->add_component<Lifespan>(120);
 			bullet->add_component<Drawable>("Laser", game_->assets().get_texture("Laser"));
 
@@ -76,11 +90,13 @@ namespace Engine::Scene
 												 static_cast<int>(world_size_.y));
 			} while(get_distance_sq(enemy_pos, pos) < 100 * 100);
 
-			auto enemy = entities_.add_entity("enemy");
 			auto dir   = get_random_dir();
+			auto enemy = entities_.add_entity("enemy");
 			enemy->add_component<Transform>(enemy_pos, dir * 2.F);
+			enemy->add_component<Collision>();
 
 
+			float meteor_radius{0.F};
 			switch(nr)
 			{
 				default:
@@ -90,32 +106,41 @@ namespace Engine::Scene
 				case 1:
 					enemy->add_component<Score>(5);
 					enemy->add_component<Hitpoints>(1);
+					meteor_radius = 2.5F;
 					break;
 				case 2:
 					[[fallthrough]];
 				case 3:
 					enemy->add_component<Score>(10);
 					enemy->add_component<Hitpoints>(1);
+					meteor_radius = 5.F;
 					break;
 				case 4:
 					[[fallthrough]];
 				case 5:
 					enemy->add_component<Score>(20);
 					enemy->add_component<Hitpoints>(2);
+					meteor_radius = 10.F;
 					break;
 				case 6:
 					[[fallthrough]];
 				case 7:
 					enemy->add_component<Score>(20);
 					enemy->add_component<Hitpoints>(2);
+					meteor_radius = 20.F;
 					break;
 				case 8:
 					[[fallthrough]];
 				case 9:
 					enemy->add_component<Score>(50);
 					enemy->add_component<Hitpoints>(5);
+					meteor_radius = 30.F;
 					break;
 			}
+
+			sf::CircleShape hitbox{meteor_radius};
+			hitbox.setOrigin({meteor_radius, meteor_radius});
+			enemy->add_component<Collision>(hitbox);
 
 			auto& texture = game_->assets().get_texture("Meteor" + std::to_string(nr));
 			enemy->add_component<Drawable>("Meteor", texture);
@@ -123,6 +148,7 @@ namespace Engine::Scene
 			ShapeInit enemy_shape;
 			enemy_shape.radius = static_cast<float>(texture.getSize().x) / 2.F;
 			enemy->add_component<Shape>(enemy_shape);
+
 			enemy_cooldown = 30;
 		}
 		enemy_cooldown = std::max(0, --enemy_cooldown);
@@ -134,19 +160,17 @@ namespace Engine::Scene
 
 		player_ = entities_.add_entity("player");
 		player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
-		ShapeInit player_shape;
-		player_shape.radius	   = 12.F;
-		player_shape.points	   = 32;
-		player_shape.fill	   = sf::Color::Yellow;
-		player_shape.outline   = sf::Color::White;
-		player_shape.thickness = 4.F;
-		// player_->add_component<Shape>(player_shape);
 		player_->add_component<Input>();
 		player_->add_component<Mouse>();
 
-		auto& draw = player_->add_component<Drawable>("PlayerShip",
-													  game_->assets().get_texture("PlayerShip"));
+		auto& texture = game_->assets().get_texture("PlayerShip");
+		auto& draw	  = player_->add_component<Drawable>("PlayerShip", texture);
 		draw.set_rotation(90.F);
+
+		const auto radius = texture.getSize().x / 2.F;
+		auto	   hitbox = sf::CircleShape(radius);
+		hitbox.setOrigin({radius, radius});
+		player_->add_component<Collision>(hitbox);
 	}
 
 	void SceneAsteroids::reduce_lifespan()
@@ -199,21 +223,33 @@ namespace Engine::Scene
 			{
 				transf.prev_pos = transf.pos;
 
-				[[maybe_unused]] auto& x  = transf.pos.x;
-				[[maybe_unused]] auto& dx = transf.vel.x;
-				[[maybe_unused]] auto& y  = transf.pos.y;
-				[[maybe_unused]] auto& dy = transf.vel.y;
+				auto& x	 = transf.pos.x;
+				auto& dx = transf.vel.x;
+				auto& y	 = transf.pos.y;
+				auto& dy = transf.vel.y;
 
 				x = std::clamp(x + dx, x_min, x_max);
 				y = std::clamp(y + dy, y_min, y_max);
+
+				// update the position inside the collision to match the entitys position
+				if(auto& hitbox = entity->get_component<Collision>(); hitbox)
+				{
+					std::visit(Overload{[x, y](sf::RectangleShape& shape) {
+											  shape.setPosition({x, y});
+										  },
+										  [x, y](sf::CircleShape& shape) {
+											  shape.setPosition({x, y});
+										  }},
+							   hitbox.shape);
+				}
 			}
 		}
 
+		// destroy bullets that leave the play space
 		for(auto& bullet : entities_.get_entities("bullet"))
 		{
 			auto bullet_x = bullet->get_component<Transform>().pos.x;
 			auto bullet_y = bullet->get_component<Transform>().pos.y;
-
 			if(bullet_x <= x_min || bullet_x >= x_max || bullet_y <= y_min || bullet_y >= y_max)
 			{
 				bullet->destroy();
@@ -269,21 +305,15 @@ namespace Engine::Scene
 		// collision bullet <-> enemy
 		for(auto& bullet : entities_.get_entities("bullet"))
 		{
-			assert(bullet->get_component<Transform>() && "Bullet has no tranform component");
+			assert(bullet->get_component<Collision>() && "Bullet has no Collision component");
 
 			for(auto& enemy : entities_.get_entities("enemy"))
 			{
-				assert(enemy->get_component<Shape>() && "Enemy has no shape component");
-				assert(enemy->get_component<Transform>() && "Enemy has no tranform component");
+				assert(enemy->get_component<Collision>() && "Enemy has no Collision component");
 
-				// two circles collide, when their distance is less than their radii
-				auto bullet_r	 = bullet->get_component<Shape>().circle.getRadius();
-				auto enemy_r	 = enemy->get_component<Shape>().circle.getRadius();
-				auto radius_sq	 = (bullet_r + enemy_r) * (bullet_r + enemy_r);
-				auto distance_sq = get_distance_sq(bullet->get_component<Transform>().pos,
-												   enemy->get_component<Transform>().pos);
-
-				if(distance_sq <= radius_sq)
+				if(std::visit(Engine::Physics::CollisionChecker{},
+							  bullet->get_component<Collision>().shape,
+							  enemy->get_component<Collision>().shape))
 				{
 					auto& enemy_hp = enemy->get_component<Hitpoints>();
 					if(!enemy_hp.invulnerable)
@@ -347,18 +377,11 @@ namespace Engine::Scene
 		// then fill the vastness of space with entities (space ship, lasers, asteroids..)
 		for(auto& entity : entities_.get_entities())
 		{
-			if(auto& shape = entity->get_component<Shape>(); shape && draw_hitboxes_)
+			if(auto& hitbox = entity->get_component<Collision>(); hitbox && draw_hitboxes_)
 			{
-				// assume every shape has also a transform component
-				assert(entity->get_component<Transform>() && "Missing transform component");
-
-				auto& circle = shape.circle;
-				auto& transf = entity->get_component<Transform>();
-
-				circle.setPosition({transf.pos.x, transf.pos.y});
-				circle.setRotation(sf::degrees(transf.angle));
-
-				window.draw(shape.circle);
+				std::visit(Overload{[&window](sf::RectangleShape& shape) { window.draw(shape); },
+									  [&window](sf::CircleShape& shape) { window.draw(shape); }},
+						   hitbox.shape);
 			}
 
 			if(auto& shape = entity->get_component<Drawable>(); shape && draw_sprites_)
@@ -389,11 +412,11 @@ namespace Engine::Scene
 		window.display();
 	}
 
-	void SceneAsteroids::do_action(const Action& action)
+	void SceneAsteroids::do_action(const Engine::Systems::Action& action)
 	{
 		using namespace Engine::Components;
 
-		if(action.type() == "Start")
+		if(action.type() == Engine::Systems::ActionType::Start)
 		{
 			if(action.name() == "Up")
 			{
@@ -432,7 +455,7 @@ namespace Engine::Scene
 				draw_hitboxes_ = !draw_hitboxes_;
 			}
 		}
-		else if(action.type() == "End")
+		else if(action.type() == Engine::Systems::ActionType::End)
 		{
 			if(action.name() == "Up")
 			{
