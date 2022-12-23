@@ -1,30 +1,16 @@
 #include <GameEngine/Action.hpp>
 
-Action::Action() {}
+Engine::Systems::Action::Action(const std::string& name, ActionType type, MousePos mouse)
+	: name_(name), type_(type), mouse_(mouse)
+{
+}
 
-Action::Action(std::string name, std::string type) : name_(name), type_(type) {}
-
-auto Action::name() -> std::string&
+auto Engine::Systems::Action::name() const -> const std::string&
 {
 	return name_;
 }
 
-auto Action::name() const -> const std::string&
-{
-	return name_;
-}
-
-auto Action::type() const -> const std::string&
+auto Engine::Systems::Action::type() const -> ActionType
 {
 	return type_;
-}
-
-auto Action::type() -> std::string&
-{
-	return type_;
-}
-
-auto Action::to_string() -> std::string
-{
-	return std::string();
 }
