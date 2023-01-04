@@ -1,8 +1,6 @@
 #include "GameEngine/Animation.hpp"
 
-Animation::Animation() {}
-
-Animation::Animation(std::string name, sf::Texture& texture) : name_{name}
+Animation::Animation(std::string name, sf::Texture& texture) : name_{std::move(name)}
 {
 	auto size = static_cast<sf::Vector2f>(texture.getSize());
 	sprite_.setOrigin({size.x / 2, size.y / 2});
@@ -10,7 +8,7 @@ Animation::Animation(std::string name, sf::Texture& texture) : name_{name}
 }
 
 Animation::Animation(std::string name, sf::Texture& texture, size_t frame_count, size_t speed)
-	: name_{name}, frame_count_{frame_count}, speed_{speed}
+	: name_{std::move(name)}, frame_count_{frame_count}, speed_{speed}
 {
 	auto size = static_cast<sf::Vector2f>(texture.getSize());
 	sprite_.setOrigin({size.x / 2, size.y / 2});

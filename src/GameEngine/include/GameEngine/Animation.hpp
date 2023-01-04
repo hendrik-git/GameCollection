@@ -10,13 +10,12 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+/// @brief Used as part of the Drawable component, holding the sprite and animation logic
+/// @detail The components should ideally be free from logic and contain pure data. However this
+/// implementation is very narrowly focused and convenient to use.
 class Animation
 {
   public:
-	Animation();
-	Animation(std::string name, sf::Texture& texture);
-	Animation(std::string name, sf::Texture& texture, size_t frame_count, size_t speed);
-
 	void update();
 	auto has_ended() -> bool;
 	auto get_name() -> std::string;
@@ -24,6 +23,11 @@ class Animation
 	auto get_sprite() -> sf::Sprite&;
 	auto get_rotation() -> float;
 	void set_rotation(float degree);
+
+  protected:
+	Animation() = default;
+	Animation(std::string name, sf::Texture& texture);
+	Animation(std::string name, sf::Texture& texture, size_t frame_count, size_t speed);
 
   private:
 	sf::Sprite	sprite_;
