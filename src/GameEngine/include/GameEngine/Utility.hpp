@@ -43,4 +43,30 @@ namespace Utility
 		auto center_h = rect.top + (max_h >= rect.height ? max_h * 0.5f : rect.height * 0.5f);
 		text.setOrigin({center_v, center_h});
 	}
+
+	/// @brief
+	/// @param tex
+	/// @return
+	inline auto get_circle_from(const sf::Texture& tex) -> sf::CircleShape
+	{
+		const auto		d_width	 = static_cast<float>(tex.getSize().x);
+		const auto		d_height = static_cast<float>(tex.getSize().y);
+		const auto		r_mean	 = (d_width + d_height) / 4.F;
+		sf::CircleShape shape{r_mean};
+		shape.setOrigin({r_mean, r_mean});
+		return shape;
+	}
+
+	/// @brief
+	/// @note The hitbox may not match the entity if rotations are involved
+	/// @param tex
+	/// @return
+	inline auto get_rectangle_from(const sf::Texture& tex) -> sf::RectangleShape
+	{
+		const auto		   width  = static_cast<float>(tex.getSize().x);
+		const auto		   height = static_cast<float>(tex.getSize().y);
+		sf::RectangleShape shape{{width, height}};
+		shape.setOrigin({width / 2.F, height / 2.F});
+		return shape;
+	}
 }  // namespace Utility
