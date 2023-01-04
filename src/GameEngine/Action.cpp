@@ -1,7 +1,7 @@
 #include <GameEngine/Action.hpp>
 
-Engine::Systems::Action::Action(const std::string& name, ActionType type, MousePos mouse)
-	: name_(name), type_(type), mouse_(mouse)
+Engine::Systems::Action::Action(std::string name, ActionType type, MousePos mouse)
+	: name_(std::move(name)), type_(type), mouse_(std::move(mouse))
 {
 }
 

@@ -31,7 +31,7 @@ namespace Engine::Systems
 	{
 	  public:
 		Action() = default;
-		Action(const std::string& name, ActionType type, MousePos mouse = MousePos{});
+		Action(std::string name, ActionType type, MousePos mouse = MousePos{});
 
 		/// @brief The name is used to check if the action is registered in the scene
 		/// @detail Using a std::string here is less efficient than an enum but more flexible. If
