@@ -1,4 +1,4 @@
-/// @file Unit tests for the EntityManager class
+/// @file EntityManager.cpp
 
 // see https://catch2.docsforge.com/
 #include <GameEngine/EntityManager.hpp>

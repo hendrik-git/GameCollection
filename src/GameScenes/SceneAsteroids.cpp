@@ -262,6 +262,7 @@ namespace Engine::Scene
 		register_action(sf::Keyboard::H, "ToggleHitboxes");
 		register_action(sf::Keyboard::Space, "Shoot");
 		register_action(sf::Keyboard::Escape, "Quit");
+		register_action(sf::Keyboard::Enter, "Reset");
 
 		auto& texture = game_->assets().get_texture("Background");
 		texture.setRepeated(true);
@@ -338,7 +339,7 @@ namespace Engine::Scene
 	void SceneAsteroids::update()
 	{
 		// user_input();
-		if(!is_paused_)
+		if(!is_paused_ && !game_over_)
 		{
 			spawn_entities();
 			reduce_lifespan();
@@ -375,13 +376,42 @@ namespace Engine::Scene
 		// next draw the background (bottom layer)
 		window.draw(background_);
 
+		if(game_over_)
+		{
+			sf::Text game_over;
+			game_over.setFont(game_->assets().get_font("Gidole"));
+			game_over.setString("GAME OVER");
+			game_over.setCharacterSize(48);	 // in pixels
+			game_over.setFillColor(sf::Color::White);
+			game_over.setStyle(sf::Text::Bold);
+			game_over.setPosition(window.mapPixelToCoords(
+				{static_cast<int>(view_min_x), static_cast<int>(view_min_y)}, view));
+			Utility::center_text(game_over);
+			window.draw(game_over);
+
+			sf::Text score;
+			score.setFont(game_->assets().get_font("Gidole"));
+			score.setString(std::format("Score {:>04}", score_));
+			score.setCharacterSize(24);	 // in pixels
+			score.setFillColor(sf::Color::White);
+			score.setStyle(sf::Text::Bold);
+			score.setPosition(window.mapPixelToCoords(
+				{static_cast<int>(view_min_x), static_cast<int>(1.3 * view_min_y)}, view));
+			Utility::center_text(score);
+			window.draw(score);
+
+			// finally display all rendered content
+			window.display();
+			return;
+		}
+
 		// then fill the vastness of space with entities (space ship, lasers, asteroids..)
 		for(auto& entity : entities_.get_entities())
 		{
 			if(auto& hitbox = entity->get_component<Collision>(); hitbox && draw_hitboxes_)
 			{
 				std::visit(Overload{[&window](sf::RectangleShape& shape) { window.draw(shape); },
-									  [&window](sf::CircleShape& shape) { window.draw(shape); }},
+									[&window](sf::CircleShape& shape) { window.draw(shape); }},
 						   hitbox.shape);
 			}
 
@@ -399,10 +429,12 @@ namespace Engine::Scene
 			}
 		}
 
+		const auto hp = player_->get_component<Hitpoints>().current_hp;
+
 		// draw HUD elements on top
 		sf::Text text;
 		text.setFont(game_->assets().get_font("Gidole"));
-		text.setString(fmt::format("Score {:>04}", score_));
+		text.setString(std::format("Score {:>04}\nHealth {}", score_, hp));
 		text.setCharacterSize(24);	// in pixels
 		text.setFillColor(sf::Color::White);
 		text.setStyle(sf::Text::Bold);
@@ -446,6 +478,23 @@ namespace Engine::Scene
 			if(action.name() == "Quit")
 			{
 				game_->quit();
+			}
+			if(action.name() == "Reset")
+			{
+				if(game_over_)
+				{
+					for(auto entity : entities_.get_entities())
+					{
+						entity->destroy();
+					}
+					game_over_ = false;
+					score_	   = 0;
+					spawn_player();
+				}
+				else
+				{
+					game_over_ = true;
+				}
 			}
 			if(action.name() == "ToggleSprites")
 			{
