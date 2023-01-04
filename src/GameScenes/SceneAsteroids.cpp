@@ -107,10 +107,7 @@ namespace Engine::Scene
 			auto dir   = get_random_dir();
 			auto enemy = entities_.add_entity("enemy");
 			enemy->add_component<Transform>(enemy_pos, dir * 2.F);
-			enemy->add_component<Collision>();
 
-
-			float meteor_radius{0.F};
 			switch(nr)
 			{
 				default:
@@ -120,48 +117,36 @@ namespace Engine::Scene
 				case 1:
 					enemy->add_component<Score>(5);
 					enemy->add_component<Hitpoints>(1);
-					meteor_radius = 2.5F;
 					break;
 				case 2:
 					[[fallthrough]];
 				case 3:
 					enemy->add_component<Score>(10);
 					enemy->add_component<Hitpoints>(1);
-					meteor_radius = 5.F;
 					break;
 				case 4:
 					[[fallthrough]];
 				case 5:
 					enemy->add_component<Score>(20);
 					enemy->add_component<Hitpoints>(2);
-					meteor_radius = 10.F;
 					break;
 				case 6:
 					[[fallthrough]];
 				case 7:
 					enemy->add_component<Score>(20);
 					enemy->add_component<Hitpoints>(2);
-					meteor_radius = 20.F;
 					break;
 				case 8:
 					[[fallthrough]];
 				case 9:
 					enemy->add_component<Score>(50);
 					enemy->add_component<Hitpoints>(5);
-					meteor_radius = 30.F;
 					break;
 			}
 
-			sf::CircleShape hitbox{meteor_radius};
-			hitbox.setOrigin({meteor_radius, meteor_radius});
-			enemy->add_component<Collision>(hitbox);
-
 			auto& texture = game_->assets().get_texture("Meteor" + std::to_string(nr));
+			enemy->add_component<Collision>(Utility::get_circle_from(texture));
 			enemy->add_component<Drawable>("Meteor", texture);
-
-			ShapeInit enemy_shape;
-			enemy_shape.radius = static_cast<float>(texture.getSize().x) / 2.F;
-			enemy->add_component<Shape>(enemy_shape);
 
 			enemy_cooldown = 30;
 		}
