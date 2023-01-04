@@ -7,7 +7,18 @@
 
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <variant>
+#include <vector>
 
+
+struct ExplosiveEmitter
+{
+	int	  framesLeft_ = 0;
+	float x_		  = 0.0;
+	float y_		  = 0.0;
+};
+
+using ParticleEmitter = std::variant<ExplosiveEmitter>;
 
 class Particle : public sf::Drawable
 {
@@ -107,4 +118,5 @@ class ParticleManager
 
   private:
 	std::vector<Particle>		 particles_;
+	std::vector<ParticleEmitter> emitters_;
 };
