@@ -9,6 +9,8 @@
 #include <GameEngine/Animation.hpp>
 #include <GameMath/Vec2.hpp>
 #include <SFML/Graphics.hpp>
+#include <format>
+#include <iostream>
 #include <tuple>
 #include <variant>
 
@@ -91,27 +93,28 @@ namespace Engine::Components
 	};
 
 	/// @brief Holds the shape, that is used to check for collisions with another entity.
-	inline namespace v1
-	{
-		struct Collision : public BaseComponent
-		{
-			Collision(float radius = 0.f) : radius(radius) {}
+	// inline namespace v1
+	//{
+	//	struct Collision : public BaseComponent
+	//	{
+	//		Collision(float radius = 0.f) : radius(radius) {}
 
-			float radius;
-		};
-	}  // namespace v1
+	//		float radius;
+	//	};
+	//}  // namespace v1
+
+	// namespace v2
+	//{
+	using CollShape = std::variant<sf::CircleShape, sf::RectangleShape>;
 
 	/// @brief Holds the shape, that is used to check for collisions with another entity.
-	namespace v2
+	struct Collision : public BaseComponent
 	{
-		using CollShape = std::variant<sf::CircleShape, sf::RectangleShape>;
-		struct Collision : public BaseComponent
-		{
-			Collision(CollShape hitbox) : shape(hitbox){};
+		Collision(CollShape hitbox = CollShape{}) : shape(hitbox){};
 
-			CollShape shape;
-		};
-	}  // namespace v2
+		CollShape shape;
+	};
+	//}  // namespace v2
 
 	/// @brief Holds an amount of value attributed to this entity.
 	struct Score : public BaseComponent
@@ -163,4 +166,4 @@ namespace Engine::Components
 	using ComponentTuple =
 		std::tuple<Transform, Drawable, Shape, Collision, Score, Lifespan, Input, Mouse, Hitpoints>;
 
-}  // namespace GameEngine::Components
+}  // namespace Engine::Components
