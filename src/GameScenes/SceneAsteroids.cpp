@@ -1,8 +1,9 @@
+#include <CodeHelpers/Overload.hpp>
 #include <GameEngine/Collision.hpp>
 #include <GameEngine/GameEngine.hpp>
+#include <GameEngine/Utility.hpp>
 #include <GameScenes/SceneAsteroids.hpp>
-#include <CodeHelpers/Overload.hpp>
-#include <fmt/core.h>
+#include <format>
 #include <random>
 
 namespace
@@ -33,17 +34,30 @@ namespace
 					.normalize()};
 	}
 
-	struct draw_visitor
+	auto move_player(PlayerPtr player)
 	{
-		bool operator()(sf::RectangleShape& shape, sf::RenderTarget& window)
+		using namespace Engine::Components;
+
+		auto& player_pos   = player->get_component<Transform>().pos;
+		auto& player_angle = player->get_component<Transform>().angle;
+
+		if(player->get_component<Input>().up)
 		{
-			window.draw(shape);
-		};
-		bool operator()(sf::CircleShape& shape, sf::RenderTarget& window)
+			player_pos += direction_from_degree(player_angle) * 4.F;
+		}
+		if(player->get_component<Input>().down)
 		{
-			window.draw(shape);
-		};
-	};
+			player_pos -= direction_from_degree(player_angle) * 4.F;
+		}
+		if(player->get_component<Input>().right)
+		{
+			player_angle += 2.F;
+		}
+		if(player->get_component<Input>().left)
+		{
+			player_angle -= 2.F;
+		}
+	}
 
 }  // namespace
 
@@ -191,26 +205,7 @@ namespace Engine::Scene
 	{
 		using namespace Engine::Components;
 
-		// handle player movement
-		auto& player_pos   = player_->get_component<Transform>().pos;
-		auto& player_angle = player_->get_component<Transform>().angle;
-
-		if(player_->get_component<Input>().up)
-		{
-			player_pos += direction_from_degree(player_angle) * 4.F;
-		}
-		if(player_->get_component<Input>().down)
-		{
-			player_pos -= direction_from_degree(player_angle) * 4.F;
-		}
-		if(player_->get_component<Input>().right)
-		{
-			player_angle += 3.F;
-		}
-		if(player_->get_component<Input>().left)
-		{
-			player_angle -= 3.F;
-		}
+		move_player(player_);
 
 		auto x_min = 0.F;
 		auto y_min = 0.F;
