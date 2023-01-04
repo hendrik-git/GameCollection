@@ -37,5 +37,6 @@ namespace Engine::Scene
 		Vec2	   world_size_	  = {2000, 2000};
 		bool	   draw_hitboxes_ = false;
 		bool	   draw_sprites_  = true;
+		bool	   game_over_	  = false;
 	};
 }  // namespace Engine::Scene

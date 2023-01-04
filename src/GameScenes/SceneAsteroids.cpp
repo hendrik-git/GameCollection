@@ -158,18 +158,13 @@ namespace Engine::Scene
 		using namespace Engine::Components;
 
 		player_ = entities_.add_entity("player");
-		player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
-		player_->add_component<Input>();
-		player_->add_component<Mouse>();
 
 		auto& texture = game_->assets().get_texture("PlayerShip");
-		auto& draw	  = player_->add_component<Drawable>("PlayerShip", texture);
-		draw.set_rotation(90.F);
-
-		const auto radius = texture.getSize().x / 2.F;
-		auto	   hitbox = sf::CircleShape(radius);
-		hitbox.setOrigin({radius, radius});
-		player_->add_component<Collision>(hitbox);
+		player_->add_component<Drawable>("PlayerShip", texture).set_rotation(90.F);
+		player_->add_component<Collision>(Utility::get_circle_from(texture));
+		player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
+		player_->add_component<Hitpoints>(3);
+		player_->add_component<Input>();
 	}
 
 	void SceneAsteroids::reduce_lifespan()
@@ -215,11 +210,11 @@ namespace Engine::Scene
 				if(auto& hitbox = entity->get_component<Collision>(); hitbox)
 				{
 					std::visit(Overload{[x, y](sf::RectangleShape& shape) {
-											  shape.setPosition({x, y});
-										  },
-										  [x, y](sf::CircleShape& shape) {
-											  shape.setPosition({x, y});
-										  }},
+											shape.setPosition({x, y});
+										},
+										[x, y](sf::CircleShape& shape) {
+											shape.setPosition({x, y});
+										}},
 							   hitbox.shape);
 				}
 			}
@@ -310,6 +305,32 @@ namespace Engine::Scene
 
 					bullet->destroy();
 				}
+			}
+		}
+
+		// collision player <-> enemy
+		for(auto& enemy : entities_.get_entities("enemy"))
+		{
+			assert(enemy->get_component<Collision>() && "Enemy has no Collision component");
+
+			if(std::visit(Engine::Physics::CollisionChecker{},
+						  player_->get_component<Collision>().shape,
+						  enemy->get_component<Collision>().shape))
+			{
+				auto& player_hp = player_->get_component<Hitpoints>();
+				if(!player_hp.invulnerable)
+				{
+					/// @todo damage component for bullet
+					player_hp.current_hp -= 1;
+				}
+
+				if(player_hp.current_hp <= 0)
+				{
+					game_over_ = true;
+				}
+
+				// destroy the enemy, so the player won't collide the next frame again
+				enemy->destroy();
 			}
 		}
 	}
