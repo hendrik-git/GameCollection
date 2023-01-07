@@ -31,7 +31,7 @@ undocumented    = true
 [sources]
 paths           = [ 'pages' ]
 recursive_paths = [ '../src' ]
-patterns        = [ '*.hpp', '*.cpp', '*.dox', '.md' ]
+patterns        = [ '*.hpp', '*.cpp', '*.dox', '*.md' ]
 strip_paths     = [ '../src' ]
 extract_all     = true
 

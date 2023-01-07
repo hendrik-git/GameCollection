@@ -1,10 +1,10 @@
-/*!
-
 \mainpage GameCollection
 
 \image html banner.png width=1280px
 
 \tableofcontents
+
+\subpage GameEngine
 
 \section mainpage-overview Overview
 
@@ -22,7 +22,3 @@
 to be added
 
 See \ref page1 for more info.
-
-
-
-*/
