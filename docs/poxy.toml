@@ -38,5 +38,10 @@ extract_all     = true
 [images]
 paths           = [ 'images' ]
 
-#[badges]
+[badges]
+'Unit Tests (Windows)' = [ 
+    'https://github.com/hendrik-git/GameCollection/actions/workflows/windows_build.yml/badge.svg', 
+    'https://github.com/hendrik-git/GameCollection/actions/workflows/windows_build.yml' 
+]
+
 #'C++20'       = [ 'badge-C++20.svg', 'https://en.cppreference.com/w/cpp/compiler_support' ]
