@@ -1,6 +1,7 @@
 # -------------------------------------------------------------------------------------------------
 # Setup
 # -------------------------------------------------------------------------------------------------
+include(Catch)
 
 # -------------------------------------------------------------------------------------------------
 # Unit tests for the GameEngine library
@@ -15,6 +16,9 @@ add_executable(Test_GameEngine
 target_link_libraries(Test_GameEngine PRIVATE GameEngine GameScenes Catch2::Catch2WithMain)
 SetFolderInVS(Test_GameEngine Test)
 
+#add_test(NAME GameEngine COMMAND Test_GameEngine)
+catch_discover_tests(Test_GameEngine)
+
 # -------------------------------------------------------------------------------------------------
 # Unit tests for the GameMath library
 # -------------------------------------------------------------------------------------------------
@@ -23,3 +27,6 @@ add_executable(Test_GameMath
 )
 target_link_libraries(Test_GameMath PRIVATE GameMath Catch2::Catch2WithMain)
 SetFolderInVS(Test_GameMath Test)
+
+#add_test(NAME GameMath COMMAND Test_GameMath)
+catch_discover_tests(Test_GameMath)
