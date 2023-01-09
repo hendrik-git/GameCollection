@@ -304,6 +304,13 @@ namespace Engine::Scene
 						score_ += enemy->get_component<Score>().score;
 					}
 
+					auto pos = bullet->get_component<Transform>().pos;
+					for(int i{0}; i < 10; ++i)
+					{
+						auto rng_dir = get_random_dir();
+						particles_.create(pos.x, pos.y, rng_dir.x * i, rng_dir.y * i, 15 + i);
+					}
+
 					bullet->destroy();
 				}
 			}
@@ -344,6 +351,7 @@ namespace Engine::Scene
 			spawn_entities();
 			reduce_lifespan();
 			entities_.update();
+			particles_.update();
 			movement();
 			collision();
 		}
@@ -428,6 +436,8 @@ namespace Engine::Scene
 				window.draw(sprite);
 			}
 		}
+
+		particles_.draw(window);
 
 		const auto hp = player_->get_component<Hitpoints>().current_hp;
 

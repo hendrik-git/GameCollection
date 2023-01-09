@@ -7,6 +7,7 @@
 
 #pragma once
 #include "Scene.hpp"
+#include <GameEngine/ParticleManager.hpp>
 
 namespace Engine::Scene
 {
@@ -31,12 +32,13 @@ namespace Engine::Scene
 		void movement();
 		void collision();
 
-		sf::Text   text_;
-		sf::Sprite background_;
-		int		   score_		  = 0;
-		Vec2	   world_size_	  = {2000, 2000};
-		bool	   draw_hitboxes_ = false;
-		bool	   draw_sprites_  = true;
-		bool	   game_over_	  = false;
+		sf::Text		text_;
+		sf::Sprite		background_;
+		ParticleManager particles_;
+		int				score_		   = 0;
+		Vec2			world_size_	   = {2000, 2000};
+		bool			draw_hitboxes_ = false;
+		bool			draw_sprites_  = true;
+		bool			game_over_	   = false;
 	};
 }  // namespace Engine::Scene
