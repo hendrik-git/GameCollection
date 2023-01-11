@@ -22,7 +22,7 @@ namespace Engine::Components
 		bool has = false;
 
 		// by adding an implicit conversion to bool, it is no longer necessary to ask for 'has'
-		operator bool() const
+		explicit operator bool() const
 		{
 			return has;
 		};
@@ -55,7 +55,7 @@ namespace Engine::Components
 	/// @brief Initial component for visualization, superceeded by Drawable
 	struct Shape : public BaseComponent
 	{
-		Shape(ShapeInit init = ShapeInit{})
+		explicit Shape(const ShapeInit& init = ShapeInit{})
 			: Shape(init.radius, init.points, init.fill, init.outline, init.thickness)
 		{
 		}
@@ -81,45 +81,31 @@ namespace Engine::Components
 		: public BaseComponent
 		, public Animation
 	{
-		Drawable() {}
+		Drawable() = default;
 
-		Drawable(std::string name, sf::Texture& texture) : Animation(name, texture) {}
+		Drawable(const std::string& name, sf::Texture& texture) : Animation(name, texture) {}
 
 
-		Drawable(std::string name, sf::Texture& texture, size_t frame_count, size_t speed)
+		Drawable(const std::string& name, sf::Texture& texture, size_t frame_count, size_t speed)
 			: Animation(name, texture, frame_count, speed)
 		{
 		}
 	};
 
-	/// @brief Holds the shape, that is used to check for collisions with another entity.
-	// inline namespace v1
-	//{
-	//	struct Collision : public BaseComponent
-	//	{
-	//		Collision(float radius = 0.f) : radius(radius) {}
-
-	//		float radius;
-	//	};
-	//}  // namespace v1
-
-	// namespace v2
-	//{
 	using CollShape = std::variant<sf::CircleShape, sf::RectangleShape>;
 
 	/// @brief Holds the shape, that is used to check for collisions with another entity.
 	struct Collision : public BaseComponent
 	{
-		Collision(CollShape hitbox = CollShape{}) : shape(hitbox){};
+		explicit Collision(CollShape hitbox = CollShape{}) : shape(std::move(hitbox)){};
 
 		CollShape shape;
 	};
-	//}  // namespace v2
 
 	/// @brief Holds an amount of value attributed to this entity.
 	struct Score : public BaseComponent
 	{
-		Score(int score = 0) : score(score) {}
+		explicit Score(int score = 0) : score(score) {}
 
 		int score;
 	};
@@ -127,7 +113,7 @@ namespace Engine::Components
 	/// @brief Shows certain doom aproaching
 	struct Lifespan : public BaseComponent
 	{
-		Lifespan(int total = 0) : remaining(total), total(total) {}
+		explicit Lifespan(int total = 0) : remaining(total), total(total) {}
 
 		int remaining;
 		int total;
@@ -155,11 +141,11 @@ namespace Engine::Components
 	/// @brief Holds the amount of damage an entity can withstand
 	struct Hitpoints : public BaseComponent
 	{
-		Hitpoints(int start_hp = 1) : max_hp(start_hp), current_hp(start_hp), invulnerable(false) {}
+		explicit Hitpoints(int start_hp = 1) : max_hp(start_hp), current_hp(start_hp) {}
 
 		int	 max_hp;
 		int	 current_hp;
-		bool invulnerable;
+		bool invulnerable = false;
 	};
 
 	/// @brief Hold all components in one container
