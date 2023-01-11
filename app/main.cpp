@@ -26,10 +26,10 @@ auto main(int argc, char** argv) -> int
 	app.add_option("-g,--game", ini.initial_scene, "Which game to load");
 	app.add_option("-f,--file", inputFile, "Settings file to load");
 
-	[[maybe_unused]] auto* list = app.add_flag("-l,--list", "List all available games");
-	[[maybe_unused]] auto* quit = app.add_flag("-q,--quit", "Immediately exit program");
+	[[maybe_unused]] const auto* list = app.add_flag("-l,--list", "List all available games");
+	[[maybe_unused]] const auto* quit = app.add_flag("-q,--quit", "Immediately exit program");
 
-	CLI11_PARSE(app, argc, argv);
+	CLI11_PARSE(app, argc, argv)
 
 	// --------------------------------------------------------------------------------------------
 	// Start the application
