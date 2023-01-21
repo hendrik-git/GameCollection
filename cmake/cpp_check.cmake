@@ -1,6 +1,7 @@
 # -------------------------------------------------------------------------------------------------
 # CppCheck
 # -------------------------------------------------------------------------------------------------
+# ideally use with compile_commands.json, which is only generated with make or ninja
 
 # Add Analyze with CppCheck target if CppCheck is installed
 if(WIN32)
@@ -31,23 +32,27 @@ if(WIN32)
       		set(CPPCHECK_CONFIG          
         		# Using the below template will allow jumping to any found error 
 				# from inside Visual Studio output window by double click
-        		"--template \"${CMAKE_SOURCE_DIR}/{file}({line}): {severity} ({id}): {message}\""          
+        		"--template=vs"          
         		# Use all the available CPU cores
         		"-j ${CPU_CORES}"           
         		# Only show found errors
         		"--quiet"           
         		# Desired warning level in CppCheck
-        		"--enable=style"          
+        		"--enable=all"          
         		# Optional: Specified C++ version
-        		"--std=c++17"           
+        		"--std=c++20"           
         		# Optional: Specified platform
         		"--platform=win64"          
         		# Optional: suppression file
         		#"--suppressions-list=${CMAKE_SOURCE_DIR}/test/cppcheck_suppressions.txt"          
         		# Optional: Use inline suppressions
-        		"--inline-suppr"          
+        		#"--inline-suppr"          
         		# Run CppCheck in this directory (relative to working directory)
-        		"src"
+        		#"src"
+				# ignore files from the following directory
+				#"-i${CMAKE_BINARY_DIR}"
+				#
+				"--project=${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.sln"
         	)
       
     		add_custom_target(CppCheck #DEPENDS my_project
@@ -71,7 +76,7 @@ if(WIN32)
 			
 				find_file(CPPCHECK_HTML cppcheck-htmlreport
 					NAMES cppcheck-htmlreport.py
-					HINTS ${CMAKE_SOURCE_DIR}/CI
+					HINTS ${CMAKE_SOURCE_DIR}/tools
 				)
 				if(CPPCHECK_HTML)
 					message(STATUS "Found Cppcheck-htmlreport: " ${CPPCHECK_HTML})
@@ -81,17 +86,28 @@ if(WIN32)
         				# Only show found errors
         				#"--quiet" 
         				# Desired warning level in CppCheck
-        				"--enable=style"          
+        				"--enable=all"          
         				# Optional: Specified C++ version
-        				"--std=c++17"           
+        				"--std=c++20"           
         				# Optional: Specified platform
         				"--platform=win64"          
         				# Optional: suppression file
         				#"--suppressions-list=${CMAKE_SOURCE_DIR}/test/cppcheck_suppressions.txt"        
         				# Optional: Use inline suppressions
-        				"--inline-suppr"          
+        				#"--inline-suppr"          
         				# Run CppCheck in this directory (relative to working directory)
-        				"src"
+        				#"src"
+						#
+						# ignore files from the following directory
+						"-i${CMAKE_BINARY_DIR}"
+						#
+						#"--check-config"
+						#
+						"--project=${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.sln"
+						#
+						"--suppress=missingIncludeSystem"
+						"--suppress=missingInclude"
+						"--suppress=unmatchedSuppression"
         			)
 
 					add_custom_target(CppCheckReport	

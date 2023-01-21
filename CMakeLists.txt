@@ -9,6 +9,9 @@ project(
     LANGUAGES CXX
 )
 
+# only works for Makefile Generators and Ninja Generators
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # tell cmake to look into the local /cmake subdirectory to look for modules (.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(git_commands) # update submodules, get the latest git commit
@@ -81,6 +84,7 @@ endif()
 include(graphviz)
 include(cmake-format)
 include(cmake-lint)
+include(cpp_check)
 # include(documentation)
 include(poxy)
 
