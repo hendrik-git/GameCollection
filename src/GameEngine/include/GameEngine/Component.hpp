@@ -148,8 +148,37 @@ namespace Engine::Components
 		bool invulnerable = false;
 	};
 
+	using ShaderName	  = std::string;
+	using ShaderParamName = std::string;
+	using ShaderParamVal  = std::variant<int, float, const sf::Texture*>;
+	using ShaderParamMap  = std::unordered_map<ShaderParamName, ShaderParamVal>;
+	using ShaderParamMap  = std::unordered_map<ShaderParamName, ShaderParamVal>;
+
+	struct Shader : public BaseComponent
+	{
+		ShaderName	   name;		///< matches the name of the shader file in the asset manager
+		ShaderParamMap parameters;	///< all parameters that need to be passed to the shader
+
+		/// @brief Constructs a shader component, currently an entity may have only one shader
+		/// @param shader_name how the shader is referred to in the Assets class
+		/// @param parameter_map all parameters that need to be passed to the shader
+		Shader(ShaderName	  shader_name	= ShaderName{},
+			   ShaderParamMap parameter_map = ShaderParamMap{})
+			: name(std::move(shader_name)), parameters(std::move(parameter_map))
+		{
+		}
+	};
+
 	/// @brief Hold all components in one container
-	using ComponentTuple =
-		std::tuple<Transform, Drawable, Shape, Collision, Score, Lifespan, Input, Mouse, Hitpoints>;
+	using ComponentTuple = std::tuple<Transform,
+									  Drawable,
+									  Shape,
+									  Collision,
+									  Score,
+									  Lifespan,
+									  Input,
+									  Mouse,
+									  Hitpoints,
+									  Shader>;
 
 }  // namespace Engine::Components
