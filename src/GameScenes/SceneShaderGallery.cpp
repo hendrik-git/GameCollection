@@ -1,6 +1,7 @@
 #include "GameScenes/SceneShaderGallery.hpp"
 #include "GameEngine/GameEngine.hpp"
 #include "GameEngine/Utility.hpp"
+#include <CodeHelpers/Overload.hpp>
 #include <fmt/core.h>
 #include <random>
 
@@ -12,19 +13,13 @@ namespace Engine::Scene
 
 		player_ = entities_.add_entity("player");
 		player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
-
-
-		ShapeInit player_shape;
-		player_shape.radius	   = 12.F;
-		player_shape.points	   = 32;
-		player_shape.fill	   = sf::Color::Yellow;
-		player_shape.outline   = sf::Color::White;
-		player_shape.thickness = 4.F;
-		// player_->add_component<Shape>(player_shape);
-		// player_->add_component<Input>();
-		// player_->add_component<Mouse>();
-
 		player_->add_component<Drawable>("PlayerShip", game_->assets().get_texture("Meteor9"));
+
+		ShaderParamMap parameters;
+		parameters["u_time"]  = 10.F;
+		parameters["texture"] = nullptr;
+
+		player_->add_component<Shader>(ShaderName{"blur"}, parameters);
 	}
 
 
@@ -105,20 +100,59 @@ namespace Engine::Scene
 				sprite.setPosition({transf.pos.x, transf.pos.y});
 				sprite.setRotation(sf::degrees(transf.angle + shape.get_rotation()));
 
-				if(const auto names = game_->assets().get_shader_names(); !names.empty())
+				// FIRST ITERATION WITH SHADER AS ARRAY
+				// if(const auto names = game_->assets().get_shader_names(); !names.empty())
+				//{
+				//	[[maybe_unused]] auto& pixel_shader =
+				//		game_->assets().get_shader(names[selection_]);
+
+				//	pixel_shader.setUniform("texture", sf::Shader::CurrentTexture);
+				//	pixel_shader.setUniform("u_time", clock.getElapsedTime().asSeconds());
+				//	window.draw(sprite, &pixel_shader);
+
+				//	// draw the name of the shader under the shader image
+				//	auto pos_x = static_cast<int>(view_size.x) / 2;		 // horizontal center
+				//	auto pos_y = static_cast<int>(view_size.y) * 3 / 4;	 // bottom quarter
+				//	auto pos   = window.mapPixelToCoords({pos_x, pos_y}, view);
+				//	// draw_text(game_, names[selection_], pos);
+				//}
+				// END FIRST
+
+				if(auto& shader = entity->get_component<Shader>(); shader)
 				{
-					[[maybe_unused]] auto& pixel_shader =
-						game_->assets().get_shader(names[selection_]);
+					[[maybe_unused]] const auto& pixel_shader =
+						game_->assets().get_shader(shader.name);
 
-					pixel_shader.setUniform("texture", sf::Shader::CurrentTexture);
-					pixel_shader.setUniform("u_time", clock.getElapsedTime().asSeconds());
+					for(auto& [param_name, param_value] : shader.parameters)
+					{
+						 auto visitable = CodeHelper::Overload{
+							[&](float value)
+							{
+								game_->assets()
+									.get_shader(shader.name)
+									.setUniform(param_name, value);
+							},
+							[&](int value)
+							{
+								game_->assets()
+									.get_shader(shader.name)
+									.setUniform(param_name, value);
+							},
+							[&](const sf::Texture*)
+							{
+								game_->assets()
+									.get_shader(shader.name)
+									.setUniform(param_name, sf::Shader::CurrentTexture);
+							}};
+
+						std::visit(visitable, param_value);
+					}
+
 					window.draw(sprite, &pixel_shader);
-
-					// draw the name of the shader under the shader image
-					auto pos_x = static_cast<int>(view_size.x) / 2;		 // horizontal center
-					auto pos_y = static_cast<int>(view_size.y) * 3 / 4;	 // bottom quarter
-					auto pos   = window.mapPixelToCoords({pos_x, pos_y}, view);
-					draw_text(game_, names[selection_], pos);
+				}
+				else
+				{
+					window.draw(sprite);
 				}
 			}
 		}
@@ -127,7 +161,7 @@ namespace Engine::Scene
 		auto pos_x = static_cast<int>(view_size.x) / 2;		 // horizontal center
 		auto pos_y = static_cast<int>(view_size.y) * 1 / 4;	 // top quarter
 		auto pos   = window.mapPixelToCoords({pos_x, pos_y}, view);
-		draw_text(game_, "Shader Gallery", pos, 48, true);
+		// draw_text(game_, "Shader Gallery", pos, 48, true);
 
 		// finally display all rendered content
 		window.display();
