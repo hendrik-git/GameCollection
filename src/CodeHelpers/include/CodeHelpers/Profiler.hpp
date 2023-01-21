@@ -7,10 +7,11 @@
 /// @author Hendrik Poettker
 
 #pragma once
+#include <CodeHelpers/ProfilerCategories.hpp>
 #include <chrono>
 #include <fstream>
+#include <iostream>
 #include <mutex>
-#include <perfetto/perfetto.h>
 #include <string>
 
 namespace CodeHelper
