@@ -4,6 +4,7 @@ build
 lib
 docs/html
 docs/xml
+.vs
 
 # Compiled Object files
 *.slo
