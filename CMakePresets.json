@@ -30,7 +30,7 @@
             "binaryDir": "build/msvc",
             "inherits": "flags-windows",
             "architecture": {
-                "value": "x64",
+                "value":    "x64",
                 "strategy": "external"
             },
             "toolset": {
@@ -42,6 +42,26 @@
                 "CMAKE_CXX_COMPILER": "cl.exe"
             }
         },
+        {
+            "name": "windows-default",
+            "displayName": "Windows x64 Debug",
+            "description": "Sets Ninja generator, compilers, x64 architecture, build and install directory, debug build type",
+            "generator": "Ninja",
+            "binaryDir": "build/ninja",
+            "architecture": {
+              "value":    "x64",
+              "strategy": "external"
+            },
+            "cacheVariables": {
+              "CMAKE_BUILD_TYPE": "Debug",
+              "CMAKE_INSTALL_PREFIX": "build/install"
+            },
+            "vendor": {
+              "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                "hostOS": [ "Windows" ]
+              }
+            }
+          },
         {
             "name": "clang",
             "displayName": "Clang",
