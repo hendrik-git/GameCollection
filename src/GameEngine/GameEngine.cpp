@@ -1,3 +1,4 @@
+#include <CodeHelpers/Profiler.hpp>
 #include <GameEngine/GameEngine.hpp>
 #include <GameScenes/SceneAsteroids.hpp>
 #include <GameScenes/SceneMainMenu.hpp>
@@ -73,6 +74,8 @@ GameEngine::GameEngine(const EngineInitializer& ini, const fs::path& config)
 
 void GameEngine::run()
 {
+	CodeHelper::InitializePerfetto();
+	auto tracing_session = CodeHelper::StartTracing();
 	using namespace std::chrono;
 	while(running_)
 	{
@@ -85,16 +88,25 @@ void GameEngine::run()
 		lag += duration_cast<microseconds>(current - previous).count();
 		previous = current;
 
-
-		user_input();
+		{
+			TRACE_EVENT("network", "user_input()");	 // Begin "DrawPlayer" slice.
+			user_input();
+		}
 
 		while(lag >= frame_time_)
 		{
+			TRACE_EVENT("rendering", "update()");  // Begin "DrawPlayer" slice.
 			scenes_[current_scene_]->update();
 			lag -= frame_time_;
 		}
-		scenes_[current_scene_]->render();
+
+		{
+			// TRACE_EVENT("rendering", "render()");
+			scenes_[current_scene_]->render();
+		}
 	}
+
+	CodeHelper::StopTracing(std::move(tracing_session));
 }
 
 void GameEngine::quit()
