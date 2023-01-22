@@ -31,3 +31,6 @@ docs/xml
 *.exe
 *.out
 *.app
+
+# Special files
+test/CppCheckReport.xml
