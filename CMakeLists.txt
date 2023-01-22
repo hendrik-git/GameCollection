@@ -81,6 +81,10 @@ endif()
 # -------------------------------------------------------------------------------------------------
 # Tools
 # -------------------------------------------------------------------------------------------------
+if(USE_PROFILING)
+    add_subdirectory(extern/perfetto)
+endif()
+
 include(graphviz)
 include(cmake-format)
 include(cmake-lint)

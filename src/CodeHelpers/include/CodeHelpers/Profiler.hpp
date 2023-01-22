@@ -14,8 +14,17 @@
 #include <mutex>
 #include <string>
 
+
 namespace CodeHelper
 {
+	using tracing_ptr = std::unique_ptr<perfetto::TracingSession>;
+
+	void InitializePerfetto();
+
+	auto StartTracing() -> tracing_ptr;
+
+	void StopTracing(tracing_ptr tracing_session);
+
 	/// @brief Contains the necessary data for the tracing tool
 	struct profile_result
 	{
@@ -24,6 +33,7 @@ namespace CodeHelper
 		size_t		end{0};			  ///< end of timing in microseconds
 		size_t		thread_id{0};	  ///< needed for chrome tracing
 	};
+
 
 	/// @brief Writes benchmarks to the file 'profiling_results.json' for use with
 	/// https://ui.perfetto.dev/
@@ -103,6 +113,8 @@ namespace CodeHelper
 #ifdef PROFILING
 	#define PROFILE_SCOPE(name) CodeHelper::Timer timer##__LINE__(name)
 	#define PROFILE_FUNC()		PROFILE_SCOPE(__FUNCTION__)
+
+	#define TRACE_FUNC() TRACE_EVENT("Engine", __FUNCTION__)
 #else
 	#define PROFILE_SCOPE(name)
 	#define PROFILE_FUNC()
