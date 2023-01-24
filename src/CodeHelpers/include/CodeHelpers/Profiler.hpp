@@ -2,7 +2,7 @@
 /// @brief Utility makros to benchmark and visualize code execution time
 /// @details The profiler will generate a profile_results.json file, that can be visualized with the
 /// Chrome browser by opening the file in the tracing tool.
-/// @see https://ui.perfetto.dev/
+/// @see https://perfetto.dev/docs/instrumentation/track-events#track-event-arguments
 /// @date 2022.11.24
 /// @author Hendrik Poettker
 
@@ -14,6 +14,13 @@
 #include <mutex>
 #include <string>
 
+// Profiling makro examples
+/*
+	TRACE_EVENT("rendering", "DrawPlayer", "player_number", player_number);
+	TRACE_EVENT_BEGIN("rendering", "DrawGame");
+	TRACE_EVENT_END("rendering");
+	TRACE_COUNTER("rendering", "Framerate", 120);
+*/
 
 namespace CodeHelper
 {
@@ -57,7 +64,7 @@ namespace CodeHelper
 		/// @details A singleton is used here, because all profiling data is written to a single
 		/// file, which is handled by this singleton in a threadsafe way.
 		/// @return reference to the singleton
-		[[nodiscard]] static auto get() -> Profiler&;
+		[[deprecated("Replaced by perfetto")]] [[nodiscard]] static auto get() -> Profiler&;
 
 		/// @brief Add a new measurement to the file
 		/// @param result to be added
@@ -94,7 +101,7 @@ namespace CodeHelper
 	  public:
 		/// @brief Takes the time until this object is stopped or goes out of scope
 		/// @param name is used to differentiate different measurements
-		explicit Timer(const std::string& name);
+		[[deprecated("Replaced by perfetto")]] explicit Timer(const std::string& name);
 
 		/// @brief Ensures the measurement is finished
 		~Timer();
