@@ -9,7 +9,6 @@ using namespace std::string_literals;
 auto main(int argc, char** argv) -> int
 {
 	using namespace CodeHelper;
-	PROFILE_FUNC();
 
 	// The following Initializer for the Game Engine will be modified by the CL parameters
 	EngineInitializer ini;
@@ -17,6 +16,7 @@ auto main(int argc, char** argv) -> int
 	//!---------------------------------------------------------------------------------------------
 	//! Parse command line arguments
 	//!---------------------------------------------------------------------------------------------
+	
 	// see https://cliutils.github.io/CLI11/book/
 	CLI::App app{"Game collection"};
 
@@ -36,7 +36,6 @@ auto main(int argc, char** argv) -> int
 	// --------------------------------------------------------------------------------------------
 	if(!quit->as<bool>())
 	{
-		PROFILE_SCOPE("start");
 		try
 		{
 			GameEngine engine{ini, std::filesystem::path{inputFile}};
