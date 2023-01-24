@@ -9,6 +9,7 @@
 #include <fmt/core.h>
 #include <functional>
 
+
 namespace
 {
 	struct FileData
@@ -76,6 +77,7 @@ void GameEngine::run()
 {
 	CodeHelper::InitializePerfetto();
 	auto tracing_session = CodeHelper::StartTracing();
+
 	using namespace std::chrono;
 	while(running_)
 	{

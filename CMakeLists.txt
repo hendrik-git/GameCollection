@@ -1,7 +1,7 @@
 # -------------------------------------------------------------------------------------------------
 # GameCollection Project
 # -------------------------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.20)
 project(
     GameCollection
     VERSION 0.4.0
@@ -29,7 +29,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 # flags globally will also cause them to be used for dependencies. This may result in the
 # dependencies breaking the build with warnings (with /WX or -Werror)
 if(MSVC)
-    set(ADDITIONAL_COMPILER_FLAGS /MP /fastfail /W4 /WX) # /utf-8 
+    set(ADDITIONAL_COMPILER_FLAGS /MP /fastfail /W4 ) # /utf-8  /WX
 else()
     set(ADDITIONAL_COMPILER_FLAGS -Werror -Wall)
 endif()
@@ -61,6 +61,10 @@ setfolderinvs(Catch2WithMain Dependencies)
 # -------------------------------------------------------------------------------------------------
 # Building the targets
 # -------------------------------------------------------------------------------------------------
+if(USE_PROFILING)
+    add_subdirectory(extern/perfetto)
+endif()
+
 add_subdirectory(src/CodeHelpers)
 add_subdirectory(src/GameEngine)
 add_subdirectory(src/GameMath)
@@ -71,6 +75,7 @@ add_subdirectory(app)
 # Testing
 # -------------------------------------------------------------------------------------------------
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    enable_testing()    
     include(CTest)
 endif()
 
@@ -81,9 +86,7 @@ endif()
 # -------------------------------------------------------------------------------------------------
 # Tools
 # -------------------------------------------------------------------------------------------------
-if(USE_PROFILING)
-    add_subdirectory(extern/perfetto)
-endif()
+
 
 include(graphviz)
 include(cmake-format)

@@ -15,7 +15,9 @@ add_library(
 target_include_directories(CodeHelpers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_compile_features(CodeHelpers PUBLIC cxx_std_20)
 target_compile_options(CodeHelpers PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
+
 if(USE_PROFILING)
-    target_link_libraries(CodeHelpers PUBLIC perfetto)
+    include(NoWarningsLinking)
+    target_link_libraries_system(CodeHelpers perfetto::perfetto)
     target_compile_definitions(CodeHelpers PUBLIC PROFILING)
 endif()

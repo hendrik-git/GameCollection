@@ -3,7 +3,9 @@
 
 #pragma once
 #ifdef PROFILING
+	#pragma warning(push, 0)
 	#include <perfetto/perfetto.h>	// NOLINT
+	#pragma warning(pop)
 
 PERFETTO_DEFINE_CATEGORIES(
 	perfetto::Category("engine").SetDescription("Events from the logic subsystem"),

@@ -7,6 +7,8 @@ add_library(perfetto STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/perfetto.cc
 )
 
+add_library(perfetto::perfetto ALIAS perfetto)
+
 target_include_directories(perfetto 
     INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include
     PRIVATE   ${CMAKE_CURRENT_SOURCE_DIR}/include/perfetto

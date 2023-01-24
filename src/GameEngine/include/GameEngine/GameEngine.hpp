@@ -9,10 +9,13 @@
 #include "Asset.hpp"
 #include "EntityManager.hpp"
 //#include "Scene.hpp"
+#include <CodeHelpers/Profiler.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <filesystem>
 #include <iostream>
+
+
 
 
 namespace Engine::Scene
