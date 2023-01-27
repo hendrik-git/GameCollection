@@ -26,7 +26,7 @@ endif (WIN32)
 
 # Enable standards-compliant mode when using the Visual Studio compiler.
 if (MSVC)
-    target_compile_options(perfetto PRIVATE "/permissive-")
+    target_compile_options(perfetto PRIVATE "/W0" "/permissive-")
 endif (MSVC)
 
 SetFolderInVS(perfetto Dependencies)
