@@ -20,7 +20,7 @@ set_target_properties(Test_GameEngine PROPERTIES
 SetFolderInVS(Test_GameEngine Test)
 
 #add_test(NAME GameEngine COMMAND Test_GameEngine)
-catch_discover_tests(Test_GameEngine)
+catch_discover_tests(Test_GameEngine WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/$<CONFIG>)
 
 # -------------------------------------------------------------------------------------------------
 # Unit tests for the GameMath library
@@ -34,4 +34,4 @@ set_target_properties(Test_GameMath PROPERTIES
 SetFolderInVS(Test_GameMath Test)
 
 #add_test(NAME GameMath COMMAND Test_GameMath)
-catch_discover_tests(Test_GameMath)
+catch_discover_tests(Test_GameMath WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/$<CONFIG>)
