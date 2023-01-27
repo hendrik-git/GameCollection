@@ -1,5 +1,5 @@
-/// @file ProfilerCategories
-/// @details The perfetto SDK will only be linked, when USE_PROFILING is selected in cmake.
+/// @file ProfilerCategories.hpp
+/// @brief This file describes the categories, which will be registered for tracing
 
 #pragma once
 #ifdef PROFILING
@@ -16,6 +16,7 @@ PERFETTO_DEFINE_CATEGORIES(
 #else
 namespace perfetto
 {
+	/// @brief Mock object for when perfetto SDK is disabled
 	struct TracingSession
 	{
 	};
