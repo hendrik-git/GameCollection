@@ -48,6 +48,7 @@ class GameEngine
 
   protected:
 	void init(const fs::path config);
+	void load_assets();
 	void update();
 	void user_input();
 	auto current_scene() -> ScenePtr;

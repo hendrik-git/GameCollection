@@ -8,6 +8,7 @@
 #include <filesystem>
 #include <fmt/core.h>
 #include <functional>
+#include <future>
 
 
 namespace
@@ -38,31 +39,19 @@ namespace
 
 GameEngine::GameEngine(const EngineInitializer& ini, const fs::path& config)
 {
+	// Set up tracing
 	CodeHelper::InitializePerfetto();
 	trace = CodeHelper::StartTracing();
-
 	TRACE_EVENT("engine", "GameEngine()");
 
-	// Load necessary data
-	assets_.add_font("Gidole", "../../data/fonts/Gidole.ttf");
-
-	std::cout << "Loading textures\n";
-	for(auto& texture : find_in_directory("../../data/Asteroids"))
-	{
-		TRACE_EVENT("engine", "Loading textures");
-		std::cout << "-- " << texture.filename << std::endl;
-		assets_.add_texture(texture.filename, texture.filepath);
-	}
-
-	std::cout << "Loading shaders\n";
-	for(auto& shader : find_in_directory("../../data/shader"))
-	{
-		TRACE_EVENT("engine", "Loading shaders");
-		std::cout << "-- " << shader.filename << std::endl;
-		assets_.add_shader(shader.filename, shader.filepath);
-	}
-
+	// Load all assets asynchronously while initializing the engine
+	auto asset_fut = std::async(std::launch::async, &GameEngine::load_assets, this);
+	
+	// Load configuration and create the main window
 	init(config);
+
+	asset_fut.wait(); // merge threads again
+
 
 	using namespace Engine::Scene;
 	scenes_["MainMenu"]		   = std::make_shared<SceneMainMenu>(this);
@@ -163,8 +152,38 @@ void GameEngine::init(const fs::path config)
 	/// @todo read the config file
 
 	// set up window default parameters
+	// this need to happen in the main thread, or opengl complains
 	window_.create(sf::VideoMode({1200, 800}), "GameCollection");
-	// window_.setFramerateLimit(60); // replaced by own implementation
+}
+
+void GameEngine::load_assets()
+{
+	{
+		TRACE_EVENT("engine", "Loading fonts");
+		assets_.add_font("Gidole", "../../data/fonts/Gidole.ttf");
+	}
+
+	{
+		TRACE_EVENT("engine", "Loading textures");
+		std::cout << "Loading textures\n";
+		for(auto& texture : find_in_directory("../../data/Asteroids"))
+		{
+			std::cout << "-- " << texture.filename << std::endl;
+			assets_.add_texture(texture.filename, texture.filepath);
+		}
+	}
+
+	{
+		TRACE_EVENT("engine", "Loading shaders");
+		std::cout << "Loading shaders\n";
+		for(auto& shader : find_in_directory("../../data/shader"))
+		{
+			std::cout << "-- " << shader.filename << std::endl;
+			assets_.add_shader(shader.filename, shader.filepath);
+		}
+	}
+
+	TRACE_EVENT("engine", "task finished");
 }
 
 void GameEngine::update() {}
