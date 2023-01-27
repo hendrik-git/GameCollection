@@ -38,12 +38,18 @@ namespace
 
 GameEngine::GameEngine(const EngineInitializer& ini, const fs::path& config)
 {
+	CodeHelper::InitializePerfetto();
+	trace = CodeHelper::StartTracing();
+
+	TRACE_EVENT("engine", "GameEngine()");
+
 	// Load necessary data
 	assets_.add_font("Gidole", "../../data/fonts/Gidole.ttf");
 
 	std::cout << "Loading textures\n";
 	for(auto& texture : find_in_directory("../../data/Asteroids"))
 	{
+		TRACE_EVENT("engine", "Loading textures");
 		std::cout << "-- " << texture.filename << std::endl;
 		assets_.add_texture(texture.filename, texture.filepath);
 	}
@@ -51,6 +57,7 @@ GameEngine::GameEngine(const EngineInitializer& ini, const fs::path& config)
 	std::cout << "Loading shaders\n";
 	for(auto& shader : find_in_directory("../../data/shader"))
 	{
+		TRACE_EVENT("engine", "Loading shaders");
 		std::cout << "-- " << shader.filename << std::endl;
 		assets_.add_shader(shader.filename, shader.filepath);
 	}
@@ -75,9 +82,7 @@ GameEngine::GameEngine(const EngineInitializer& ini, const fs::path& config)
 
 void GameEngine::run()
 {
-	CodeHelper::InitializePerfetto();
-	auto tracing_session = CodeHelper::StartTracing();
-
+	TRACE_EVENT("engine", "run()");
 	using namespace std::chrono;
 	while(running_)
 	{
@@ -91,28 +96,29 @@ void GameEngine::run()
 		previous = current;
 
 		{
-			TRACE_EVENT("network", "user_input()");	 // Begin "DrawPlayer" slice.
+			TRACE_EVENT("engine", "user_input()");
 			user_input();
 		}
 
 		while(lag >= frame_time_)
 		{
-			TRACE_EVENT("rendering", "update()");  // Begin "DrawPlayer" slice.
+			TRACE_COUNTER("engine", "Lag", lag);
+			TRACE_EVENT("engine", "update()");
 			scenes_[current_scene_]->update();
 			lag -= frame_time_;
 		}
 
 		{
-			// TRACE_EVENT("rendering", "render()");
+			TRACE_EVENT("rendering", "render()");
 			scenes_[current_scene_]->render();
 		}
 	}
-
-	CodeHelper::StopTracing(std::move(tracing_session));
 }
 
 void GameEngine::quit()
 {
+	CodeHelper::StopTracing(std::move(trace));
+
 	running_ = false;
 }
 
@@ -153,6 +159,7 @@ auto GameEngine::is_running() -> bool
 #pragma region private functions
 void GameEngine::init(const fs::path config)
 {
+	TRACE_EVENT("engine", "init()");
 	/// @todo read the config file
 
 	// set up window default parameters
@@ -192,7 +199,6 @@ void GameEngine::user_input()
 		if(event.type == sf::Event::MouseButtonPressed ||
 		   event.type == sf::Event::MouseButtonReleased)
 		{
-
 			if(actions.find(event.key.code) == actions.end())
 			{
 				continue;  // ignore events, that the scene does not use
