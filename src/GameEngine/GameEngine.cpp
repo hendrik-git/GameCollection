@@ -183,6 +183,16 @@ void GameEngine::load_assets()
 		}
 	}
 
+	{
+		TRACE_EVENT("engine", "Loading sounds");
+		std::cout << "Loading sounds\n";
+		for(const auto& sound : find_in_directory("../../data/sounds"))
+		{
+			std::cout << "-- " << sound.filename << std::endl;
+			assets_.add_sound(sound.filename, sound.filepath);
+		}
+	}
+
 	TRACE_EVENT("engine", "task finished");
 }
 
