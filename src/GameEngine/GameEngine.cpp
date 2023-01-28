@@ -188,46 +188,50 @@ void GameEngine::load_assets()
 
 void GameEngine::user_input()
 {
-	sf::Event event;
-	auto&	  actions = current_scene()->get_ActionMap();
-
-	while(window_.pollEvent(event))
+	try
 	{
-		using namespace Engine::Systems;
-
-		if(event.type == sf::Event::Closed)
+		sf::Event event;
+		auto&	  actions = current_scene()->get_ActionMap();
+		while(window_.pollEvent(event))
 		{
-			window_.close();
-			running_ = false;
-		}
+			using namespace Engine::Systems;
 
-		if(event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
-		{
-			if(actions.contains(event.key.code))
+
+			if(event.type == sf::Event::Closed)
+			{
+				window_.close();
+				running_ = false;
+			}
+
+			if(!actions.contains(event.key.code))
 			{
 				continue;  // ignore events, that the scene does not use
 			}
 
-			const auto type =
-				event.type == sf::Event::KeyPressed ? ActionType::Start : ActionType::End;
-			current_scene()->do_action(Action{actions.at(event.key.code), type});
-		}
-
-		if(event.type == sf::Event::MouseButtonPressed ||
-		   event.type == sf::Event::MouseButtonReleased)
-		{
-			if(actions.contains(event.key.code))
+			if(event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
 			{
-				continue;  // ignore events, that the scene does not use
+				const auto type =
+					event.type == sf::Event::KeyPressed ? ActionType::Start : ActionType::End;
+
+				current_scene()->do_action(Action{actions.at(event.key.code), type});
 			}
-			auto pos = MousePos{{static_cast<float>(sf::Mouse::getPosition(window_).x),
-								 static_cast<float>(sf::Mouse::getPosition(window_).y)}};
 
-			const auto type =
-				event.type == sf::Event::MouseButtonPressed ? ActionType::Start : ActionType::End;
+			if(event.type == sf::Event::MouseButtonPressed ||
+			   event.type == sf::Event::MouseButtonReleased)
+			{
+				auto pos = MousePos{{static_cast<float>(sf::Mouse::getPosition(window_).x),
+									 static_cast<float>(sf::Mouse::getPosition(window_).y)}};
 
-			current_scene()->do_action(Action{actions.at(event.key.code), type, pos});
+				const auto type = event.type == sf::Event::MouseButtonPressed ? ActionType::Start
+																			  : ActionType::End;
+
+				current_scene()->do_action(Action{actions.at(event.key.code), type, pos});
+			}
 		}
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << std::format("Exception caught: {} \nin {} {}\n", e.what(), __FILE__, __LINE__);
 	}
 }
 
