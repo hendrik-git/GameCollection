@@ -88,16 +88,9 @@ namespace Engine::Scene
 			bullet->add_component<Lifespan>(120);
 			bullet->add_component<Drawable>("Laser", game_->assets().get_texture("Laser"));
 
-			std::jthread playSound{[&]()
-								   {
-									   sf::Sound pew;
-									   pew.setBuffer(game_->assets().get_sound("sfx_laser1"));
-									   pew.play();
-									   using namespace std::chrono_literals;
-									   std::this_thread::sleep_for(0.8s);
-								   }};
-			playSound.detach();
-
+			auto& sound = bullet->add_component<Sound>().sound;
+			sound.setBuffer(game_->assets().get_sound("sfx_laser1"));
+			sound.play();
 
 			bullet_cooldown = 10;
 		}
