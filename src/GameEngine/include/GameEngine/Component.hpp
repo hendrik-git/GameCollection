@@ -64,6 +64,13 @@ namespace Engine::Components
 		}
 	};
 
+	struct Sound : public BaseComponent
+	{
+		Sound() = default;
+
+		sf::Sound sound;
+	};
+
 	using CollShape = std::variant<sf::CircleShape, sf::RectangleShape>;
 
 	/// @brief Holds the shape, that is used to check for collisions with another entity.
@@ -142,7 +149,15 @@ namespace Engine::Components
 	};
 
 	/// @brief Hold all components in one container
-	using ComponentTuple = std::
-		tuple<Transform, Drawable, Collision, Score, Lifespan, Input, Mouse, Hitpoints, Shader>;
+	using ComponentTuple = std::tuple<Transform,
+									  Drawable,
+									  Sound,
+									  Collision,
+									  Score,
+									  Lifespan,
+									  Input,
+									  Mouse,
+									  Hitpoints,
+									  Shader>;
 
 }  // namespace Engine::Components
