@@ -39,7 +39,15 @@ set(GRAPHVIZ_CUSTOM_TARGETS TRUE)
 
 # A list of regular expressions for names of targets to exclude from the
 # generated graphs.
-set(GRAPHVIZ_IGNORE_TARGETS "${CMAKE_BINARY_DIR}/_deps/*")
+set(GRAPHVIZ_IGNORE_TARGETS 
+    "${CMAKE_BINARY_DIR}/_deps/*" 
+    "CLI11_warnings" 
+    "fmt-header-only" 
+    "sfml-main"
+    "legacy_stdio_definitions.lib"
+    "winmm"
+    "ws2_32"
+)
 
 # Set to FALSE to not generate per-target graphs foo.dot.<target>.
 set(GRAPHVIZ_GENERATE_PER_TARGET FALSE)
