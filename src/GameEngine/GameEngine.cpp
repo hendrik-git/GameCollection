@@ -20,14 +20,14 @@ namespace
 	};
 
 	/// @todo Automate reading all assets in a given directory
-	auto find_in_directory(fs::path path) -> std::vector<FileData>
+	auto find_in_directory(const fs::path& path) -> std::vector<FileData>
 	{
 		std::vector<FileData> results;
 		for(const auto& entry : fs::directory_iterator(path))
 		{
 			if(entry.is_regular_file())
 			{
-				results.push_back(FileData{entry.path().string(), entry.path().stem().string()});
+				results.emplace_back(entry.path().string(), entry.path().stem().string());
 			}
 		}
 		return results;
@@ -46,11 +46,11 @@ GameEngine::GameEngine(const EngineInitializer& ini, const fs::path& config)
 
 	// Load all assets asynchronously while initializing the engine
 	auto asset_fut = std::async(std::launch::async, &GameEngine::load_assets, this);
-	
+
 	// Load configuration and create the main window
 	init(config);
 
-	asset_fut.wait(); // merge threads again
+	asset_fut.wait();  // merge threads again
 
 
 	using namespace Engine::Scene;
@@ -76,7 +76,7 @@ void GameEngine::run()
 	while(running_)
 	{
 		// calculate how long the last frame took
-		static auto lag{0.F};
+		static auto lag{0LL};
 		static auto current{steady_clock::now()};
 		static auto previous{current};
 
@@ -111,7 +111,7 @@ void GameEngine::quit()
 	running_ = false;
 }
 
-void GameEngine::change_scene(std::string name, ScenePtr scene, bool end_curr_scene)
+void GameEngine::change_scene(const std::string& name, ScenePtr scene, bool end_curr_scene)
 {
 	assert(true);
 
@@ -139,14 +139,14 @@ auto GameEngine::scenes() -> SceneMap&
 	return scenes_;
 }
 
-auto GameEngine::is_running() -> bool
+auto GameEngine::is_running() const -> bool
 {
 	return running_;
 }
 #pragma endregion
 
 #pragma region private functions
-void GameEngine::init(const fs::path config)
+void GameEngine::init([[maybe_unused]] const fs::path& config)
 {
 	TRACE_EVENT("engine", "init()");
 	/// @todo read the config file
@@ -166,7 +166,7 @@ void GameEngine::load_assets()
 	{
 		TRACE_EVENT("engine", "Loading textures");
 		std::cout << "Loading textures\n";
-		for(auto& texture : find_in_directory("../../data/Asteroids"))
+		for(const auto& texture : find_in_directory("../../data/Asteroids"))
 		{
 			std::cout << "-- " << texture.filename << std::endl;
 			assets_.add_texture(texture.filename, texture.filepath);
@@ -176,7 +176,7 @@ void GameEngine::load_assets()
 	{
 		TRACE_EVENT("engine", "Loading shaders");
 		std::cout << "Loading shaders\n";
-		for(auto& shader : find_in_directory("../../data/shader"))
+		for(const auto& shader : find_in_directory("../../data/shader"))
 		{
 			std::cout << "-- " << shader.filename << std::endl;
 			assets_.add_shader(shader.filename, shader.filepath);
@@ -185,8 +185,6 @@ void GameEngine::load_assets()
 
 	TRACE_EVENT("engine", "task finished");
 }
-
-void GameEngine::update() {}
 
 void GameEngine::user_input()
 {
@@ -205,7 +203,7 @@ void GameEngine::user_input()
 
 		if(event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
 		{
-			if(actions.find(event.key.code) == actions.end())
+			if(actions.contains(event.key.code))
 			{
 				continue;  // ignore events, that the scene does not use
 			}
@@ -218,7 +216,7 @@ void GameEngine::user_input()
 		if(event.type == sf::Event::MouseButtonPressed ||
 		   event.type == sf::Event::MouseButtonReleased)
 		{
-			if(actions.find(event.key.code) == actions.end())
+			if(actions.contains(event.key.code))
 			{
 				continue;  // ignore events, that the scene does not use
 			}

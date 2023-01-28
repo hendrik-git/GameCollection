@@ -8,7 +8,6 @@
 #pragma once
 #include "Asset.hpp"
 #include "EntityManager.hpp"
-//#include "Scene.hpp"
 #include <CodeHelpers/Profiler.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -18,12 +17,12 @@
 
 namespace Engine::Scene
 {
-	class BaseScene;
+	class BaseScene; // forward declaration
 }
 
 namespace fs   = std::filesystem;
 using ScenePtr = std::shared_ptr<Engine::Scene::BaseScene>;
-using SceneMap = std::map<std::string, ScenePtr>;
+using SceneMap = std::map<std::string, ScenePtr, std::less<>>;
 
 struct EngineInitializer
 {
@@ -38,21 +37,21 @@ class GameEngine
 
 	void run();
 	void quit();
-	void change_scene(std::string name, ScenePtr scene, bool end_curr_scene = false);
+	void change_scene(const std::string& name, ScenePtr scene, bool end_curr_scene = false);
 
 	auto window() -> sf::RenderWindow&;
 	auto assets() -> Assets&;
 	auto scenes() -> SceneMap&;
-	auto is_running() -> bool;
+	auto is_running() const -> bool;
 
 
   protected:
-	void init(const fs::path config);
+	void init(const fs::path& config);
 	void load_assets();
-	void update();
 	void user_input();
 	auto current_scene() -> ScenePtr;
 
+  private:
 	Assets			 assets_;
 	sf::RenderWindow window_;
 	SceneMap		 scenes_;
@@ -61,7 +60,7 @@ class GameEngine
 	bool			 running_	 = true;
 	long long		 frame_time_ = 10 * 1'000;	//!< in microseconds
 
-	CodeHelper::tracing_ptr trace; //!< holds the perfetto trace
+	CodeHelper::tracing_ptr trace;	//!< holds the perfetto trace
 
 	// frame time of 10 ms equals a refresh rate of 100 Hz
 };
