@@ -459,84 +459,91 @@ namespace Engine::Scene
 	{
 		using namespace Engine::Components;
 
-		if(action.type() == Engine::Systems::ActionType::Start)
+		try
 		{
-			if(action.name() == "Up")
+			if(action.type() == Engine::Systems::ActionType::Start)
 			{
-				player_->get_component<Input>().up = true;
-			}
-			if(action.name() == "Down")
-			{
-				player_->get_component<Input>().down = true;
-			}
-			if(action.name() == "Left")
-			{
-				player_->get_component<Input>().left = true;
-			}
-			if(action.name() == "Right")
-			{
-				player_->get_component<Input>().right = true;
-			}
-			if(action.name() == "Shoot")
-			{
-				player_->get_component<Input>().space = true;
-			}
-			if(action.name() == "Pause")
-			{
-				set_paused(!is_paused_);
-			}
-			if(action.name() == "Quit")
-			{
-				game_->quit();
-			}
-			if(action.name() == "Reset")
-			{
-				if(game_over_)
+				if(action.name() == "Up")
 				{
-					for(auto entity : entities_.get_entities())
+					player_->get_component<Input>().up = true;
+				}
+				if(action.name() == "Down")
+				{
+					player_->get_component<Input>().down = true;
+				}
+				if(action.name() == "Left")
+				{
+					player_->get_component<Input>().left = true;
+				}
+				if(action.name() == "Right")
+				{
+					player_->get_component<Input>().right = true;
+				}
+				if(action.name() == "Shoot")
+				{
+					player_->get_component<Input>().space = true;
+				}
+				if(action.name() == "Pause")
+				{
+					set_paused(!is_paused_);
+				}
+				if(action.name() == "Quit")
+				{
+					game_->quit();
+				}
+				if(action.name() == "Reset")
+				{
+					if(game_over_)
 					{
-						entity->destroy();
+						for(auto entity : entities_.get_entities())
+						{
+							entity->destroy();
+						}
+						game_over_ = false;
+						score_	   = 0;
+						spawn_player();
 					}
-					game_over_ = false;
-					score_	   = 0;
-					spawn_player();
+					else
+					{
+						game_over_ = true;
+					}
 				}
-				else
+				if(action.name() == "ToggleSprites")
 				{
-					game_over_ = true;
+					draw_sprites_ = !draw_sprites_;
+				}
+				if(action.name() == "ToggleHitboxes")
+				{
+					draw_hitboxes_ = !draw_hitboxes_;
 				}
 			}
-			if(action.name() == "ToggleSprites")
+			else if(action.type() == Engine::Systems::ActionType::End)
 			{
-				draw_sprites_ = !draw_sprites_;
-			}
-			if(action.name() == "ToggleHitboxes")
-			{
-				draw_hitboxes_ = !draw_hitboxes_;
+				if(action.name() == "Up")
+				{
+					player_->get_component<Input>().up = false;
+				}
+				if(action.name() == "Down")
+				{
+					player_->get_component<Input>().down = false;
+				}
+				if(action.name() == "Left")
+				{
+					player_->get_component<Input>().left = false;
+				}
+				if(action.name() == "Right")
+				{
+					player_->get_component<Input>().right = false;
+				}
+				if(action.name() == "Shoot")
+				{
+					player_->get_component<Input>().space = false;
+				}
 			}
 		}
-		else if(action.type() == Engine::Systems::ActionType::End)
+		catch(const std::exception& e)
 		{
-			if(action.name() == "Up")
-			{
-				player_->get_component<Input>().up = false;
-			}
-			if(action.name() == "Down")
-			{
-				player_->get_component<Input>().down = false;
-			}
-			if(action.name() == "Left")
-			{
-				player_->get_component<Input>().left = false;
-			}
-			if(action.name() == "Right")
-			{
-				player_->get_component<Input>().right = false;
-			}
-			if(action.name() == "Shoot")
-			{
-				player_->get_component<Input>().space = false;
-			}
+			std::cerr << std::format("Exception caught {} in {}\n", e.what(), __FILE__);
 		}
 	}
 
