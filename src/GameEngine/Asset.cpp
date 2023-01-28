@@ -6,81 +6,70 @@ namespace fs = std::filesystem;
 
 void Assets::add_font(std::string name, fs::path path)
 {
-	assert(fonts_.find(name) == fonts_.end() && "Font already exists");
+	assert(!fonts_.contains(name) && "Font already exists");
 
-	sf::Font font;
-	if(!font.loadFromFile(path))
+	if(!fonts_[name].loadFromFile(path))
 	{
-		std::string error_msg{"Failed to load font " + name};
-		throw std::exception(error_msg.c_str());
+		throw std::exception(std::format("Failed to load font {}", name).c_str());
 	}
-
-	fonts_[name] = font;
 }
 
 void Assets::add_texture(std::string name, fs::path path)
 {
-	assert(textures_.find(name) == textures_.end() && "Texture already exists");
+	assert(!textures_.contains(name) && "Texture already exists");
 	// supported image formats are bmp, png, tga, jpg, gif, psd, hdr and pic
 	assert(path.extension() == ".png" || path.extension() == ".gif" ||
 		   path.extension() == ".jpg" && "Unsupported texture format");
 
-	sf::Texture texture;
-	if(!texture.loadFromFile(path))
+	if(!textures_[name].loadFromFile(path))
 	{
-		std::string error_msg{"Failed to load texture " + name};
-		throw std::exception(error_msg.c_str());
+		throw std::exception(std::format("Failed to load texture {}", name).c_str());
 	}
-
-	textures_[name] = texture;
 }
 
 void Assets::add_shader(std::string name, std::filesystem::path path, sf::Shader::Type type)
 {
-	auto& shader = shaders_[name];
-	if(!shader.loadFromFile(path, type))
+	assert(!shaders_.contains(name) && "Shader already exists");
+
+	if(!shaders_[name].loadFromFile(path, type))
 	{
-		std::string error_msg{"Failed to load shader " + name};
-		throw std::exception(error_msg.c_str());
+		throw std::exception(std::format("Failed to load shader {}", name).c_str());
 	}
 }
 
-// void Assets::add_sound(std::string name, fs::path path)
-//{
-//	assert(sounds_.find(name) == sounds_.end() && "Sound already exists");
-//	assert(path.extension() == ".wav" || path.extension() == ".wav" && "Unsupported sound format");
-//
-//	sf::SoundBuffer sound;
-//	if(!sound.loadFromFile(path))
-//	{
-//		throw std::exception("Failed to load font");
-//	}
-//
-//	sounds_[name] = sound;
-//}
+void Assets::add_sound(const std::string& name, const fs::path& path)
+{
+	assert(!sounds_.contains(name) && "Sound already exists");
+	assert(path.extension() == ".wav" || path.extension() == ".ogg" && "Unsupported sound format");
+
+	if(!sounds_[name].loadFromFile(path))
+	{
+		throw std::exception(std::format("Failed to load sound {}", name).c_str());
+	}
+}
 
 auto Assets::get_font(std::string name) -> sf::Font&
 {
-	assert(fonts_.find(name) != fonts_.end() && "Requested font not available");
+	assert(fonts_.contains(name) && "Requested font not available");
 	return fonts_[name];
 }
 
 auto Assets::get_texture(std::string name) -> sf::Texture&
 {
-	assert(textures_.find(name) != textures_.end() && "Requested texture not available");
+	assert(textures_.contains(name) && "Requested texture not available");
 	return textures_[name];
 }
 auto Assets::get_shader(std::string name) -> sf::Shader&
 {
-	assert(shaders_.find(name) != shaders_.end() && "Requested shader not available");
+	assert(shaders_.contains(name) && "Requested shader not available");
 	return shaders_[name];
 }
 
-// auto Assets::get_sound(std::string name) -> sf::SoundBuffer&
-//{
-//	assert(sounds_.find(name) != sounds_.end() && "Requested sound not available");
-//	return sounds_[name];
-//}
+auto Assets::get_sound(std::string name) -> sf::SoundBuffer&
+{
+	assert(sounds_.contains(name) && "Requested sound not available");
+	return sounds_[name];
+}
 
 
 namespace
@@ -113,4 +102,9 @@ auto Assets::get_font_names() const -> const std::vector<std::string>
 auto Assets::get_texture_names() const -> const std::vector<std::string>
 {
 	return get_names_from(textures_);
+}
+
+auto Assets::get_sound_names() const -> const std::vector<std::string>
+{
+	return get_names_from(sounds_);
 }
