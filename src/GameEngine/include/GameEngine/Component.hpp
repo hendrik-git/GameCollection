@@ -43,34 +43,6 @@ namespace Engine::Components
 		float angle;
 	};
 
-	struct ShapeInit
-	{
-		float	  radius	= 10.F;
-		size_t	  points	= 32;
-		sf::Color fill		= sf::Color::Black;
-		sf::Color outline	= sf::Color::White;
-		float	  thickness = 2.F;
-	};
-
-	/// @brief Initial component for visualization, superceeded by Drawable
-	struct Shape : public BaseComponent
-	{
-		explicit Shape(const ShapeInit& init = ShapeInit{})
-			: Shape(init.radius, init.points, init.fill, init.outline, init.thickness)
-		{
-		}
-
-		Shape(float radius, size_t points, sf::Color fill, sf::Color outline, float thickness)
-			: circle(radius, points)
-		{
-			circle.setFillColor(fill);
-			circle.setOutlineColor(outline);
-			circle.setOutlineThickness(thickness);
-			circle.setOrigin({radius, radius});
-		}
-
-		sf::CircleShape circle;
-	};
 
 	/// @brief Holds data related to animation and texture
 	/// @details This component slightly violates the ECS pattern, by having utility functions
@@ -170,15 +142,7 @@ namespace Engine::Components
 	};
 
 	/// @brief Hold all components in one container
-	using ComponentTuple = std::tuple<Transform,
-									  Drawable,
-									  Shape,
-									  Collision,
-									  Score,
-									  Lifespan,
-									  Input,
-									  Mouse,
-									  Hitpoints,
-									  Shader>;
+	using ComponentTuple = std::
+		tuple<Transform, Drawable, Collision, Score, Lifespan, Input, Mouse, Hitpoints, Shader>;
 
 }  // namespace Engine::Components
