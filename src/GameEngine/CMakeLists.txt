@@ -29,6 +29,18 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/Utility.cpp
 )
 target_include_directories(GameEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(GameEngine PUBLIC CodeHelpers GameScenes GameMath SFML::Graphics fmt::fmt)
+target_link_libraries(GameEngine PUBLIC CodeHelpers GameScenes GameMath SFML::Graphics SFML::Audio fmt::fmt)
 target_compile_features(GameEngine PUBLIC cxx_std_20)
 target_compile_options(GameEngine PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
+
+# OpenAL needs to be linked dynamically due to licensing.
+# Unfortunately SFML does not propagate the given dll as runtime dependency yet.
+# Therefore the following command will copy the necessary dll to the correct directory.
+if(WIN32)
+    add_custom_command(
+        TARGET GameEngine COMMENT "Copy OpenAL DLL" POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${FETCHCONTENT_BASE_DIR}/sfml-src/extlibs/bin/x64/openal32.dll 
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/OpenAl32.dll
+    )
+endif()

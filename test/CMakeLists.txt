@@ -19,6 +19,21 @@ set_target_properties(Test_GameEngine PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>")
 SetFolderInVS(Test_GameEngine Test)
 
+# copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
+# Windows, since it doesn't support relative paths to libraries there is currently a bug, where a
+# statically build target causes an error this happens when the list of dll passed to the copy
+# command is empty
+if(WIN32 AND BUILD_SHARED_LIBS)
+    add_custom_command(
+        TARGET Test_GameEngine
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:Test_GameEngine>
+                $<TARGET_FILE_DIR:Test_GameEngine>
+        COMMAND_EXPAND_LISTS # expands list to multiple arguments instead of ; seperated
+        COMMENT "Copying necessary dll files"
+    )
+endif()
+
 #add_test(NAME GameEngine COMMAND Test_GameEngine)
 catch_discover_tests(Test_GameEngine WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/$<CONFIG>)
 
@@ -32,6 +47,17 @@ target_link_libraries(Test_GameMath PRIVATE GameMath Catch2::Catch2WithMain)
 set_target_properties(Test_GameMath PROPERTIES 
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>")
 SetFolderInVS(Test_GameMath Test)
+
+if(WIN32 AND BUILD_SHARED_LIBS)
+    add_custom_command(
+        TARGET Test_GameMath
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:Test_GameMath>
+                $<TARGET_FILE_DIR:Test_GameMath>
+        COMMAND_EXPAND_LISTS # expands list to multiple arguments instead of ; seperated
+        COMMENT "Copying necessary dll files"
+    )
+endif()
 
 #add_test(NAME GameMath COMMAND Test_GameMath)
 catch_discover_tests(Test_GameMath WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/$<CONFIG>)
