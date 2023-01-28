@@ -24,17 +24,17 @@ void Animation::update()
 	sprite_.setTextureRect(frame_rect);
 }
 
-auto Animation::has_ended() -> bool
+auto Animation::has_ended() const -> bool
 {
 	return false;
 }
 
-auto Animation::get_name() -> std::string
+auto Animation::get_name() const -> const std::string&
 {
 	return name_;
 }
 
-auto Animation::get_size() -> Vec2
+auto Animation::get_size() const -> Vec2
 {
 	return size_;
 }
@@ -44,7 +44,7 @@ auto Animation::get_sprite() -> sf::Sprite&
 	return sprite_;
 }
 
-auto Animation::get_rotation() -> float
+auto Animation::get_rotation() const -> float
 {
 	return rotation_;
 }

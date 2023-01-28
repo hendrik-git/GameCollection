@@ -17,11 +17,11 @@ class Animation
 {
   public:
 	void update();
-	auto has_ended() -> bool;
-	auto get_name() -> std::string;
-	auto get_size() -> Vec2;
+	auto has_ended() const -> bool;
+	auto get_name() const -> const std::string&;
+	auto get_size() const -> Vec2;
 	auto get_sprite() -> sf::Sprite&;
-	auto get_rotation() -> float;
+	auto get_rotation() const -> float;
 	void set_rotation(float degree);
 
   protected:
