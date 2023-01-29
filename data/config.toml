@@ -1,0 +1,3 @@
+# GameEngine configuration file
+
+game = "Asteroids" # Which game to load on startup

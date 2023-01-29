@@ -4,7 +4,7 @@
 add_executable(GameCollectionApp ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 target_compile_features(GameCollectionApp PUBLIC cxx_std_20)
 set_target_properties(GameCollectionApp PROPERTIES CXX_EXTENSIONS OFF)
-target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameScenes GameEngine CodeHelpers)
+target_link_libraries(GameCollectionApp PRIVATE CLI11::CLI11 GameScenes GameEngine CodeHelpers tomlplusplus)
 target_compile_options(GameCollectionApp PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
 # copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
