@@ -8,6 +8,7 @@
 #pragma once
 #include <GameEngine/Animation.hpp>
 #include <GameMath/Vec2.hpp>
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <format>
 #include <iostream>
@@ -19,10 +20,10 @@ namespace Engine::Components
 	/// @brief Base Component interface, determines if a component was added to an entity
 	struct BaseComponent
 	{
-		bool has = false;
+		bool has = false;  //!< controls if a component is active
 
-		// by adding an implicit conversion to bool, it is no longer necessary to ask for 'has'
-		explicit operator bool() const
+		/// @brief Eases use of component in if statements by implicitly converting
+		explicit operator bool() const noexcept
 		{
 			return has;
 		};
@@ -84,9 +85,10 @@ namespace Engine::Components
 	/// @brief Holds an amount of value attributed to this entity.
 	struct Score : public BaseComponent
 	{
+		/// @brief Constructor that sets the score of an entity
 		explicit Score(int score = 0) : score(score) {}
 
-		int score;
+		int score;	//!< value of an entity
 	};
 
 	/// @brief Shows certain doom aproaching
@@ -94,8 +96,8 @@ namespace Engine::Components
 	{
 		explicit Lifespan(int total = 0) : remaining(total), total(total) {}
 
-		int remaining;
-		int total;
+		int remaining;	//!< value between 0 and total
+		int total;		//!< initial duration until destruction
 	};
 
 	/// @brief This component indicates the entity may use key press input
@@ -111,10 +113,10 @@ namespace Engine::Components
 	/// @brief This component indicates the entity may use mouse input
 	struct Mouse : public BaseComponent
 	{
-		bool  lmb = false;
-		bool  rmb = false;
-		float x	  = 0.F;
-		float y	  = 0.F;
+		bool  lmb = false;	//!< left mouse button click
+		bool  rmb = false;	//!< right mouse button click
+		float x	  = 0.F;	//!< mouse position
+		float y	  = 0.F;	//!< mouse position
 	};
 
 	/// @brief Holds the amount of damage an entity can withstand
