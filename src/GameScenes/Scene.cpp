@@ -4,22 +4,22 @@ namespace Engine::Scene
 {
 	BaseScene::BaseScene(GameEngine* engine) : game_(engine) {}
 
-	void BaseScene::register_action(int key, std::string name)
+	void BaseScene::register_action(int key, const std::string& name)
 	{
 		action_map_[key] = name;
 	}
 
-	bool BaseScene::has_ended()
+	auto BaseScene::has_ended() const noexcept -> bool
 	{
 		return has_ended_;
 	}
 
-	size_t BaseScene::current_frame()
+	auto BaseScene::current_frame() const noexcept -> size_t
 	{
 		return current_frame_;
 	}
 
-	ActionMap& BaseScene::get_ActionMap()
+	auto BaseScene::get_ActionMap() -> ActionMap&
 	{
 		return action_map_;
 	}
