@@ -55,21 +55,27 @@ namespace Engine::Scene
 
 		if(action.type() == Engine::Systems::ActionType::Start)
 		{
-			if(action.name() == "Prev")
-			{
-				player_->get_component<Input>().up = true;
-			}
-			if(action.name() == "Next")
-			{
-				player_->get_component<Input>().up = true;
-			}
-			if(action.name() == "Select")
-			{
-				player_->get_component<Input>().up = true;
-			}
 			if(action.name() == "Quit")
 			{
 				game_->quit();
+				return;
+			}
+
+			if(action.name() == "Prev")
+			{
+				// player_->get_component<Input>().up = true;
+			}
+			if(action.name() == "Next")
+			{
+				// // player_->get_component<Input>().up = true;
+			}
+			if(action.name() == "Select")
+			{
+				// player_->get_component<Input>().up = true;
+			}
+			if(action.name() == "Quit")
+			{
+				// game_->quit();
 			}
 		}
 		else if(action.type() == Engine::Systems::ActionType::End)
