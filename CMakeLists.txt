@@ -40,8 +40,10 @@ mark_as_advanced(ADDITIONAL_COMPILER_FLAGS)
 # -------------------------------------------------------------------------------------------------
 # package manager build on top of fetch_content, see https://github.com/cpm-cmake/CPM.cmake
 include(CPM) 
-CPMAddPackage("gh:fmtlib/fmt#a33701196adfad74917046096bf5a2aa0ab0bb50") # v9.1.0 [2022.08.27]
-setfolderinvs(fmt Dependencies)
+
+# replaced by std::format
+# CPMAddPackage("gh:fmtlib/fmt#a33701196adfad74917046096bf5a2aa0ab0bb50") # v9.1.0 [2022.08.27]
+# setfolderinvs(fmt Dependencies)
 
 CPMAddPackage("gh:CLIUtils/CLI11#a66ae4145779c56dc0f9f98a631656417dd77de8") # v2.3.0 [2022.10.15]
 setfolderinvs(CLI11 Dependencies)
@@ -87,8 +89,6 @@ endif()
 # -------------------------------------------------------------------------------------------------
 # Tools
 # -------------------------------------------------------------------------------------------------
-
-
 include(graphviz)
 include(cmake-format)
 include(cmake-lint)

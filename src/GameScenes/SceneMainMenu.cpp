@@ -1,7 +1,6 @@
 #include "GameScenes/SceneMainMenu.hpp"
 #include "GameEngine/GameEngine.hpp"
 #include "GameEngine/Utility.hpp"
-#include <fmt/core.h>
 #include <random>
 
 namespace Engine::Scene

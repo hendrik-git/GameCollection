@@ -6,7 +6,6 @@
 #include <GameScenes/SceneShaderGallery.hpp>
 #include <chrono>
 #include <filesystem>
-#include <fmt/core.h>
 #include <functional>
 #include <future>
 
