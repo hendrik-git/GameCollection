@@ -64,6 +64,7 @@ setfolderinvs(Catch2WithMain Dependencies)
 if(USE_PROFILING)
     add_subdirectory(extern/perfetto)
 endif()
+add_subdirectory(extern/tomlplusplus)
 
 add_subdirectory(src/CodeHelpers)
 add_subdirectory(src/GameEngine)
