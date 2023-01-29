@@ -11,7 +11,7 @@ auto main(int argc, char** argv) -> int
 	using namespace CodeHelper;
 
 	// The following Initializer for the Game Engine will be modified by the CL parameters
-	EngineInitializer ini;
+	Engine::Initializer ini;
 
 	//!---------------------------------------------------------------------------------------------
 	//! Parse command line arguments
@@ -38,7 +38,7 @@ auto main(int argc, char** argv) -> int
 	{
 		try
 		{
-			GameEngine engine{ini, std::filesystem::path{inputFile}};
+			Engine::GameEngine engine{ini, std::filesystem::path{inputFile}};
 			engine.run();
 		}
 		catch(const std::exception& e)

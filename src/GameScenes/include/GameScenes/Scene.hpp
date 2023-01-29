@@ -11,13 +11,14 @@
 #include <map>
 
 
-using ActionMap = std::map<int, std::string>;
-using PlayerPtr = std::shared_ptr<Entity>;
-class GameEngine;  // forward declare GameEngine class for pointer
-
-namespace Engine::Scene
+namespace Engine
 {
-	class BaseScene
+	using ActionMap = std::map<int, std::string>;  //!< for registering all available actions
+	using PlayerPtr = std::shared_ptr<Entity>;	   //!< shorthand for getting player entity
+	class GameEngine;							   // forward declare GameEngine class for pointer
+
+	/// @brief Holds all implementations for games as scenes
+	namespace Scene
 	{
 	  public:
 		BaseScene() = default;
@@ -43,4 +44,8 @@ namespace Engine::Scene
 		bool		  has_ended_	 = false;
 		size_t		  current_frame_ = 0;
 	};
-}  // namespace Engine::Scene
+		/// @brief Base for all scenes to be derived from
+		class BaseScene	}  // namespace Scene
+	}  // namespace Scene
+
+}  // namespace Engine
