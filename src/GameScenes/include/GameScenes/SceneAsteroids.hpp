@@ -14,7 +14,7 @@ namespace Engine::Scene
 	class SceneAsteroids : public BaseScene
 	{
 	  public:
-		SceneAsteroids(GameEngine* engine) : BaseScene(engine)
+		explicit SceneAsteroids(GameEngine* engine) : BaseScene(engine)
 		{
 			init();
 		};
@@ -32,6 +32,9 @@ namespace Engine::Scene
 		void movement();
 		void collision();
 
+		void reset();
+
+	  private:
 		sf::Text		text_;
 		sf::Sprite		background_;
 		ParticleManager particles_;

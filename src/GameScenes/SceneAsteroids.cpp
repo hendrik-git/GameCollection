@@ -6,63 +6,67 @@
 #include <format>
 #include <random>
 
-namespace
-{
-	auto calc_direction(Vec2 from, Vec2 to) -> Vec2
-	{
-		return (to - from);
-	}
-
-	auto get_random_int(int from, int to)
-	{
-		static auto rd	  = std::random_device{};
-		static auto mtgen = std::mt19937{rd()};
-		auto		ud	  = std::uniform_int_distribution<>{from, to};
-		return ud(mtgen);
-	}
-
-	auto get_random_start_pos(int max_x, int max_y) -> Vec2
-	{
-		return {static_cast<float>(get_random_int(0, max_x)),
-				static_cast<float>(get_random_int(0, max_y))};
-	}
-
-	auto get_random_dir() -> Vec2
-	{
-		return {Vec2{static_cast<float>(get_random_int(-100, 100)),
-					 static_cast<float>(get_random_int(-100, 100))}
-					.normalize()};
-	}
-
-	auto move_player(PlayerPtr player)
-	{
-		using namespace Engine::Components;
-
-		auto& player_pos   = player->get_component<Transform>().pos;
-		auto& player_angle = player->get_component<Transform>().angle;
-
-		if(player->get_component<Input>().up)
-		{
-			player_pos += direction_from_degree(player_angle) * 4.F;
-		}
-		if(player->get_component<Input>().down)
-		{
-			player_pos -= direction_from_degree(player_angle) * 4.F;
-		}
-		if(player->get_component<Input>().right)
-		{
-			player_angle += 2.F;
-		}
-		if(player->get_component<Input>().left)
-		{
-			player_angle -= 2.F;
-		}
-	}
-
-}  // namespace
 
 namespace Engine::Scene
 {
+	/// @brief Anonymous namespace for SceneAsteroids.cpp
+	namespace
+	{
+		auto calc_direction(Vec2 from, Vec2 to) -> Vec2
+		{
+			return (to - from);
+		}
+
+		auto get_random_int(int from, int to)
+		{
+			static auto rd	  = std::random_device{};
+			static auto mtgen = std::mt19937{rd()};
+			auto		ud	  = std::uniform_int_distribution<>{from, to};
+			return ud(mtgen);
+		}
+
+		auto get_random_start_pos(int max_x, int max_y) -> Vec2
+		{
+			return {static_cast<float>(get_random_int(0, max_x)),
+					static_cast<float>(get_random_int(0, max_y))};
+		}
+
+		auto get_random_dir() -> Vec2
+		{
+			return {Vec2{static_cast<float>(get_random_int(-100, 100)),
+						 static_cast<float>(get_random_int(-100, 100))}
+						.normalize()};
+		}
+
+		/// @brief Moves and rotates the player according to input
+		/// @param player pointer to the player entity (space ship)
+		void move_player(PlayerPtr player)
+		{
+			using namespace Engine::Components;
+
+			auto& player_pos   = player->get_component<Transform>().pos;
+			auto& player_angle = player->get_component<Transform>().angle;
+
+			if(player->get_component<Input>().up)
+			{
+				player_pos += direction_from_degree(player_angle) * 4.F;
+			}
+			if(player->get_component<Input>().down)
+			{
+				player_pos -= direction_from_degree(player_angle) * 4.F;
+			}
+			if(player->get_component<Input>().right)
+			{
+				player_angle += 2.F;
+			}
+			if(player->get_component<Input>().left)
+			{
+				player_angle -= 2.F;
+			}
+		}
+
+	}  // namespace
+
 	using namespace CodeHelper;
 
 	void SceneAsteroids::spawn_entities()
@@ -467,6 +471,11 @@ namespace Engine::Scene
 		{
 			if(action.type() == Engine::Systems::ActionType::Start)
 			{
+				if(action.name() == "Quit")
+				{
+					game_->change_scene("MainMenu");
+					return;
+				}
 				if(action.name() == "Up")
 				{
 					player_->get_component<Input>().up = true;
@@ -491,26 +500,9 @@ namespace Engine::Scene
 				{
 					set_paused(!is_paused_);
 				}
-				if(action.name() == "Quit")
-				{
-					game_->quit();
-				}
 				if(action.name() == "Reset")
 				{
-					if(game_over_)
-					{
-						for(auto entity : entities_.get_entities())
-						{
-							entity->destroy();
-						}
-						game_over_ = false;
-						score_	   = 0;
-						spawn_player();
-					}
-					else
-					{
-						game_over_ = true;
-					}
+					game_over_ ? [&]() { reset(); }() : [&]() { game_over_ = true; }();
 				}
 				if(action.name() == "ToggleSprites")
 				{
@@ -552,5 +544,17 @@ namespace Engine::Scene
 	}
 
 	void SceneAsteroids::on_end() {}
+
+
+	void SceneAsteroids::reset()
+	{
+		for(auto entity : entities_.get_entities())
+		{
+			entity->destroy();
+		}
+		game_over_ = false;
+		score_	   = 0;
+		spawn_player();
+	}
 
 }  // namespace Engine::Scene
