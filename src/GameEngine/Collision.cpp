@@ -2,13 +2,10 @@
 
 namespace Engine::Physics
 {
-	// Two circles collide, if their midpoint distance is less than the sum of their radii. This
-	// function uses the squared distance as an optimization instead
-	bool CollisionChecker::operator()(sf::CircleShape& first, sf::CircleShape& second)
+
+	bool CollisionChecker::operator()(const sf::CircleShape& first,
+									  const sf::CircleShape& second) const
 	{
-		//      r1 + r2   >  | pos2 - pos1 |
-		// <=>  r1 + r2   >  sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
-		// <=>  (r1+r2)^2 > (x2 - x1)^2 + (y2 - y1)^2
 		const auto r_dist = second.getRadius() + first.getRadius();
 		const auto dx	  = second.getPosition().x - first.getPosition().x;
 		const auto dy	  = second.getPosition().y - first.getPosition().y;
@@ -16,12 +13,14 @@ namespace Engine::Physics
 		return ((r_dist * r_dist) > (dx * dx) + (dy * dy));
 	}
 
-	bool CollisionChecker::operator()(sf::RectangleShape& first, sf::RectangleShape& second)
+	bool CollisionChecker::operator()(const sf::RectangleShape& first,
+									  const sf::RectangleShape& second) const
 	{
 		return first.getGlobalBounds().findIntersection(second.getGlobalBounds()).has_value();
 	}
 
-	bool CollisionChecker::operator()(sf::CircleShape& circle, sf::RectangleShape& rect)
+	bool CollisionChecker::operator()(const sf::CircleShape&	circle,
+									  const sf::RectangleShape& rect) const
 	{
 		const auto dx = std::abs(rect.getPosition().x - circle.getPosition().x);
 		const auto dy = std::abs(rect.getPosition().y - circle.getPosition().y);
@@ -47,12 +46,14 @@ namespace Engine::Physics
 		return (dist <= r_dist);
 	}
 
-	bool CollisionChecker::operator()(sf::RectangleShape& rect, sf::CircleShape& circle)
+	bool CollisionChecker::operator()(const sf::RectangleShape& rect,
+									  const sf::CircleShape&	circle) const
 	{
 		return CollisionChecker()(circle, rect);
 	}
 
-	bool CollisionChecker::operator()(sf::CircleShape& circle, sf::Vector2f& point)
+	bool CollisionChecker::operator()(const sf::CircleShape& circle,
+									  const sf::Vector2f&	 point) const
 	{
 		// point is a circle without radius
 		const auto r_dist = circle.getRadius() + 0.F;
@@ -60,9 +61,4 @@ namespace Engine::Physics
 		const auto dy	  = circle.getPosition().y - point.y;
 		return ((r_dist * r_dist) > (dx * dx) + (dy * dy));
 	}
-
-	//[[nodiscard]] bool operator()(sf::RectangleShape& rect, sf::Vector2f& point)
-	//{
-	//	return false;
-	//}
 }  // namespace Engine::Physics
