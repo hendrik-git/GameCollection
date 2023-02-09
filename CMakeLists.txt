@@ -72,7 +72,7 @@ add_subdirectory(src/CodeHelpers)
 add_subdirectory(src/GameEngine)
 add_subdirectory(src/GameMath)
 add_subdirectory(src/GameScenes)
-add_subdirectory(app)
+add_subdirectory(app/GameCollectionApp)
 
 # -------------------------------------------------------------------------------------------------
 # Testing

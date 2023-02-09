@@ -21,3 +21,5 @@ if(WIN32 AND BUILD_SHARED_LIBS)
         COMMENT "Copying necessary dll files"
     )
 endif()
+
+setfolderinvs(GameCollectionApp Executables)
