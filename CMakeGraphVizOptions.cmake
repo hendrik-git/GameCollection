@@ -47,6 +47,7 @@ set(GRAPHVIZ_IGNORE_TARGETS
     "legacy_stdio_definitions.lib"
     "winmm"
     "ws2_32"
+    "ftxui_*"
 )
 
 # Set to FALSE to not generate per-target graphs foo.dot.<target>.
