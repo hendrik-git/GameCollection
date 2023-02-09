@@ -60,6 +60,11 @@ CPMAddPackage("gh:catchorg/Catch2#97c48e0c343d26d50764fafdc90b1e630fbd10ce") # v
 setfolderinvs(Catch2 Dependencies)
 setfolderinvs(Catch2WithMain Dependencies)
 
+CPMAddPackage("gh:ArthurSonzogni/FTXUI@3.0.0") # v3.0.0 [2023.04.02]
+setfolderinvs(component Dependencies/ftxui)
+setfolderinvs(dom Dependencies/ftxui)
+setfolderinvs(screen Dependencies/ftxui)
+
 # -------------------------------------------------------------------------------------------------
 # Building the targets
 # -------------------------------------------------------------------------------------------------
