@@ -17,4 +17,9 @@ namespace CodeHelper
 	{
 		using Ts::operator()...;
 	};
+
+	// clang needs this deduction guide
+	template<class... Ts>
+	Overload(Ts...) -> Overload<Ts...>;
+
 }  // namespace CodeHelper
