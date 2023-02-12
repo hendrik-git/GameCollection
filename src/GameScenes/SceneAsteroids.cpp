@@ -6,6 +6,7 @@
 #include <format>
 #include <random>
 
+class Vec2;
 
 namespace Engine::Scene
 {

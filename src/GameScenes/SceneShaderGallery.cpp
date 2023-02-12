@@ -122,23 +122,24 @@ namespace Engine::Scene
 					[[maybe_unused]] const auto& pixel_shader =
 						game_->assets().get_shader(shader.name);
 
-					for(auto& [param_name, param_value] : shader.parameters)
+					for(auto& [name, value] : shader.parameters)
 					{
-						 auto visitable = CodeHelper::Overload{
-							[&](float value)
-							{
+						// clang can not capture structured bindings in lambdas
+						auto& param_name	 = name;
+						auto& param_value = value;
+
+						auto visitable = CodeHelper::Overload{
+							[&](float value) {
 								game_->assets()
 									.get_shader(shader.name)
 									.setUniform(param_name, value);
 							},
-							[&](int value)
-							{
+							[&](int value) {
 								game_->assets()
 									.get_shader(shader.name)
 									.setUniform(param_name, value);
 							},
-							[&](const sf::Texture*)
-							{
+							[&](const sf::Texture*) {
 								game_->assets()
 									.get_shader(shader.name)
 									.setUniform(param_name, sf::Shader::CurrentTexture);

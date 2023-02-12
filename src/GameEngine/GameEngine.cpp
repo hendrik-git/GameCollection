@@ -31,7 +31,8 @@ namespace Engine
 			{
 				if(entry.is_regular_file())
 				{
-					results.emplace_back(entry.path().string(), entry.path().stem().string());
+					results.emplace_back(
+						FileData{entry.path().string(), entry.path().stem().string()});
 				}
 			}
 			return results;

@@ -33,7 +33,7 @@ auto CodeHelper::StartTracing() -> tracing_ptr
 	return tracing_session;
 #else
 	return {};
-#endif;
+#endif
 }
 
 void CodeHelper::StopTracing([[maybe_unused]] tracing_ptr tracing_session)
