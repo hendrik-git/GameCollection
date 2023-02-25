@@ -3,6 +3,7 @@
 # -------------------------------------------------------------------------------------------------
 include(Catch)
 
+
 # -------------------------------------------------------------------------------------------------
 # Unit tests for the GameEngine library
 # -------------------------------------------------------------------------------------------------
@@ -61,3 +62,19 @@ endif()
 
 #add_test(NAME GameMath COMMAND Test_GameMath)
 catch_discover_tests(Test_GameMath WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/$<CONFIG>)
+
+
+# -------------------------------------------------------------------------------------------------
+# Code coverage
+# -------------------------------------------------------------------------------------------------
+option(ENABLE_COVERAGE "Enable coverage" ON)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND ENABLE_COVERAGE)
+    include(code_coverage)
+    message(STATUS "Enabled code coverage with clang")
+
+    target_compile_options(Test_GameEngine PRIVATE -g -O0 -fprofile-instr-generate -fcoverage-mapping)
+    target_link_libraries(Test_GameEngine PRIVATE -g -O0 -fprofile-instr-generate -fcoverage-mapping)
+
+    generate_coverage_report_for(Test_GameEngine)
+    #generate_coverage_report_for(Test_GameMath)
+endif()
