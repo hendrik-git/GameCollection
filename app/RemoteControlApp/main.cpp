@@ -33,29 +33,52 @@ int main(int argc, const char* argv[])
 
 	sf::UdpSocket socket;
 
-	// bind the socket to a port
-	if(socket.bind(54000) == sf::Socket::Status::Error)
-	{
-		std::cout << "Failed to connect socket to port 54000\n";
-		std::this_thread::sleep_for(10s);
-	}
-	else
-	{
-		std::cout << "Connected to port 54000\n";
-		std::this_thread::sleep_for(10s);
-	}
-
 	auto screen = ScreenInteractive::FitComponent();
 
 
 	// -- Input ------------------------------------------------------------------
-	std::string port;
-	auto		input = Input(&port, "");
+	std::string port_str;
+	std::string user_message;
+	auto		input = Input(&port_str, "");
 	input			  = Wrap("Port", input);
 
-	std::function<void()> on_connect_clicked = []() { std::cout << "Hello World"; };
-	auto				  button_connect	 = Button("Connect", on_connect_clicked);
-	button_connect							 = Wrap("Connect by TCP", button_connect);
+	std::function<void()> on_connect_clicked = [&socket, &port_str, &user_message]()
+	{
+		if(port_str.empty()) 
+		{
+			user_message = std::format("Please enter a port first");
+			return;
+		}
+
+		try
+		{
+			auto port = static_cast<unsigned short>(std::stoi(port_str));
+
+			// check if the number is out of port range
+			if(port == 0 || port > 65'535)
+			{
+				return;
+			}
+
+			// bind the socket to a port
+			if(socket.bind(port) == sf::Socket::Status::Error)
+			{
+				user_message = std::format("Failed to connect socket to port {}", port);
+			}
+			else
+			{
+				user_message = std::format("Connected to port {}", port);
+			}
+		}
+		catch(const std::exception& e)
+		{
+			user_message = e.what();
+		}
+	};
+
+
+	auto button_connect = Button("Connect", on_connect_clicked);
+	button_connect		= Wrap("Connect by TCP", button_connect);
 
 
 	// -- Button -----------------------------------------------------------------
@@ -74,15 +97,15 @@ int main(int argc, const char* argv[])
 	auto component = Renderer(layout,
 							  [&]
 							  {
-								  return vbox({
-											 text("Remote Control App"),
-											 separator(),
-											 input->Render(),
-											 separator(),
-											 button_connect->Render(),
-											 separator(),
-											 button->Render(),
-										 }) |
+								  return vbox({text("Remote Control App"),
+											   separator(),
+											   input->Render(),
+											   separator(),
+											   button_connect->Render(),
+											   separator(),
+											   button->Render(),
+											   separator(),
+											   text(user_message)}) |
 										 xflex | size(WIDTH, GREATER_THAN, 40) | border;
 							  });
 
