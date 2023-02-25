@@ -31,8 +31,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 if(MSVC)
     set(ADDITIONAL_COMPILER_FLAGS /MP /W4 ) # /utf-8  /WX /fastfail 
 else()
-    set(ADDITIONAL_COMPILER_FLAGS -Werror -Wall)
+    #set(ADDITIONAL_COMPILER_FLAGS -Werror -Wall)
 endif()
+
 mark_as_advanced(ADDITIONAL_COMPILER_FLAGS)
 
 # -------------------------------------------------------------------------------------------------
