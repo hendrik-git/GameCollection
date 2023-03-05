@@ -20,9 +20,9 @@ namespace Engine::Physics
 		/// @brief Checks if two circles collide
 		/// @details Two circles collide, if their midpoint distance is less than the sum of their
 		/// radii. This function uses the squared distance as an optimization instead
-		/// \f[ r_1 + r_2 > \left| pos_2 - pos_1 \right| \f]
-		/// \f[ \Leftrightarrow r_1 + r_2   >  \sqrt{ (x_2 - x_1)^2 + (y_2 - y_1)^2 } \f]
-		/// \f[ \Leftrightarrow (r_1+r_2)^2 > (x_2 - x_1)^2 + (y_2 - y_1)^2 \f]
+		// \f[ r_1 + r_2 > \left| pos_2 - pos_1 \right| \f]
+		// \f[ \Leftrightarrow r_1 + r_2   >  \sqrt{ (x_2 - x_1)^2 + (y_2 - y_1)^2 } \f]
+		// \f[ \Leftrightarrow (r_1+r_2)^2 > (x_2 - x_1)^2 + (y_2 - y_1)^2 \f]
 		/// @param first circle
 		/// @param second circle
 		/// @return true if they collide
@@ -38,10 +38,10 @@ namespace Engine::Physics
 		/// @brief Checks if a circle and a rectangle collide
 		/// @details Determines if a circle and a rectanle collide by checking three distinct cases:
 		///	1. The circle center is far from the rectangle center
-		/// \f[ dx > \frac{w_{rect}}{2} \text{ or } dy > \frac{h_{rect}}{2} \f]
+		// \f[ dx > \frac{w_{rect}}{2} \text{ or } dy > \frac{h_{rect}}{2} \f]
 		/// @return true when the shapes collide
 		/// 2. The circle center lies inside the rectangle
-		/// \f[ dx <= \frac{w_{rect}}{2} \text{ or } dy <= \frac{h_{rect}}{2} \f]
+		// \f[ dx <= \frac{w_{rect}}{2} \text{ or } dy <= \frac{h_{rect}}{2} \f]
 		/// 3. Edge case for the edges
 		[[nodiscard]] bool operator()(const sf::CircleShape&	circle,
 									  const sf::RectangleShape& rect) const;
