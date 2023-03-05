@@ -11,7 +11,7 @@ jobs:
 
       - name: Configure build
         working-directory: ${{runner.workspace}}
-        run: cmake -S $Env:GITHUB_WORKSPACE -B ${{runner.workspace}}/build
+        run: cmake -S $Env:GITHUB_WORKSPACE -B ${{runner.workspace}}/build -DBUILD_DOCUMENTATION=OFF
 
       - name: Build application
         working-directory: ${{runner.workspace}}

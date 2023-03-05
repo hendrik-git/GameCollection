@@ -18,6 +18,7 @@ include(git_commands) # update submodules, get the latest git commit
 include(macros) # load custom functions and macros
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON) # to build and link dynamic or static
+option(BUILD_DOCUMENTATION "Add targets for building docs" ON) # to build and link dynamic or static
 option(USE_PROFILING "Enable PROFILING makros for chrome tracing" OFF)
 
 # set the output directories
@@ -100,8 +101,11 @@ include(graphviz)
 include(cmake-format)
 include(cmake-lint)
 include(cpp_check)
-include(documentation)
-include(poxy)
+
+if(BUILD_DOCUMENTATION)
+    include(documentation)
+    include(poxy)
+endif()
 
 # -------------------------------------------------------------------------------------------------
 # Visual Studio settings
