@@ -100,7 +100,7 @@ include(graphviz)
 include(cmake-format)
 include(cmake-lint)
 include(cpp_check)
-# include(documentation)
+include(documentation)
 include(poxy)
 
 # -------------------------------------------------------------------------------------------------
