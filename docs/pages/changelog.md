@@ -1,4 +1,4 @@
-# CHANGELOG
+# Changelog
 
 ## Version 0.5.0
 

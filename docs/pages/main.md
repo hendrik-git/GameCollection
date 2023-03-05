@@ -1,24 +1,19 @@
 \mainpage GameCollection
-
-\image html banner.png width=1280px
-
 \tableofcontents
 
-\subpage GameEngine
+![Banner](../images/banner.png)
 
-\section mainpage-overview Overview
+## GameEngine
 
-\section mainpage-scenes Scenes
+## Scenes
 
-\subsection Asteroids
+### Asteroids
 
-\image html Asteroids01.png width=1280px
+![Asteroids](../images/Asteroids01.png)
 
-\subsection ShaderGallery
+### ShaderGallery
 
-\subsection ParticleGallery
+### ParticleGallery
 
-\section mainpage-contact Contacting the author
+## Contacting the author
 to be added
-
-See \ref page1 for more info.
