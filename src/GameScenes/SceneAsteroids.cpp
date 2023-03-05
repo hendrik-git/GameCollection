@@ -162,6 +162,15 @@ namespace Engine::Scene
 		enemy_cooldown = std::max(0, --enemy_cooldown);
 	}
 
+	void SceneAsteroids::spawn_planet()
+	{
+		using namespace Engine::Components;
+		auto& texture = game_->assets().get_texture("Planet");
+		auto planet = entities_.add_entity("Planet");
+		planet->add_component<Drawable>("Planet", texture).set_rotation(get_random_int(0,360));
+		planet->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
+	}
+
 	void SceneAsteroids::spawn_player()
 	{
 		using namespace Engine::Components;
@@ -279,6 +288,8 @@ namespace Engine::Scene
 		background_.setTexture(texture);
 		background_.setTextureRect(sf::IntRect{
 			{0, 0}, {static_cast<int>(world_size_.x), static_cast<int>(world_size_.y)}});
+
+		spawn_planet();
 
 		spawn_player();
 	}

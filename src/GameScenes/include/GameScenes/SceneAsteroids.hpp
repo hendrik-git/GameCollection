@@ -26,6 +26,7 @@ namespace Engine::Scene
 
 		void init();
 		void spawn_entities();
+		void spawn_planet();
 		void spawn_player();
 		void reduce_lifespan();
 
