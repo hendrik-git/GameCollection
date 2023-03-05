@@ -12,10 +12,15 @@ jobs:
       - name: Configure build
         working-directory: ${{runner.workspace}}
         run: cmake -S $Env:GITHUB_WORKSPACE -B ${{runner.workspace}}/build
+
+      - name: Build application
+        working-directory: ${{runner.workspace}}
+        run: cmake --build build --config Release --parallel %NUMBER_OF_PROCESSORS% --target GameCollectionApp
+        shell: cmd
       
       - name: Build tests
         working-directory: ${{runner.workspace}}
-        run: cmake --build build --config Release --parallel %NUMBER_OF_PROCESSORS% --target ALL_BUILD
+        run: cmake --build build --config Release --parallel %NUMBER_OF_PROCESSORS% --target Test_GameEngine Test_GameMath
         shell: cmd
 
       - name: Run tests
