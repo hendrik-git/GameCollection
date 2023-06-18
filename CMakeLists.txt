@@ -17,9 +17,9 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(git_commands) # update submodules, get the latest git commit
 include(macros) # load custom functions and macros
 
-option(BUILD_SHARED_LIBS "Build using shared libraries" ON) # to build and link dynamic or static
-option(BUILD_DOCUMENTATION "Add targets for building docs" ON) # to build and link dynamic or static
-option(USE_PROFILING "Enable PROFILING makros for chrome tracing" OFF)
+option(BUILD_SHARED_LIBS "Build using shared libraries"                ON) # to build and link dynamic or static
+option(BUILD_DOCS        "Add targets for building docs"              OFF) # to build documentaion
+option(USE_PROFILING     "Enable PROFILING makros for chrome tracing" OFF)
 
 # set the output directories
 if(MSVC)
@@ -111,7 +111,7 @@ include(cmake-format)
 include(cmake-lint)
 include(cpp_check)
 
-if(BUILD_DOCUMENTATION)
+if(BUILD_DOCS)
     include(documentation)
     include(poxy)
 endif()
