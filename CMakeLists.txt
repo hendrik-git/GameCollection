@@ -22,9 +22,15 @@ option(BUILD_DOCUMENTATION "Add targets for building docs" ON) # to build and li
 option(USE_PROFILING "Enable PROFILING makros for chrome tracing" OFF)
 
 # set the output directories
+if(MSVC)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+else()
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
+endif()
 
 # Collect compiler flags in a variable to reuse for the following targets. Setting the compiler
 # flags globally will also cause them to be used for dependencies. This may result in the
