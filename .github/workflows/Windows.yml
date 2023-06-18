@@ -23,4 +23,4 @@ jobs:
       run: cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_DOCS=FALSE
     - name: Build
       working-directory: ${{github.workspace}}
-      run: cmake --build build --config ${{env.BUILD_TYPE}}
+      run: cmake --build build --config ${{env.BUILD_TYPE}} --target GameCollectionApp
