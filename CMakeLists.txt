@@ -23,9 +23,9 @@ option(USE_PROFILING "Enable PROFILING makros for chrome tracing" OFF)
 
 # set the output directories
 if(MSVC)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 else()
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})
@@ -72,6 +72,9 @@ CPMAddPackage("gh:ArthurSonzogni/FTXUI@3.0.0") # v3.0.0 [2023.04.02]
 setfolderinvs(component Dependencies/ftxui)
 setfolderinvs(dom Dependencies/ftxui)
 setfolderinvs(screen Dependencies/ftxui)
+
+CPMAddPackage("gh:fmtlib/fmt#a33701196adfad74917046096bf5a2aa0ab0bb50") # v9.1.0 [2022.08.27]
+setfolderinvs(fmt Dependencies)
 
 # -------------------------------------------------------------------------------------------------
 # Building the targets

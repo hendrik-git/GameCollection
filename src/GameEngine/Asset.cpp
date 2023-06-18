@@ -1,6 +1,7 @@
 #include "GameEngine/Asset.hpp"
 #include <cassert>
 #include <iostream>
+#include <fmt/core.h>
 
 namespace fs = std::filesystem;
 

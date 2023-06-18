@@ -29,7 +29,7 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/Utility.cpp
 )
 target_include_directories(GameEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(GameEngine PUBLIC CodeHelpers GameScenes GameMath SFML::Graphics SFML::Audio)
+target_link_libraries(GameEngine PUBLIC CodeHelpers GameScenes GameMath SFML::Graphics SFML::Audio fmt::fmt)
 target_compile_features(GameEngine PUBLIC cxx_std_20)
 target_compile_options(GameEngine PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
 
