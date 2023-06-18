@@ -26,3 +26,16 @@ cd build
 cmake -S .. -B .
 cmake --build . --config Release --target GameCollectionApp
 ```
+
+### Linux
+```
+sudo apt-get install libsfml-dev
+sudo apt-get install libudev-dev
+sudo apt-get install libopenal-dev
+sudo apt-get install libvorbis-dev
+sudo apt-get install libflac-dev
+sudo apt-get install libxcursor-dev
+sudo apt-get install libfreetype6-dev 
+sudo apt-get install libx11-dev 
+sudo apt-get install libxrandr-dev
+```
