@@ -10,7 +10,7 @@
 A bunch of games collected in a single application for learning C++ and game design patterns. Uses SFML as graphics backend.
 
 
-![AsteroidsGame](docs/images/Asteroids01.png)
+![AsteroidsGame](docs/images/Asteroids.gif)
 
 ## How to build
 
@@ -18,24 +18,22 @@ Tested with MSVC and Clang, uses C++20
 
 ```
 git clone https://github.com/hendrik-git/GameCollection
-
 cd GameCollection
-mkdir build
-cd build
-
-cmake -S .. -B .
-cmake --build . --config Release --target GameCollectionApp
+cmake -S . -B build
+cmake --build build --config Release --target GameCollectionApp
 ```
 
 ### Linux
+
+The GameCollection can also be used with Linux. Though SFML requires the following dependencies:
 ```
-sudo apt-get install libsfml-dev
-sudo apt-get install libudev-dev
-sudo apt-get install libopenal-dev
-sudo apt-get install libvorbis-dev
-sudo apt-get install libflac-dev
-sudo apt-get install libxcursor-dev
-sudo apt-get install libfreetype6-dev 
-sudo apt-get install libx11-dev 
-sudo apt-get install libxrandr-dev
+libsfml-dev
+libudev-dev
+libopenal-dev
+libvorbis-dev
+libflac-dev
+libxcursor-dev
+libfreetype6-dev 
+libx11-dev 
+libxrandr-dev
 ```
