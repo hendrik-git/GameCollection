@@ -67,7 +67,7 @@ namespace Engine
 		if(const auto& scene = ini.initial_scene.value_or("MainMenu"); !scenes_.contains(scene))
 		{
 			std::string error_msg{"Can not load specified scene: " + scene};
-			throw(std::exception{error_msg.c_str()});
+			throw std::runtime_error{error_msg.c_str()};
 		}
 
 		change_scene(ini.initial_scene.value_or("MainMenu"));
@@ -127,7 +127,7 @@ namespace Engine
 
 		current_scene_ = name;
 
-		window_.setTitle(std::format("GameCollection - {}", name));
+		window_.setTitle(fmt::format("GameCollection - {}", name));
 	}
 
 	auto GameEngine::window() -> sf::RenderWindow&
@@ -248,7 +248,7 @@ namespace Engine
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << std::format(
+			std::cerr << fmt::format(
 				"Exception caught: {} \nin {} {}\n", e.what(), __FILE__, __LINE__);
 		}
 	}

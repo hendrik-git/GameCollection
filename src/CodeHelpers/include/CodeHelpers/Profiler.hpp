@@ -13,6 +13,7 @@
 #include <iostream>
 #include <mutex>
 #include <string>
+#include <memory>
 
 namespace CodeHelper
 {

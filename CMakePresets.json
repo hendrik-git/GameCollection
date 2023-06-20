@@ -49,6 +49,17 @@
                 "CMAKE_C_COMPILER": "cl.exe",
                 "CMAKE_CXX_COMPILER": "cl.exe"
             }
+        },
+        {
+            "name": "GCC12",
+            "displayName": "Ninja GCC 12.1.0 x86_64-linux-gnu",
+            "description": "Using compilers: C = /usr/bin/gcc-12",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
         }
     ],
     "buildPresets": [
@@ -75,6 +86,12 @@
             "displayName": "MSVC amd64 - Release",
             "configurePreset": "MSVC amd64",
             "configuration": "Release"
+        },
+        {
+            "name": "GCC12",
+            "description": "",
+            "displayName": "",
+            "configurePreset": "GCC12"
         }
     ]
 }

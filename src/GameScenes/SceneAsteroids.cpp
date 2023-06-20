@@ -3,7 +3,8 @@
 #include <GameEngine/GameEngine.hpp>
 #include <GameEngine/Utility.hpp>
 #include <GameScenes/SceneAsteroids.hpp>
-#include <format>
+// #include <format>
+#include <fmt/core.h>
 #include <random>
 
 class Vec2;
@@ -419,7 +420,7 @@ namespace Engine::Scene
 
 			sf::Text score;
 			score.setFont(game_->assets().get_font("Gidole"));
-			score.setString(std::format("Score {:>04}", score_));
+			score.setString(fmt::format("Score {:>04}", score_));
 			score.setCharacterSize(24);	 // in pixels
 			score.setFillColor(sf::Color::White);
 			score.setStyle(sf::Text::Bold);
@@ -464,7 +465,7 @@ namespace Engine::Scene
 		// draw HUD elements on top
 		sf::Text text;
 		text.setFont(game_->assets().get_font("Gidole"));
-		text.setString(std::format("Score {:>04}\nHealth {}", score_, hp));
+		text.setString(fmt::format("Score {:>04}\nHealth {}", score_, hp));
 		text.setCharacterSize(24);	// in pixels
 		text.setFillColor(sf::Color::White);
 		text.setStyle(sf::Text::Bold);
@@ -551,7 +552,7 @@ namespace Engine::Scene
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << std::format("Exception caught {} in {}\n", e.what(), __FILE__);
+			std::cerr << fmt::format("Exception caught {} in {}\n", e.what(), __FILE__);
 		}
 	}
 

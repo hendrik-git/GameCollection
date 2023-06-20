@@ -1,6 +1,7 @@
 #include "GameEngine/Asset.hpp"
 #include <cassert>
 #include <iostream>
+#include <fmt/core.h>
 
 namespace fs = std::filesystem;
 
@@ -10,7 +11,7 @@ void Assets::add_font(std::string name, fs::path path)
 
 	if(!fonts_[name].loadFromFile(path))
 	{
-		throw std::exception(std::format("Failed to load font {}", name).c_str());
+		throw std::runtime_error(fmt::format("Failed to load font {}", name).c_str());
 	}
 }
 
@@ -23,7 +24,7 @@ void Assets::add_texture(std::string name, fs::path path)
 
 	if(!textures_[name].loadFromFile(path))
 	{
-		throw std::exception(std::format("Failed to load texture {}", name).c_str());
+		throw std::runtime_error(fmt::format("Failed to load texture {}", name).c_str());
 	}
 }
 
@@ -33,7 +34,7 @@ void Assets::add_shader(std::string name, std::filesystem::path path, sf::Shader
 
 	if(!shaders_[name].loadFromFile(path, type))
 	{
-		throw std::exception(std::format("Failed to load shader {}", name).c_str());
+		throw std::runtime_error(fmt::format("Failed to load shader {}", name).c_str());
 	}
 }
 
@@ -44,7 +45,7 @@ void Assets::add_sound(const std::string& name, const fs::path& path)
 
 	if(!sounds_[name].loadFromFile(path))
 	{
-		throw std::exception(std::format("Failed to load sound {}", name).c_str());
+		throw std::runtime_error(fmt::format("Failed to load sound {}", name).c_str());
 	}
 }
 

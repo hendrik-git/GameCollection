@@ -17,14 +17,20 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(git_commands) # update submodules, get the latest git commit
 include(macros) # load custom functions and macros
 
-option(BUILD_SHARED_LIBS "Build using shared libraries" ON) # to build and link dynamic or static
-option(BUILD_DOCUMENTATION "Add targets for building docs" ON) # to build and link dynamic or static
-option(USE_PROFILING "Enable PROFILING makros for chrome tracing" OFF)
+option(BUILD_SHARED_LIBS "Build using shared libraries"                ON) # to build and link dynamic or static
+option(BUILD_DOCS        "Add targets for building docs"              OFF) # to build documentaion
+option(USE_PROFILING     "Enable PROFILING makros for chrome tracing" OFF)
 
 # set the output directories
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+if(MSVC)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+else()
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
+endif()
 
 # Collect compiler flags in a variable to reuse for the following targets. Setting the compiler
 # flags globally will also cause them to be used for dependencies. This may result in the
@@ -67,6 +73,9 @@ setfolderinvs(component Dependencies/ftxui)
 setfolderinvs(dom Dependencies/ftxui)
 setfolderinvs(screen Dependencies/ftxui)
 
+CPMAddPackage("gh:fmtlib/fmt#a33701196adfad74917046096bf5a2aa0ab0bb50") # v9.1.0 [2022.08.27]
+setfolderinvs(fmt Dependencies)
+
 # -------------------------------------------------------------------------------------------------
 # Building the targets
 # -------------------------------------------------------------------------------------------------
@@ -102,7 +111,7 @@ include(cmake-format)
 include(cmake-lint)
 include(cpp_check)
 
-if(BUILD_DOCUMENTATION)
+if(BUILD_DOCS)
     include(documentation)
     include(poxy)
 endif()

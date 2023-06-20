@@ -46,7 +46,7 @@ int main(int argc, const char* argv[])
 	{
 		if(port_str.empty()) 
 		{
-			user_message = std::format("Please enter a port first");
+			user_message = fmt::format("Please enter a port first");
 			return;
 		}
 
@@ -63,11 +63,11 @@ int main(int argc, const char* argv[])
 			// bind the socket to a port
 			if(socket.bind(port) == sf::Socket::Status::Error)
 			{
-				user_message = std::format("Failed to connect socket to port {}", port);
+				user_message = fmt::format("Failed to connect socket to port {}", port);
 			}
 			else
 			{
-				user_message = std::format("Connected to port {}", port);
+				user_message = fmt::format("Connected to port {}", port);
 			}
 		}
 		catch(const std::exception& e)
