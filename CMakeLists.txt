@@ -16,6 +16,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(git_commands) # update submodules, get the latest git commit
 include(macros) # load custom functions and macros
+include(ccache)
 
 option(BUILD_SHARED_LIBS "Build using shared libraries"                ON) # to build and link dynamic or static
 option(BUILD_DOCS        "Add targets for building docs"              OFF) # to build documentaion
