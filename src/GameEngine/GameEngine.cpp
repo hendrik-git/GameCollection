@@ -4,6 +4,7 @@
 #include <GameScenes/SceneMainMenu.hpp>
 #include <GameScenes/SceneParticleGallery.hpp>
 #include <GameScenes/SceneShaderGallery.hpp>
+#include <GameScenes/SceneSplines.hpp>
 #include <chrono>
 #include <filesystem>
 #include <functional>
@@ -63,6 +64,7 @@ namespace Engine
 		scenes_["Asteroids"]	   = std::make_shared<SceneAsteroids>(this);
 		scenes_["ParticleGallery"] = std::make_shared<SceneParticleGallery>(this);
 		scenes_["ShaderGallery"]   = std::make_shared<SceneShaderGallery>(this);
+		scenes_["Splines"]		   = std::make_shared<SceneSplines>(this);
 
 		if(const auto& scene = ini.initial_scene.value_or("MainMenu"); !scenes_.contains(scene))
 		{
