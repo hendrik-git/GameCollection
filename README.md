@@ -7,10 +7,21 @@
 ![File count](https://img.shields.io/github/directory-file-count/hendrik-git/GameCollection?style=for-the-badge)
 ![Code size in bytes](https://img.shields.io/github/languages/code-size/hendrik-git/GameCollection?style=for-the-badge)
 
-A bunch of games collected in a single application for learning C++ and game design patterns. Uses SFML as graphics backend.
+A bunch of games and tech demos collected in a single application for learning C++ and game design patterns. Uses SFML as graphics backend.
 
+## Games
+
+### Asteroids
+
+A simple Asteroids implementation using an entity-component-system. The game includes game state tracking (and displaying in a HUD), sound effects and particle effects.
 
 ![AsteroidsGame](docs/images/Asteroids.gif)
+
+### Splines
+
+Implements a path consisting of Catmull–Rom splines. This path is used to move the ship along a trajectory defined by points. The rotation of the ship is derived from the gradient of the spline.
+
+![AsteroidsGame](docs/images/Splines.gif)
 
 ## How to build
 
