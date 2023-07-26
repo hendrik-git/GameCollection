@@ -1,6 +1,6 @@
 #include <CodeHelpers/Profiler.hpp>
 #include <GameEngine/GameEngine.hpp>
-#include <GameScenes/SceneAsteroids.hpp>
+#include <GameScenes/Asteroids.hpp>
 #include <GameScenes/SceneMainMenu.hpp>
 #include <GameScenes/SceneParticleGallery.hpp>
 #include <GameScenes/SceneShaderGallery.hpp>
@@ -61,7 +61,7 @@ namespace Engine
 
 		using namespace Engine::Scene;
 		scenes_["MainMenu"]		   = std::make_shared<SceneMainMenu>(this);
-		scenes_["Asteroids"]	   = std::make_shared<SceneAsteroids>(this);
+		scenes_["Asteroids"]	   = std::make_shared<Asteroids>(this);
 		scenes_["ParticleGallery"] = std::make_shared<SceneParticleGallery>(this);
 		scenes_["ShaderGallery"]   = std::make_shared<SceneShaderGallery>(this);
 		scenes_["Splines"]		   = std::make_shared<SceneSplines>(this);
