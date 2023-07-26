@@ -4,6 +4,7 @@
 add_library(
     GameScenes STATIC
     # (optional) add header files, so that they may show up in the IDE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/GameScenes/Asteroids.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/GameScenes/Scene.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/GameScenes/SceneAsteroids.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/GameScenes/SceneMainMenu.hpp
@@ -12,6 +13,7 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/include/GameScenes/SceneSplines.hpp
 
     # necessary source files
+    ${CMAKE_CURRENT_SOURCE_DIR}/Asteroids.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Scene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SceneAsteroids.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SceneMainMenu.cpp
