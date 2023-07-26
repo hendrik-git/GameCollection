@@ -15,7 +15,7 @@ add_library(
 target_include_directories(CodeHelpers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_compile_features(CodeHelpers PUBLIC cxx_std_20)
 target_compile_options(CodeHelpers PRIVATE ${ADDITIONAL_COMPILER_FLAGS})
-target_link_libraries(CodeHelpers PUBLIC fmt::fmt)
+target_link_libraries(CodeHelpers PUBLIC fmt::fmt quill::quill)
 
 if(USE_PROFILING)
     include(NoWarningsLinking)
