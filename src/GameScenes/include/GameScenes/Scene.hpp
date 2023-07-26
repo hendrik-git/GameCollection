@@ -8,8 +8,8 @@
 #pragma once
 #include "GameEngine/Action.hpp"
 #include "GameEngine/EntityManager.hpp"
+#include <entt/entt.hpp>
 #include <map>
-
 
 namespace Engine
 {
@@ -63,13 +63,15 @@ namespace Engine
 			virtual void on_end() = 0;
 			void		 set_paused(bool pause);
 
+			Engine::GameEngine* game_ = nullptr;
 			PlayerPtr			player_;
 			ActionMap			action_map_;
 			EntityManager		entities_;
-			Engine::GameEngine* game_		   = nullptr;
 			bool				is_paused_	   = false;
 			bool				has_ended_	   = false;
 			size_t				current_frame_ = 0;
+
+			entt::registry registry_;
 		};
 	}  // namespace Scene
 
