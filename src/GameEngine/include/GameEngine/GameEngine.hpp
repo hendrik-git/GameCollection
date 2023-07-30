@@ -71,6 +71,9 @@ namespace Engine
 		/// @brief Returns the status of the game engine
 		auto is_running() const -> bool;
 
+		/// @brief Resizes the game window
+		void resize(unsigned width = 800, unsigned height = 600);
+
 	  protected:
 		void init(const fs::path& config);
 		void load_assets();

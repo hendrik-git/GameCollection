@@ -151,6 +151,11 @@ namespace Engine
 	{
 		return running_;
 	}
+
+	void GameEngine::resize(unsigned width, unsigned height)
+	{
+		window_.setSize({width, height});
+	}
 #pragma endregion
 
 #pragma region private functions
