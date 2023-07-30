@@ -137,7 +137,7 @@ namespace Engine
 		return window_;
 	}
 
-	auto GameEngine::assets() -> Assets&
+	auto GameEngine::assets() -> Asset::Assets&
 	{
 		return assets_;
 	}

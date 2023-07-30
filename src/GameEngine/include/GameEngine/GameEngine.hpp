@@ -63,7 +63,7 @@ namespace Engine
 		auto window() -> sf::RenderWindow&;
 
 		/// @brief Returns a reference to the manager for loaded assets
-		auto assets() -> Assets&;
+		auto assets() -> Asset::Assets&;
 
 		/// @brief Returns a map of the available scenes/games
 		auto scenes() -> SceneMap&;
@@ -78,7 +78,7 @@ namespace Engine
 		auto current_scene() -> ScenePtr;
 
 	  private:
-		Assets			  assets_;			   //!< holds all assets that are used in the scenes
+		Asset::Assets	  assets_;			   //!< holds all assets that are used in the scenes
 		sf::RenderWindow  window_;			   //!< the window to render to
 		SceneMap		  scenes_;			   //!< all implemented games
 		std::string		  current_scene_;	   //!< the currently active scene by name
