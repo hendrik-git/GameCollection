@@ -1,10 +1,21 @@
 #include <GameEngine/GameEngine.hpp>
 #include <GameScenes/ShadowCasting.hpp>
+#include <cassert>
 
 namespace Engine::Scene
 {
 	void ShadowCasting::toggle_tile()
 	{
+		auto [x, y] = sf::Mouse::getPosition(game_->window());
+		int i		= (y / tile_size_) * worldwidth_ + x / tile_size_;
+		std::cout << fmt::format("i == (y / tile_size_) * worldheight_ + x / tile_size_\n");
+		std::cout << fmt::format(
+			"{} == {} * worldheight_ + {} / {}\n", i, y / tile_size_, x, tile_size_);
+
+		assert(i >= 0 && i < worldheight_ * worldwidth_ && "Invalid index calculated");
+
+		tiles_.at(i).exists = !tiles_.at(i).exists;
+		std::cout << fmt::format("Settings {} to {}\n", i, tiles_.at(i).exists);
 	}
 
 	void ShadowCasting::init()
@@ -31,9 +42,25 @@ namespace Engine::Scene
 		auto  view	 = window.getDefaultView();
 
 		// from now on, fill the blank canvas
-		window.clear();
+		// std::cout << "Render called\n";
+		window.clear(sf::Color{125, 125, 125, 125});
 
 		// draw all entities
+		for(auto x = 0; x < worldwidth_; ++x)
+		{
+			for(auto y = 0; y < worldheight_; ++y)
+			{
+				// std::cout << fmt::format("Drawing {}|{}\n", x, y);
+				auto			   i = y * worldwidth_ + x;
+				sf::RectangleShape rectangle({(float)tile_size_, (float)tile_size_});
+				rectangle.setPosition({(float)x * tile_size_, (float)y * tile_size_});
+				rectangle.setFillColor(tiles_.at(i).exists ? sf::Color::Red : sf::Color::Black);
+				window.draw(rectangle);
+			}
+		}
+
+		// finally display all rendered content
+		window.display();
 	}
 	void ShadowCasting::do_action(const Engine::Systems::Action& action)
 	{
