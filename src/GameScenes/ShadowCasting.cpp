@@ -3,9 +3,15 @@
 
 namespace Engine::Scene
 {
+	void ShadowCasting::toggle_tile()
+	{
+	}
+
 	void ShadowCasting::init()
 	{
 		register_action(sf::Keyboard::Escape, "Quit");
+		register_action(sf::Mouse::Left, "MouseL");
+		register_action(sf::Mouse::Right, "MouseR");
 	}
 
 	void ShadowCasting::update()
@@ -44,6 +50,8 @@ namespace Engine::Scene
 			if(action.type() == Engine::Systems::ActionType::Start)
 			{
 				MAP_STRING_TO("Quit", game_->change_scene("MainMenu"); return;)
+				MAP_STRING_TO("MouseL", toggle_tile();)
+				MAP_STRING_TO("MouseR", std::cout << "MouseRight\n";)
 			}
 			else if(action.type() == Engine::Systems::ActionType::End)
 			{

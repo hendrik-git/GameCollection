@@ -25,5 +25,7 @@ namespace Engine::Scene
 		void on_end() override;
 
 	  private:
+		void toggle_tile();
+
 	};
 }  // namespace Engine::Scene
