@@ -25,9 +25,12 @@ namespace Engine::Scene
 		auto  view	 = window.getDefaultView();
 
 		// from now on, fill the blank canvas
-		window.clear();
+		window.clear(sf::Color{125, 125, 125, 125});
 
 		// draw all entities
+
+		// finally display all rendered content
+		window.display();
 	}
 
 	void Template::do_action(const Engine::Systems::Action& action)
