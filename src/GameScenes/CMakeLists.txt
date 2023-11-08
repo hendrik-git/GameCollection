@@ -11,6 +11,7 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/include/GameScenes/SceneParticleGallery.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/GameScenes/SceneShaderGallery.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/GameScenes/SceneSplines.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/GameScenes/ShadowCasting.hpp
 
     # necessary source files
     ${CMAKE_CURRENT_SOURCE_DIR}/Asteroids.cpp
@@ -20,6 +21,7 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/SceneParticleGallery.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SceneShaderGallery.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SceneSplines.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ShadowCasting.cpp
 )
 target_link_libraries(GameScenes PUBLIC CodeHelpers GameEngine)
 target_include_directories(GameScenes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

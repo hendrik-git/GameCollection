@@ -1,9 +1,11 @@
 #include "GameEngine/Asset.hpp"
 #include <cassert>
-#include <iostream>
 #include <fmt/core.h>
+#include <iostream>
 
+using namespace Engine::Asset;
 namespace fs = std::filesystem;
+
 
 void Assets::add_font(std::string name, fs::path path)
 {
@@ -76,7 +78,7 @@ auto Assets::get_sound(std::string name) -> sf::SoundBuffer&
 namespace
 {
 	template<typename T>
-	auto get_names_from(const std::map<std::string, T>& map) -> const std::vector<std::string>
+	auto get_names_from(const std::map<std::string, T>& map) -> std::vector<std::string>
 	{
 		std::vector<std::string> result;
 		result.reserve(map.size());
@@ -90,22 +92,22 @@ namespace
 }  // namespace
 
 
-auto Assets::get_shader_names() const -> const std::vector<std::string>
+auto Assets::get_shader_names() const -> std::vector<std::string>
 {
 	return get_names_from(shaders_);
 }
 
-auto Assets::get_font_names() const -> const std::vector<std::string>
+auto Assets::get_font_names() const -> std::vector<std::string>
 {
 	return get_names_from(fonts_);
 }
 
-auto Assets::get_texture_names() const -> const std::vector<std::string>
+auto Assets::get_texture_names() const -> std::vector<std::string>
 {
 	return get_names_from(textures_);
 }
 
-auto Assets::get_sound_names() const -> const std::vector<std::string>
+auto Assets::get_sound_names() const -> std::vector<std::string>
 {
 	return get_names_from(sounds_);
 }

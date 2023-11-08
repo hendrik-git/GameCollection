@@ -5,6 +5,7 @@
 #include <GameScenes/SceneParticleGallery.hpp>
 #include <GameScenes/SceneShaderGallery.hpp>
 #include <GameScenes/SceneSplines.hpp>
+#include <GameScenes/ShadowCasting.hpp>
 #include <chrono>
 #include <filesystem>
 #include <functional>
@@ -65,6 +66,7 @@ namespace Engine
 		scenes_["ParticleGallery"] = std::make_shared<SceneParticleGallery>(this);
 		scenes_["ShaderGallery"]   = std::make_shared<SceneShaderGallery>(this);
 		scenes_["Splines"]		   = std::make_shared<SceneSplines>(this);
+		scenes_["Shadow"]		   = std::make_shared<ShadowCasting>(this);
 
 		if(const auto& scene = ini.initial_scene.value_or("MainMenu"); !scenes_.contains(scene))
 		{
@@ -137,7 +139,7 @@ namespace Engine
 		return window_;
 	}
 
-	auto GameEngine::assets() -> Assets&
+	auto GameEngine::assets() -> Asset::Assets&
 	{
 		return assets_;
 	}
@@ -151,6 +153,11 @@ namespace Engine
 	{
 		return running_;
 	}
+
+	void GameEngine::resize(unsigned width, unsigned height)
+	{
+		window_.setSize({width, height});
+	}
 #pragma endregion
 
 #pragma region private functions
@@ -161,7 +168,7 @@ namespace Engine
 
 		// set up window default parameters
 		// this need to happen in the main thread, or opengl complains
-		window_.create(sf::VideoMode({1200, 800}), "GameCollection");
+		window_.create(sf::VideoMode({800, 600}), "GameCollection");
 	}
 
 	void GameEngine::load_assets()
