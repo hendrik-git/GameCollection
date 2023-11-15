@@ -4,10 +4,12 @@
 add_library(
     CodeHelpers STATIC
     # (optional) add header files, so that they may show up in the IDE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/CodeHelpers/Logger.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/CodeHelpers/Overload.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/CodeHelpers/Profiler.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/CodeHelpers/ProfilerCategories.hpp
     # necessary source files
+    ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Overload.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Profiler.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ProfilerCategories.cpp

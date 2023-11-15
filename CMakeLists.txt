@@ -85,7 +85,10 @@ setfolderinvs(fmt Dependencies)
 
 CPMAddPackage("gh:skypjack/entt@3.12.2") # [2023.07.25]
 
-CPMAddPackage("gh:odygrd/quill@3.2.0") # [2023.07.25]
+set(QUILL_FMT_EXTERNAL true)
+CPMAddPackage("gh:odygrd/quill@3.4.0") # [2023.11.08]
+
+
 
 # -------------------------------------------------------------------------------------------------
 # Building the targets
