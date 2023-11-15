@@ -65,6 +65,31 @@ catch_discover_tests(Test_GameMath WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/$<C
 
 
 # -------------------------------------------------------------------------------------------------
+# Unit tests for the Test_GameSystems library
+# -------------------------------------------------------------------------------------------------
+add_executable(Test_GameSystems
+    ${CMAKE_CURRENT_SOURCE_DIR}/Test_GameSystems/Score.cpp
+)
+target_link_libraries(Test_GameSystems PRIVATE GameMath Catch2::Catch2WithMain)
+set_target_properties(Test_GameSystems PROPERTIES 
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>")
+SetFolderInVS(Test_GameSystems Test)
+
+if(WIN32 AND BUILD_SHARED_LIBS)
+    add_custom_command(
+        TARGET Test_GameSystems
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:Test_GameSystems>
+                $<TARGET_FILE_DIR:Test_GameSystems>
+        COMMAND_EXPAND_LISTS # expands list to multiple arguments instead of ; seperated
+        COMMENT "Copying necessary dll files"
+    )
+endif()
+
+#add_test(NAME GameMath COMMAND Test_GameSystems)
+catch_discover_tests(Test_GameSystems WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/$<CONFIG>)
+
+# -------------------------------------------------------------------------------------------------
 # Code coverage
 # -------------------------------------------------------------------------------------------------
 option(ENABLE_COVERAGE "Enable coverage" ON)

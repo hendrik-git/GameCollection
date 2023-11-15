@@ -23,7 +23,7 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/SceneSplines.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ShadowCasting.cpp
 )
-target_link_libraries(GameScenes PUBLIC CodeHelpers GameEngine)
+target_link_libraries(GameScenes PUBLIC CodeHelpers GameEngine GameSystems)
 target_include_directories(GameScenes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_compile_features(GameScenes PUBLIC cxx_std_20)
 target_compile_options(GameScenes PRIVATE ${ADDITIONAL_COMPILER_FLAGS})

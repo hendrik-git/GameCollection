@@ -93,6 +93,7 @@ add_subdirectory(src/CodeHelpers)
 add_subdirectory(src/GameEngine)
 add_subdirectory(src/GameMath)
 add_subdirectory(src/GameScenes)
+add_subdirectory(src/GameSystems)
 add_subdirectory(app/GameCollectionApp)
 add_subdirectory(app/RemoteControlApp)
 
