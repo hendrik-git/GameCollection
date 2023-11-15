@@ -26,6 +26,8 @@ namespace Engine::Scene
 
 		void spawn_player();
 
+		EntityManager entities_;
+
 		sf::Text   text_;
 		sf::Sprite background_;
 		int		   selection_{0};

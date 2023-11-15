@@ -36,6 +36,7 @@ namespace Engine::Scene
 		void reset();
 
 	  private:
+		EntityManager	entities_;
 		sf::Text		text_;
 		sf::Sprite		background_;
 		ParticleManager particles_;

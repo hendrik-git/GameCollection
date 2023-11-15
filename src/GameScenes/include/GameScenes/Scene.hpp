@@ -66,12 +66,11 @@ namespace Engine
 			Engine::GameEngine* game_ = nullptr;
 			PlayerPtr			player_;
 			ActionMap			action_map_;
-			EntityManager		entities_;
+			entt::registry		registry_;
+			entt::dispatcher	dispatcher_;
 			bool				is_paused_	   = false;
 			bool				has_ended_	   = false;
 			size_t				current_frame_ = 0;
-
-			entt::registry registry_;
 		};
 	}  // namespace Scene
 

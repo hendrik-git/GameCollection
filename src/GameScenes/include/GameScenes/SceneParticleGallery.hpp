@@ -25,6 +25,8 @@ namespace Engine::Scene
 		void do_action(const Engine::Systems::Action& action) override;
 		void on_end() override;
 
+		EntityManager entities_;
+
 		sf::Text		text_;
 		sf::Sprite		background_;
 		int				selection_{0};
