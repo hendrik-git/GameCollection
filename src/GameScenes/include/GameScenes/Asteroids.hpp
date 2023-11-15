@@ -8,16 +8,14 @@
 #pragma once
 #include "Scene.hpp"
 #include <GameEngine/ParticleManager.hpp>
+#include <GameSystems/Score.hpp>
 
 namespace Engine::Scene
 {
 	class Asteroids : public BaseScene
 	{
 	  public:
-		explicit Asteroids(GameEngine* engine) : BaseScene(engine)
-		{
-			init();
-		};
+		explicit Asteroids(GameEngine* engine);
 
 		void update() override;
 		void render() override;
@@ -36,15 +34,14 @@ namespace Engine::Scene
 		void reset();
 
 	  private:
-		sf::Text		text_;
-		sf::Sprite		background_;
-		ParticleManager particles_;
-		int				score_		   = 0;
-		Vec2			world_size_	   = {2000, 2000};
-		bool			draw_hitboxes_ = false;
-		bool			draw_sprites_  = true;
-		bool			game_over_	   = false;
-
-		entt::entity player2_;
+		sf::Text		   text_;
+		sf::Sprite		   background_;
+		ParticleManager	   particles_;
+		Vec2			   world_size_	  = {2000, 2000};
+		bool			   draw_hitboxes_ = false;
+		bool			   draw_sprites_  = true;
+		bool			   game_over_	  = false;
+		GameSystems::Score score_;
+		entt::entity	   player2_;
 	};
 }  // namespace Engine::Scene

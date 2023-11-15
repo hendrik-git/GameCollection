@@ -3,7 +3,6 @@
 #include <GameEngine/GameEngine.hpp>
 #include <GameEngine/Utility.hpp>
 #include <GameScenes/Asteroids.hpp>
-// #include <format>
 #include <fmt/core.h>
 #include <random>
 
@@ -14,6 +13,10 @@ namespace Engine::Scene
 	/// @brief Anonymous namespace for SceneAsteroids.cpp
 	namespace
 	{
+		struct on_player_death
+		{
+		};
+
 		struct Name
 		{
 			std::string name;
@@ -89,6 +92,15 @@ namespace Engine::Scene
 	}  // namespace
 
 	using namespace CodeHelper;
+	using namespace GameSystems;
+	namespace rn = std::ranges;
+
+	Asteroids::Asteroids(GameEngine* engine) : BaseScene(engine)
+	{
+		dispatcher_.sink<score_changed>().connect<&Score::on_score_changed>(score_);
+		dispatcher_.sink<on_player_death>().connect<&Score::reset>(score_);
+		init();
+	};
 
 	void Asteroids::spawn_entities()
 	{
@@ -324,7 +336,7 @@ namespace Engine::Scene
 
 					if(enemy_hp.current_hp <= 0)
 					{
-						score_ += registry_.get<Score>(enemy).score;
+						dispatcher_.enqueue(score_changed(registry_.get<Score>(enemy).score));
 						registry_.destroy(enemy);
 					}
 
@@ -373,10 +385,10 @@ namespace Engine::Scene
 		{
 			spawn_entities();
 			reduce_lifespan();
-			// entities_.update();
-			particles_.update();
 			movement();
 			collision();
+			particles_.update();
+			dispatcher_.update();
 		}
 		current_frame_++;
 	}
@@ -422,7 +434,7 @@ namespace Engine::Scene
 
 			sf::Text score;
 			score.setFont(game_->assets().get_font("Gidole"));
-			score.setString(fmt::format("Score {:>04}", score_));
+			score.setString(fmt::format("Score {:>04}", score_.get()));
 			score.setCharacterSize(24);	 // in pixels
 			score.setFillColor(sf::Color::White);
 			score.setStyle(sf::Text::Bold);
@@ -476,13 +488,11 @@ namespace Engine::Scene
 
 		particles_.draw(window);
 
-		// const auto hp = player_->get_component<Hitpoints>().current_hp;
-		const auto hp = registry_.get<Hitpoints>(player2_).current_hp;
-
 		// draw HUD elements on top
-		sf::Text text;
+		const auto hp = registry_.get<Hitpoints>(player2_).current_hp;
+		sf::Text   text;
 		text.setFont(game_->assets().get_font("Gidole"));
-		text.setString(fmt::format("Score {:>04}\nHealth {}", score_, hp));
+		text.setString(fmt::format("Score {:>04}\nHealth {}", score_.get(), hp));
 		text.setCharacterSize(24);	// in pixels
 		text.setFillColor(sf::Color::White);
 		text.setStyle(sf::Text::Bold);
@@ -542,9 +552,9 @@ namespace Engine::Scene
 	{
 		registry_.clear();
 		game_over_ = false;
-		score_	   = 0;
 		spawn_planet();
 		spawn_player();
+		dispatcher_.enqueue(on_player_death{});
 	}
 
 }  // namespace Engine::Scene
