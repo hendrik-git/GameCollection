@@ -18,6 +18,10 @@ include(git_commands) # update submodules, get the latest git commit
 include(macros) # load custom functions and macros
 include(ccache)
 
+if(PROJECT_IS_TOP_LEVEL)
+  include(sanitizers)
+endif()
+
 option(BUILD_SHARED_LIBS "Build using shared libraries"                ON) # to build and link dynamic or static
 option(BUILD_DOCS        "Add targets for building docs"              OFF) # to build documentaion
 option(USE_PROFILING     "Enable PROFILING makros for chrome tracing" OFF)
@@ -73,6 +77,8 @@ CPMAddPackage("gh:ArthurSonzogni/FTXUI@3.0.0") # v3.0.0 [2023.04.02]
 setfolderinvs(component Dependencies/ftxui)
 setfolderinvs(dom Dependencies/ftxui)
 setfolderinvs(screen Dependencies/ftxui)
+
+
 
 CPMAddPackage("gh:fmtlib/fmt#a33701196adfad74917046096bf5a2aa0ab0bb50") # v9.1.0 [2022.08.27]
 setfolderinvs(fmt Dependencies)
