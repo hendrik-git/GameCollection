@@ -317,8 +317,13 @@ namespace Engine::Scene
 
 	void Asteroids::collision()
 	{
-		using namespace Engine::Components;
+		bullet_collision();
+		player_collision();
+	}
 
+	void Asteroids::bullet_collision()
+	{
+		using namespace Engine::Components;
 		for(auto bullet : registry_.view<Bullet>())
 		{
 			for(auto enemy : registry_.view<Asteroid>())
@@ -340,7 +345,6 @@ namespace Engine::Scene
 						registry_.destroy(enemy);
 					}
 
-
 					auto pos = registry_.get<Transform>(bullet).pos;
 					for(int i{0}; i < 10; ++i)
 					{
@@ -353,7 +357,11 @@ namespace Engine::Scene
 				}
 			}
 		}
+	}
 
+	void Asteroids::player_collision()
+	{
+		using namespace Engine::Components;
 		for(auto enemy : registry_.view<Asteroid>())
 		{
 			if(std::visit(Engine::Physics::CollisionChecker{},
@@ -469,20 +477,9 @@ namespace Engine::Scene
 				sprite.setRotation(sf::degrees(transf.angle + shape.get_rotation()));
 				window.draw(sprite);
 			};
-
-			for(auto entity : registry_.view<Background>())
-			{
-				draw(entity);
-			}
-			for(auto entity : registry_.view<Asteroid>())
-			{
-				draw(entity);
-			}
-			for(auto entity : registry_.view<Bullet>())
-			{
-				draw(entity);
-			}
-
+			rn::for_each(registry_.view<Background>(), [draw](auto entity) { draw(entity); });
+			rn::for_each(registry_.view<Asteroid>(), [draw](auto entity) { draw(entity); });
+			rn::for_each(registry_.view<Bullet>(), [draw](auto entity) { draw(entity); });
 			draw(player2_);
 		}
 

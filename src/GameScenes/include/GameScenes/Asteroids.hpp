@@ -30,6 +30,8 @@ namespace Engine::Scene
 
 		void movement();
 		void collision();
+		void bullet_collision();
+		void player_collision();
 
 		void reset();
 
