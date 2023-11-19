@@ -69,12 +69,10 @@ CPMAddPackage("gh:catchorg/Catch2#97c48e0c343d26d50764fafdc90b1e630fbd10ce") # v
 setfolderinvs(Catch2 Dependencies)
 setfolderinvs(Catch2WithMain Dependencies)
 
-CPMAddPackage("gh:ArthurSonzogni/FTXUI@3.0.0") # v3.0.0 [2023.04.02]
-setfolderinvs(component Dependencies/ftxui)
-setfolderinvs(dom Dependencies/ftxui)
-setfolderinvs(screen Dependencies/ftxui)
-
-
+# CPMAddPackage("gh:ArthurSonzogni/FTXUI@3.0.0") # v3.0.0 [2023.04.02]
+# setfolderinvs(component Dependencies/ftxui)
+# setfolderinvs(dom Dependencies/ftxui)
+# setfolderinvs(screen Dependencies/ftxui)
 
 CPMAddPackage("gh:fmtlib/fmt#a33701196adfad74917046096bf5a2aa0ab0bb50") # v9.1.0 [2022.08.27]
 setfolderinvs(fmt Dependencies)
@@ -100,8 +98,9 @@ add_subdirectory(src/GameEngine)
 add_subdirectory(src/GameMath)
 add_subdirectory(src/GameScenes)
 add_subdirectory(src/GameSystems)
+
 add_subdirectory(app/GameCollectionApp)
-add_subdirectory(app/RemoteControlApp)
+# add_subdirectory(app/RemoteControlApp)
 
 # -------------------------------------------------------------------------------------------------
 # Testing
