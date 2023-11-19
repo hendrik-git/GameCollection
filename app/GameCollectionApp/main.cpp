@@ -1,15 +1,10 @@
-// When QUILL_ROOT_LOGGER_ONLY is defined then only a single root logger object is used
-// #define QUILL_ROOT_LOGGER_ONLY
-
 #include <CLI/App.hpp>		  // NOLINT
 #include <CLI/Config.hpp>	  // NOLINT
 #include <CLI/Formatter.hpp>  // NOLINT
+#include <CodeHelpers/Logger.hpp>
 #include <CodeHelpers/Profiler.hpp>
 #include <GameEngine/GameEngine.hpp>
 #include <tomlplusplus/toml.hpp>
-// #include <CodeHelpers/Logger.hpp>
-//#include <quill/Quill.h>
-#include <CodeHelpers/Logger.hpp>
 
 
 using namespace std::string_literals;
