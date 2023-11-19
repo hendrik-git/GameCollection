@@ -1,3 +1,6 @@
+// When QUILL_ROOT_LOGGER_ONLY is defined then only a single root logger object is used
+// #define QUILL_ROOT_LOGGER_ONLY
+
 #include <CLI/App.hpp>		  // NOLINT
 #include <CLI/Config.hpp>	  // NOLINT
 #include <CLI/Formatter.hpp>  // NOLINT
@@ -5,7 +8,9 @@
 #include <GameEngine/GameEngine.hpp>
 #include <tomlplusplus/toml.hpp>
 // #include <CodeHelpers/Logger.hpp>
-#include <quill/Quill.h>
+//#include <quill/Quill.h>
+#include <CodeHelpers/Logger.hpp>
+
 
 using namespace std::string_literals;
 
@@ -13,25 +18,8 @@ auto main(int argc, char** argv) -> int
 {
 	using namespace CodeHelper;
 
-	quill::Config cfg;
-	cfg.enable_console_colours = true;
-	quill::configure(cfg);
-	quill::start();
-	// Default root logger to stdout
-	quill::Logger* logger = quill::get_logger();
-	logger->set_log_level(quill::LogLevel::TraceL3);
-	// enable a backtrace that will get flushed when we log CRITICAL
-	logger->init_backtrace(2u, quill::LogLevel::Critical);
-	LOG_BACKTRACE(logger, "Backtrace log {}", 1);
-	LOG_BACKTRACE(logger, "Backtrace log {}", 2);
-	LOG_INFO(logger, "Welcome to Quill!");
-	LOG_ERROR(logger, "An error message. error code {}", 123);
-	LOG_WARNING(logger, "A warning message.");
-	LOG_CRITICAL(logger, "A critical error.");
-	LOG_DEBUG(logger, "Debugging foo {}", 1234);
-	LOG_TRACE_L1(logger, "{:>30}", "right aligned");
-	LOG_TRACE_L2(logger, "Positional arguments are {1} {0} ", "too", "supported");
-	LOG_TRACE_L3(logger, "Support for floats {:03.2f}", 1.23456);
+	CodeHelper::setup_logger();
+	dl = quill::get_logger();
 
 	// The following Initializer for the Game Engine will be modified by the CL parameters
 	Engine::Initializer ini;
@@ -40,7 +28,6 @@ auto main(int argc, char** argv) -> int
 	//!---------------------------------------------------------------------------------------------
 	//! Parse command line arguments
 	//!---------------------------------------------------------------------------------------------
-
 	// see https://cliutils.github.io/CLI11/book/
 	CLI::App app{"Game collection"};
 
@@ -82,17 +69,18 @@ auto main(int argc, char** argv) -> int
 	{
 		try
 		{
+			LOG_INFO(dl, "Starting the game engine");
 			Engine::GameEngine engine{ini, std::filesystem::path{inputFile}};
 			engine.run();
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << std::endl;
+			LOG_ERROR(dl, "{}", e.what());
 		}
 	}
 	else
 	{
-		std::cout << "Quitting application" << std::endl;
+		LOG_WARNING(dl, "Quitting application");
 	}
 	return 0;
 }
