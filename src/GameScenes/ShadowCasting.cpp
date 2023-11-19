@@ -23,6 +23,16 @@ namespace Engine::Scene
 		register_action(sf::Keyboard::Escape, "Quit");
 		register_action(sf::Mouse::Left, "MouseL");
 		register_action(sf::Mouse::Right, "MouseR");
+
+
+		auto  shape1 = registry_.create();
+		auto& shape	 = registry_.emplace<sf::ConvexShape>(shape1);
+		shape.setPointCount(5);
+		shape.setPoint(0, sf::Vector2f(0, 0));
+		shape.setPoint(1, sf::Vector2f(150, 10));
+		shape.setPoint(2, sf::Vector2f(120, 90));
+		shape.setPoint(3, sf::Vector2f(30, 100));
+		shape.setPoint(4, sf::Vector2f(0, 50));
 	}
 
 	void ShadowCasting::update()
@@ -57,6 +67,11 @@ namespace Engine::Scene
 				rectangle.setFillColor(tiles_.at(i).exists ? sf::Color::Red : sf::Color::Black);
 				window.draw(rectangle);
 			}
+		}
+
+		for(auto entity : registry_.view<sf::ConvexShape>())
+		{
+			window.draw(registry_.get<sf::ConvexShape>(entity));
 		}
 
 		// finally display all rendered content
