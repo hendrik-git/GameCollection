@@ -21,6 +21,6 @@ target_link_libraries(CodeHelpers PUBLIC fmt::fmt quill::quill)
 
 if(USE_PROFILING)
     include(NoWarningsLinking)
-    target_link_libraries_system(CodeHelpers perfetto::perfetto)
+    target_link_libraries_system(CodeHelpers perfetto::perfetto quill::quill)
     target_compile_definitions(CodeHelpers PUBLIC PROFILING)
 endif()
