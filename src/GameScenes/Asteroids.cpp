@@ -1,3 +1,4 @@
+#include <CodeHelpers/Logger.hpp>
 #include <CodeHelpers/Overload.hpp>
 #include <GameEngine/Collision.hpp>
 #include <GameEngine/GameEngine.hpp>
@@ -538,7 +539,7 @@ namespace Engine::Scene
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << fmt::format("Exception caught {} in {}\n", e.what(), __FILE__);
+			LOG_ERROR(dl, "{}", e.what());
 		}
 #undef MAP_STRING_TO
 	}
