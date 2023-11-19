@@ -68,7 +68,7 @@ catch_discover_tests(Test_GameMath WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/$<C
 # Unit tests for the Test_GameSystems library
 # -------------------------------------------------------------------------------------------------
 add_executable(Test_GameSystems
-    ${CMAKE_CURRENT_SOURCE_DIR}/Test_GameSystems/Score.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/GameSystems/Score.cpp
 )
 target_link_libraries(Test_GameSystems PRIVATE GameMath Catch2::Catch2WithMain)
 set_target_properties(Test_GameSystems PROPERTIES 
