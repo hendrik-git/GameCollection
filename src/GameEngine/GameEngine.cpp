@@ -1,3 +1,4 @@
+#include <CodeHelpers/Logger.hpp>
 #include <CodeHelpers/Profiler.hpp>
 #include <GameEngine/GameEngine.hpp>
 #include <GameScenes/Asteroids.hpp>
@@ -10,6 +11,8 @@
 #include <filesystem>
 #include <functional>
 #include <future>
+
+using namespace CodeHelper;
 
 namespace Engine
 {
@@ -121,6 +124,8 @@ namespace Engine
 
 	void GameEngine::change_scene(const std::string& name, bool end_curr_scene)
 	{
+		LOG_INFO(dl, "Loading game '{}'", name);
+
 		assert(scenes_.contains(name) && "Given scene does not exist");
 
 		if(end_curr_scene)
@@ -180,34 +185,34 @@ namespace Engine
 
 		{
 			TRACE_EVENT("engine", "Loading textures");
-			std::cout << "Loading textures\n";
+			LOG_INFO(dl, "Loading textures");
 			for(const auto& texture : find_in_directory("../../data/Asteroids"))
 			{
-				std::cout << "-- " << texture.filename << std::endl;
+				LOG_DEBUG(dl, "-- {}", texture.filename);
 				assets_.add_texture(texture.filename, texture.filepath);
 			}
 		}
 
 		{
 			TRACE_EVENT("engine", "Loading shaders");
-			std::cout << "Loading shaders\n";
+			LOG_INFO(dl, "Loading shaders");
 			for(const auto& shader : find_in_directory("../../data/shader"))
 			{
-				std::cout << "-- " << shader.filename << std::endl;
+				LOG_DEBUG(dl, "-- {}", shader.filename);
 				assets_.add_shader(shader.filename, shader.filepath);
 			}
 		}
 
 		{
 			TRACE_EVENT("engine", "Loading sounds");
-			std::cout << "Loading sounds\n";
+			LOG_INFO(dl, "Loading sounds");
 			for(const auto& sound : find_in_directory("../../data/sounds"))
 			{
-				std::cout << "-- " << sound.filename << std::endl;
+				LOG_DEBUG(dl, "-- {}", sound.filename);
 				assets_.add_sound(sound.filename, sound.filepath);
 			}
 		}
-
+		LOG_DEBUG(dl, "Finished loading of data\n");
 		TRACE_EVENT("engine", "task finished");
 	}
 
@@ -257,8 +262,7 @@ namespace Engine
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << fmt::format(
-				"Exception caught: {} \nin {} {}\n", e.what(), __FILE__, __LINE__);
+			LOG_ERROR(dl, "{}", e.what());
 		}
 	}
 
