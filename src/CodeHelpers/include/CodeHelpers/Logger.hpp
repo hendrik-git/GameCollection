@@ -1,34 +1,39 @@
-//#pragma once
-//// When QUILL_ROOT_LOGGER_ONLY is defined then only a single root logger object is used
-////#define QUILL_ROOT_LOGGER_ONLY
-//
-//#include <quill/Quill.h>
-//#include <string>
-//#include <quill/Config.h>
-//#include <quill/detail/LogMacros.h>
-//#include <quill/Logger.h>
-//
-//namespace CodeHelper
-//{
-//	inline void logger_initialize(std::string filename)
-//	{
-//		// optional configuration before calling quill::start()
-//		quill::Config cfg;
-//		cfg.enable_console_colours = true;
-//		quill::configure(cfg);
-//
-//		// starts the logging thread
-//		quill::start();
-//
-//		// creates a logger
-//		quill::Logger* logger = quill::get_logger("my_logger");
-//
-//		// log
-//		LOG_DEBUG(logger, "Debugging foo {}", 1234);
-//		LOG_INFO(logger, "Welcome to Quill!");
-//		LOG_WARNING(logger, "A warning message.");
-//		LOG_ERROR(logger, "An error message. error code {}", 123);
-//		LOG_CRITICAL(logger, "A critical error.");
-//	}
-//
-//}  // namespace CodeHelper
+
+// LOG_TRACE_L3(logger_pointer*, log_message_format, args...)
+// LOG_TRACE_L2(logger_pointer*, log_message_format, args...)
+// LOG_TRACE_L1(logger_pointer*, log_message_format, args...)
+// LOG_DEBUG(logger_pointer*, log_message_format, args...)
+// LOG_INFO(logger_pointer*, log_message_format, args...)
+// LOG_WARNING(logger_pointer*, log_message_format, args...)
+// LOG_ERROR(logger_pointer*, log_message_format, args...)
+// LOG_CRITICAL(logger_pointer*, log_message_format, args...)
+// LOG_BACKTRACE(logger_pointer*, log_message_format, args...)
+
+#pragma once
+#include <quill/Quill.h>
+
+namespace CodeHelper
+{
+	inline void setup_logger()
+	{
+		// output to std::cout
+		auto cout = quill::stdout_handler(); /** for stdout 18660 **/
+		cout->set_pattern(
+			"%(ascii_time) |%(thread:>6)| %(fileline:<28) %(level_name:<8) %(message)", "%H:%M:%S");
+
+		// Enable console colours on the handler
+		static_cast<quill::ConsoleHandler*>(cout.get())->enable_console_colours();
+
+		// output to log file
+		auto file = quill::file_handler("game_collection.log", quill::FileHandlerConfig{});
+
+		quill::Config cfg;
+		cfg.enable_console_colours = true;
+		cfg.default_handlers.push_back(cout);
+		cfg.default_handlers.push_back(file);
+		quill::configure(cfg);
+		quill::start();
+	}
+
+	inline quill::Logger* dl;
+}  // namespace CodeHelper
