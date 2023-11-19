@@ -54,10 +54,6 @@ mark_as_advanced(ADDITIONAL_COMPILER_FLAGS)
 # package manager build on top of fetch_content, see https://github.com/cpm-cmake/CPM.cmake
 include(CPM) 
 
-# replaced by std::format
-# CPMAddPackage("gh:fmtlib/fmt#a33701196adfad74917046096bf5a2aa0ab0bb50") # v9.1.0 [2022.08.27]
-# setfolderinvs(fmt Dependencies)
-
 CPMAddPackage("gh:CLIUtils/CLI11#a66ae4145779c56dc0f9f98a631656417dd77de8") # v2.3.0 [2022.10.15]
 setfolderinvs(CLI11 Dependencies)
 
@@ -85,9 +81,10 @@ setfolderinvs(fmt Dependencies)
 
 CPMAddPackage("gh:skypjack/entt@3.12.2") # [2023.07.25]
 
-set(QUILL_FMT_EXTERNAL true)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS true)
+set(QUILL_FMT_EXTERNAL               true)
 CPMAddPackage("gh:odygrd/quill@3.4.0") # [2023.11.08]
-
+setfolderinvs(quill Dependencies)
 
 
 # -------------------------------------------------------------------------------------------------
