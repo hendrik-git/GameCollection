@@ -8,11 +8,13 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/include/CodeHelpers/Overload.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/CodeHelpers/Profiler.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/CodeHelpers/ProfilerCategories.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/CodeHelpers/StrongType.hpp
     # necessary source files
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Overload.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Profiler.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ProfilerCategories.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/StrongType.cpp
 )
 target_include_directories(CodeHelpers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_compile_features(CodeHelpers PUBLIC cxx_std_20)
