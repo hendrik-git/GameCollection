@@ -1,5 +1,6 @@
 #include <CodeHelpers/Logger.hpp>
 #include <CodeHelpers/Overload.hpp>
+#include <CodeHelpers/StrongType.hpp>
 #include <GameEngine/Collision.hpp>
 #include <GameEngine/GameEngine.hpp>
 #include <GameEngine/Utility.hpp>
@@ -14,6 +15,11 @@ namespace Engine::Scene
 	/// @brief Anonymous namespace for SceneAsteroids.cpp
 	namespace
 	{
+		struct score_changed : CodeHelper::Alias<score_changed, int>
+		{
+			using Alias::Alias;	 // make constructors available
+								 // overload required operators...
+		};
 		struct on_player_death
 		{
 		};
@@ -99,6 +105,7 @@ namespace Engine::Scene
 	Asteroids::Asteroids(GameEngine* engine) : BaseScene(engine)
 	{
 		dispatcher_.sink<score_changed>().connect<&Score::on_score_changed>(score_);
+		dispatcher_.sink<test_val>().connect<&Score::on_score_changed>(score_);
 		dispatcher_.sink<on_player_death>().connect<&Score::reset>(score_);
 		init();
 	};
