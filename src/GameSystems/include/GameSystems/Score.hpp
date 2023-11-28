@@ -6,30 +6,26 @@
 /// @author Hendrik Poettker
 
 #pragma once
+#include <filesystem>
+#include <string>
 
 namespace GameSystems
 {
-	inline namespace Events
-	{
-		struct score_changed
-		{
-			int value = 0;
-		};
-
-	}  // namespace Events
-
+	namespace fs = std::filesystem;
 
 	class Score
 	{
 	  public:
-		void on_score_changed(const score_changed& data) noexcept
-		{
-			score_ += data.value;
-		}
+		Score(const std::string& id, const fs::path file = "scores.toml");
+
+		~Score();
+
+		void on_score_changed(const int value) noexcept;
 
 		void reset()
 		{
-			score_ = 0;
+			score_	  = 0;
+			new_high_ = false;
 		};
 
 		auto get() const noexcept -> int
@@ -38,7 +34,11 @@ namespace GameSystems
 		}
 
 	  private:
-		int score_ = 0;
+		std::string id_;
+		fs::path	score_file_;
+		int			highscore_ = 0;
+		int			score_	   = 0;
+		bool		new_high_  = false;
 	};
 
 }  // namespace GameSystems
