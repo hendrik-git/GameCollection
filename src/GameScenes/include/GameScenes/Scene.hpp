@@ -64,8 +64,8 @@ namespace Engine
 			void		 set_paused(bool pause);
 
 			Engine::GameEngine* game_ = nullptr;
-			PlayerPtr			player_;
 			ActionMap			action_map_;
+			entt::entity		player_;
 			entt::registry		registry_;
 			entt::dispatcher	dispatcher_;
 			bool				is_paused_	   = false;

@@ -10,15 +10,15 @@ namespace Engine::Scene
 	{
 		using namespace Engine::Components;
 
-		player_ = entities_.add_entity("player");
-		player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
-		player_->add_component<Drawable>("PlayerShip", game_->assets().get_texture("Meteor9"));
+		//player_ = entities_.add_entity("player");
+		//player_->add_component<Transform>(Vec2{world_size_.x / 2, world_size_.y / 2});
+		//player_->add_component<Drawable>("PlayerShip", game_->assets().get_texture("Meteor9"));
 
-		ShaderParamMap parameters;
-		parameters["u_time"]  = 10.F;
-		parameters["texture"] = nullptr;
+		//ShaderParamMap parameters;
+		//parameters["u_time"]  = 10.F;
+		//parameters["texture"] = nullptr;
 
-		player_->add_component<Shader>(ShaderName{"blur"}, parameters);
+		//player_->add_component<Shader>(ShaderName{"blur"}, parameters);
 	}
 
 

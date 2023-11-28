@@ -44,6 +44,5 @@ namespace Engine::Scene
 		bool			   draw_sprites_  = true;
 		bool			   game_over_	  = false;
 		GameSystems::Score score_;
-		entt::entity	   player2_;
 	};
 }  // namespace Engine::Scene

@@ -107,11 +107,11 @@ namespace Engine::Scene
 	{
 		using namespace Engine::Components;
 
-		auto&		pos = registry_.get<Transform>(player2_).pos;
+		auto&		pos = registry_.get<Transform>(player_).pos;
 		static auto bullet_cooldown{0};
-		if(registry_.get<Input>(player2_).space && bullet_cooldown == 0)
+		if(registry_.get<Input>(player_).space && bullet_cooldown == 0)
 		{
-			auto	   angle  = registry_.get<Transform>(player2_).angle;
+			auto	   angle  = registry_.get<Transform>(player_).angle;
 			auto	   dir	  = direction_from_degree(angle);
 			const auto radius = 4.F;
 			auto	   circle = sf::CircleShape(radius);
@@ -209,13 +209,13 @@ namespace Engine::Scene
 		using namespace Engine::Components;
 		auto& texture = game_->assets().get_texture("PlayerShip");
 
-		player2_ = registry_.create();
-		registry_.emplace<Layer>(player2_, Layer::Player);
-		registry_.emplace<Drawable>(player2_, "PlayerShip", texture).set_rotation(90.F);
-		registry_.emplace<Collision>(player2_, Utility::get_circle_from(texture));
-		registry_.emplace<Transform>(player2_, Vec2{world_size_.x / 2, world_size_.y / 2});
-		registry_.emplace<Hitpoints>(player2_, 3);
-		registry_.emplace<Input>(player2_);
+		player_ = registry_.create();
+		registry_.emplace<Layer>(player_, Layer::Player);
+		registry_.emplace<Drawable>(player_, "PlayerShip", texture).set_rotation(90.F);
+		registry_.emplace<Collision>(player_, Utility::get_circle_from(texture));
+		registry_.emplace<Transform>(player_, Vec2{world_size_.x / 2, world_size_.y / 2});
+		registry_.emplace<Hitpoints>(player_, 3);
+		registry_.emplace<Input>(player_);
 	}
 
 	void Asteroids::reduce_lifespan()
@@ -232,7 +232,7 @@ namespace Engine::Scene
 	{
 		using namespace Engine::Components;
 
-		move_player(registry_, player2_);
+		move_player(registry_, player_);
 
 		auto x_min = 0.F;
 		auto y_min = 0.F;
@@ -366,10 +366,10 @@ namespace Engine::Scene
 		for(auto enemy : registry_.view<Asteroid>())
 		{
 			if(std::visit(Engine::Physics::CollisionChecker{},
-						  registry_.get<Collision>(player2_).shape,
+						  registry_.get<Collision>(player_).shape,
 						  registry_.get<Collision>(enemy).shape))
 			{
-				auto& player_hp = registry_.get<Hitpoints>(player2_);
+				auto& player_hp = registry_.get<Hitpoints>(player_);
 				if(!player_hp.invulnerable)
 				{
 					/// @todo damage component for bullet
@@ -413,7 +413,7 @@ namespace Engine::Scene
 		window.clear();
 
 		// firstly set up the view on the players spaceship
-		const auto& player_transf = registry_.get<Transform>(player2_);
+		const auto& player_transf = registry_.get<Transform>(player_);
 		const auto	view_size	  = view.getSize();
 		const auto	view_min_x	  = view_size.x / 2;
 		const auto	view_min_y	  = view_size.y / 2;
@@ -481,13 +481,13 @@ namespace Engine::Scene
 			rn::for_each(registry_.view<Background>(), [draw](auto entity) { draw(entity); });
 			rn::for_each(registry_.view<Asteroid>(), [draw](auto entity) { draw(entity); });
 			rn::for_each(registry_.view<Bullet>(), [draw](auto entity) { draw(entity); });
-			draw(player2_);
+			draw(player_);
 		}
 
 		particles_.draw(window);
 
 		// draw HUD elements on top
-		const auto hp = registry_.get<Hitpoints>(player2_).current_hp;
+		const auto hp = registry_.get<Hitpoints>(player_).current_hp;
 		sf::Text   text;
 		text.setFont(game_->assets().get_font("Gidole"));
 		text.setString(fmt::format("Score {:>04}\nHealth {}", score_.get(), hp));
@@ -513,7 +513,7 @@ namespace Engine::Scene
 
 		try
 		{
-			auto& input = registry_.get<Input>(player2_);
+			auto& input = registry_.get<Input>(player_);
 			if(action.type() == Engine::Systems::ActionType::Start)
 			{
 				MAP_STRING_TO("Quit", game_->change_scene("MainMenu"); return;)
