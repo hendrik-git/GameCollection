@@ -105,7 +105,6 @@ namespace Engine::Scene
 	Asteroids::Asteroids(GameEngine* engine) : BaseScene(engine)
 	{
 		dispatcher_.sink<score_changed>().connect<&Score::on_score_changed>(score_);
-		dispatcher_.sink<test_val>().connect<&Score::on_score_changed>(score_);
 		dispatcher_.sink<on_player_death>().connect<&Score::reset>(score_);
 		init();
 	};

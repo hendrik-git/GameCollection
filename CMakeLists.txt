@@ -52,7 +52,7 @@ mark_as_advanced(ADDITIONAL_COMPILER_FLAGS)
 # Download and enable all dependencies
 # -------------------------------------------------------------------------------------------------
 # package manager build on top of fetch_content, see https://github.com/cpm-cmake/CPM.cmake
-include(CPM) 
+include(get_cpm)
 
 CPMAddPackage("gh:CLIUtils/CLI11#a66ae4145779c56dc0f9f98a631656417dd77de8") # v2.3.0 [2022.10.15]
 setfolderinvs(CLI11 Dependencies)
