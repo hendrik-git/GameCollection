@@ -78,7 +78,11 @@ setfolderinvs(Catch2WithMain Dependencies)
 # setfolderinvs(dom Dependencies/ftxui)
 # setfolderinvs(screen Dependencies/ftxui)
 
-CPMAddPackage("gh:fmtlib/fmt#a33701196adfad74917046096bf5a2aa0ab0bb50") # v9.1.0 [2022.08.27]
+CPMAddPackage(
+    NAME fmt
+    GITHUB_REPOSITORY fmtlib/fmt
+    GIT_TAG 11.0.2
+)
 setfolderinvs(fmt Dependencies)
 
 CPMAddPackage("gh:skypjack/entt@3.12.2") # [2023.07.25]
