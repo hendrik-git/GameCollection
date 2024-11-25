@@ -54,7 +54,11 @@ mark_as_advanced(ADDITIONAL_COMPILER_FLAGS)
 # package manager build on top of fetch_content, see https://github.com/cpm-cmake/CPM.cmake
 include(get_cpm)
 
-CPMAddPackage("gh:CLIUtils/CLI11#a66ae4145779c56dc0f9f98a631656417dd77de8") # v2.3.0 [2022.10.15]
+CPMAddPackage(
+    NAME CLI11
+    GITHUB_REPOSITORY CLIUtils/CLI11
+    GIT_TAG v2.4.2
+)
 setfolderinvs(CLI11 Dependencies)
 
 CPMAddPackage("gh:SFML/SFML#8f54a3e97c35476012613a8a41b7d2234d7ce38e") # latest [2022.10.15]
