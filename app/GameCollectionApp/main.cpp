@@ -14,7 +14,7 @@ auto main(int argc, char** argv) -> int
 	using namespace CodeHelper;
 
 	CodeHelper::setup_logger();
-	dl = quill::get_logger();
+	dl = quill::Frontend::get_logger("root");
 
 	// The following Initializer for the Game Engine will be modified by the CL parameters
 	Engine::Initializer ini;

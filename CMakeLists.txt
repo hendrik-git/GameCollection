@@ -87,9 +87,14 @@ setfolderinvs(fmt Dependencies)
 
 CPMAddPackage("gh:skypjack/entt@3.12.2") # [2023.07.25]
 
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS true)
-set(QUILL_FMT_EXTERNAL               true)
-CPMAddPackage("gh:odygrd/quill@3.4.0") # [2023.11.08]
+CPMAddPackage(
+    NAME quill
+    GITHUB_REPOSITORY odygrd/quill
+    GIT_TAG v7.5.0  # Specify the version you need
+    OPTIONS 
+        "QUILL_FMT_EXTERNAL ON"
+        "CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON"
+)
 setfolderinvs(quill Dependencies)
 
 
