@@ -30,26 +30,7 @@ namespace CodeHelper
 			quill::Frontend::create_or_get_logger("root", std::move(console_sink));
 
 		// Change the LogLevel to print everything
-		logger->set_log_level(quill::LogLevel::TraceL3);
-
-		////// output to std::cout
-		////auto cout = quill::stdout_handler(); /** for stdout 18660 **/
-		////cout->set_pattern(
-		////	"%(ascii_time) |%(thread:>6)| %(fileline:<28) %(level_name:<8) %(message)",
-		///"%H:%M:%S");
-
-		////// Enable console colours on the handler
-		////static_cast<quill::ConsoleHandler*>(cout.get())->enable_console_colours();
-
-		////// output to log file
-		////auto file = quill::file_handler("game_collection.log", quill::FileHandlerConfig{});
-
-		////quill::Config cfg;
-		////cfg.enable_console_colours = true;
-		////cfg.default_handlers.push_back(cout);
-		////cfg.default_handlers.push_back(file);
-		////quill::configure(cfg);
-		////quill::start();
+		logger->set_log_level(quill::LogLevel::Info);
 	}
 
 	inline quill::Logger* dl;
