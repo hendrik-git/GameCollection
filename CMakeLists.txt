@@ -85,7 +85,11 @@ CPMAddPackage(
 )
 setfolderinvs(fmt Dependencies)
 
-CPMAddPackage("gh:skypjack/entt@3.12.2") # [2023.07.25]
+CPMAddPackage(
+    NAME entt
+    GITHUB_REPOSITORY skypjack/entt
+    GIT_TAG v3.14.0
+)
 
 CPMAddPackage(
     NAME quill
