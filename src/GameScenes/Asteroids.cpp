@@ -199,6 +199,16 @@ namespace Engine::Scene
 		enemy_cooldown = std::max(0, --enemy_cooldown);
 	}
 
+	void Asteroids::spawn_background()
+	{
+		auto& texture = game_->assets().get_texture("Background");
+		texture.setRepeated(true);
+		background_.setPosition({0, 0});
+		background_.setTexture(texture);
+		background_.setTextureRect(sf::IntRect{
+			{0, 0}, {static_cast<int>(world_size_.x), static_cast<int>(world_size_.y)}});
+	}
+
 	void Asteroids::spawn_planet()
 	{
 		using namespace Engine::Components;
@@ -311,13 +321,7 @@ namespace Engine::Scene
 		register_action(sf::Keyboard::Escape, "Quit");
 		register_action(sf::Keyboard::Enter, "Reset");
 
-		auto& texture = game_->assets().get_texture("Background");
-		texture.setRepeated(true);
-		background_.setPosition({0, 0});
-		background_.setTexture(texture);
-		background_.setTextureRect(sf::IntRect{
-			{0, 0}, {static_cast<int>(world_size_.x), static_cast<int>(world_size_.y)}});
-
+		spawn_background();
 		spawn_planet();
 		spawn_player();
 	}
