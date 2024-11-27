@@ -50,8 +50,8 @@ namespace Math
 
 			t = t - (int)t;
 
-			float tt  = t * t;
-			float ttt = tt * t;
+			float				   tt  = t * t;
+			[[maybe_unused]] float ttt = tt * t;
 
 			float q1 = -ttt + 2.0f * tt - t;
 			float q2 = 3.0f * ttt - 5.0f * tt + 2.0f;
@@ -95,7 +95,7 @@ namespace Math
 			float q1 = -3.f * tt + 4.f * t - 1;
 			float q2 = 9.f * tt - 10.f * t;
 			float q3 = -9.f * tt + 8.f * t + 1;
-			float q4 = 3 * tt - 2*t;
+			float q4 = 3 * tt - 2 * t;
 
 			float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 +
 							   points[p3].x * q4);

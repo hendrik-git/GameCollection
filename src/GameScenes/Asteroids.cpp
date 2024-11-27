@@ -215,7 +215,8 @@ namespace Engine::Scene
 		auto& texture = game_->assets().get_texture("Planet");
 		auto  planet  = registry_.create();
 		registry_.emplace<Layer>(planet, Layer::Background);
-		registry_.emplace<Drawable>(planet, "Planet", texture).set_rotation(get_random_int(0, 360));
+		registry_.emplace<Drawable>(planet, "Planet", texture)
+			.set_rotation(static_cast<float>(get_random_int(0, 360)));
 		registry_.emplace<Transform>(planet, Vec2{world_size_.x / 2, world_size_.y / 2});
 		registry_.emplace<Background>(planet);
 	}

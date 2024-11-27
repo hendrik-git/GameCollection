@@ -14,6 +14,7 @@
 #pragma warning(disable : 4324)	 // structure was padded due to alignment specifier
 #pragma warning(disable : 4996)	 // 'strerror': This function or variable may be unsafe
 #pragma warning(disable : 4267)	 // conversion from 'size_t' to 'int', possible loss of data
+#pragma warning(disable : 4267)	 // conversion from 'size_t' to 'int', possible loss of data
 #include "quill/Backend.h"
 #include "quill/Frontend.h"
 #include "quill/LogMacros.h"
